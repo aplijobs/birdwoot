@@ -11,17 +11,13 @@
           :status="message.status"
           :widget-color="widgetColor"
         />
-        <div
-          v-if="hasAttachments"
-          class="chat-bubble has-attachment user"
-        >
+        <div v-if="hasAttachments" class="chat-bubble has-attachment user">
           <div v-for="attachment in message.attachments" :key="attachment.id">
             <image-bubble
               v-if="attachment.file_type === 'image' && !hasImageError"
               :url="attachment.data_url"
               :thumb="attachment.data_url"
               :readable-time="readableTime"
-              :style="{ backgroundColor: transparent }"
               @error="onImageLoadError"
             />
             <file-bubble
