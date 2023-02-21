@@ -36,6 +36,7 @@ import {
 } from 'shared/helpers/AudioNotificationHelper';
 import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
+import { openFullScreenWindow } from '../widget/helpers/fullscreenHelper';
 
 const updateAuthCookie = cookieContent =>
   Cookies.set('cw_conversation', cookieContent, {
@@ -207,6 +208,13 @@ export const IFrameHelper = {
       const cwCookie = Cookies.get('cw_conversation');
       window.$chatwoot.toggle('close');
       popoutChatWindow(baseUrl, websiteToken, locale, cwCookie);
+    },
+
+    openFullScreenWindow: ({ baseUrl, websiteToken, locale, referral }) => {
+      /* TODO: Send cookie through params once cookies are reset by session */
+      // const cwCookie = Cookies.get('cw_conversation');
+      window.$chatwoot.toggle('close');
+      openFullScreenWindow(baseUrl, websiteToken, locale, referral);
     },
 
     closeWindow: () => {
