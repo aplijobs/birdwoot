@@ -12,7 +12,7 @@ import {
 } from '../sdk/cookieHelpers';
 import { addClasses, removeClasses } from '../sdk/DOMHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
-const runSDK = ({ baseUrl, websiteToken, referral }) => {
+const runSDK = ({ baseUrl, websiteToken, referral = null }) => {
   if (window.$chatwoot) {
     return;
   }
