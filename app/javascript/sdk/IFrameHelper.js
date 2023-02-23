@@ -212,7 +212,6 @@ export const IFrameHelper = {
     },
 
     openFullScreenWindow: ({ baseUrl, websiteToken, locale, referral }) => {
-      /* TODO: Send cookie through params once cookies are reset by session */
       const cwCookie = Cookies.get(`cw_conversation_${websiteToken}`);
       window.$chatwoot.toggle('close');
       openFullScreenWindow(baseUrl, websiteToken, locale, referral, cwCookie);
