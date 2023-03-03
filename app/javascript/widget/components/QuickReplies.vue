@@ -70,6 +70,8 @@ export default {
   align-items: center;
   width: 100%;
   padding: 20px 20px 0 20px;
+  max-width: $break-point-tablet;
+  margin: 0 auto;
 }
 
 .mobile-quick-replies {
