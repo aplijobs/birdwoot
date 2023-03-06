@@ -62,6 +62,11 @@ export default {
     ...mapMutations({
       setQuickRepliesOptions: 'conversation/setQuickRepliesOptions',
     }),
+    clearQuickRepliesOptions() {
+      if (this.quickRepliesOptions.length) {
+        this.setQuickRepliesOptions([]);
+      }
+    },
     handleClipboardPaste(e) {
       const items = (e.clipboardData || e.originalEvent.clipboardData).items;
       items.forEach(item => {
@@ -72,9 +77,7 @@ export default {
         }
       });
       // Clear quick replies options in case the user ignores the quick replies
-      if (this.quickRepliesOptions.length) {
-        this.setQuickRepliesOptions([]);
-      }
+      this.clearQuickRepliesOptions();
     },
     getFileType(fileType) {
       return fileType.includes('image') ? 'image' : 'file';
@@ -86,9 +89,7 @@ export default {
         await this.onIndirectFileUpload(file);
       }
       // Clear quick replies options in case the user ignores the quick replies
-      if (this.quickRepliesOptions.length) {
-        this.setQuickRepliesOptions([]);
-      }
+      this.clearQuickRepliesOptions();
     },
     async onDirectFileUpload(file) {
       if (!file) {
