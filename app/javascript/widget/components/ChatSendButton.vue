@@ -60,4 +60,8 @@ export default {
   margin-bottom: $space-micro;
   padding: $space-slab;
 }
+
+.test {
+  color: white;
+}
 </style>
