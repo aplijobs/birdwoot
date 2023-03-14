@@ -120,8 +120,7 @@ export default {
   flex: 1;
   overflow-y: auto;
   color-scheme: light dark;
-  height: auto;
-  justify-content: flex-end;
+  height: 100%;
 
   &.light {
     color-scheme: light;
@@ -133,7 +132,7 @@ export default {
 
 .conversation-wrap {
   max-width: $break-point-tablet;
-  margin: 0 auto;
+  margin: auto auto 0;
   width: 100%;
 }
 
