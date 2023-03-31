@@ -7,6 +7,7 @@ import {
   setUserLastSeenAt,
   toggleStatus,
 } from 'widget/api/conversation';
+import { captureSentryException } from 'shared/utils/exceptions';
 
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 
@@ -20,6 +21,7 @@ export const actions = {
       commit('pushMessageToConversation', message);
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
     } catch (error) {
+      captureSentryException(error);
       // Ignore error
     } finally {
       commit('setConversationUIFlag', { isCreating: false });
@@ -42,6 +44,7 @@ export const actions = {
       commit('deleteMessage', message.id);
       commit('pushMessageToConversation', { ...data, status: 'sent' });
     } catch (error) {
+      captureSentryException(error);
       commit('pushMessageToConversation', { ...message, status: 'failed' });
       commit('updateMessageMeta', {
         id,
@@ -73,6 +76,7 @@ export const actions = {
       });
       commit('pushMessageToConversation', { ...data, status: 'sent' });
     } catch (error) {
+      captureSentryException(error);
       commit('pushMessageToConversation', { ...tempMessage, status: 'failed' });
       commit('updateMessageMeta', {
         id: tempMessage.id,
@@ -93,6 +97,7 @@ export const actions = {
       commit('setMessagesInConversation', formattedMessages);
       commit('setConversationListLoading', false);
     } catch (error) {
+      captureSentryException(error);
       commit('setConversationListLoading', false);
     }
   },
@@ -118,6 +123,7 @@ export const actions = {
     try {
       await toggleTyping(data);
     } catch (error) {
+      captureSentryException(error);
       // IgnoreError
     }
   },
@@ -132,6 +138,7 @@ export const actions = {
       commit('setMetaUserLastSeenAt', lastSeen);
       await setUserLastSeenAt({ lastSeen });
     } catch (error) {
+      captureSentryException(error);
       // IgnoreError
     }
   },

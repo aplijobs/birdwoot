@@ -33,26 +33,28 @@ import AnalyticsPlugin from '../dashboard/helper/AnalyticsHelper/plugin';
 
 Vue.config.env = process.env;
 
-if (window.errorLoggingConfig) {
-  Sentry.init({
-    Vue,
-    dsn: window.errorLoggingConfig,
-    denyUrls: [
-      // Chrome extensions
-      /^chrome:\/\//i,
-      /chrome-extension:/i,
-      /extensions\//i,
+// if (process.env.NODE_ENV !== 'development') {
+Sentry.init({
+  Vue,
+  dsn: process.env.VUE_APP_SENTRY_DSN_DASHBOARD,
+  environment: process.env.VUE_APP_ENVIRONMENT,
+  release: process.env.VUE_APP_VERSION,
+  denyUrls: [
+    // Chrome extensions
+    /^chrome:\/\//i,
+    /chrome-extension:/i,
+    /extensions\//i,
 
-      // Locally saved copies
-      /file:\/\//i,
+    // Locally saved copies
+    /file:\/\//i,
 
-      // Safari extensions.
-      /safari-web-extension:/i,
-      /safari-extension:/i,
-    ],
-    integrations: [new Integrations.BrowserTracing()],
-  });
-}
+    // Safari extensions.
+    /safari-web-extension:/i,
+    /safari-extension:/i,
+  ],
+  integrations: [new Integrations.BrowserTracing()],
+});
+// }
 
 Vue.use(VueDOMPurifyHTML, domPurifyConfig);
 Vue.use(VueRouter);
