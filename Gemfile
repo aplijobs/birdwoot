@@ -152,6 +152,7 @@ gem 'net-smtp', require: false
 group :production, :staging do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
+  gem 'localhost'
 end
 
 group :development do
@@ -165,6 +166,10 @@ group :development do
 
   # When we want to squash migrations
   gem 'squasher'
+
+  # profiling
+  gem 'rack-mini-profiler', require: false
+  gem 'stackprof'
 end
 
 group :test do
