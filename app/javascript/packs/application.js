@@ -21,7 +21,6 @@ import store from '../dashboard/store';
 import constants from '../dashboard/constants';
 import * as Sentry from '@sentry/vue';
 import 'vue-easytable/libs/theme-default/index.css';
-import { Integrations } from '@sentry/tracing';
 import {
   initializeAnalyticsEvents,
   initializeChatwootEvents,
@@ -33,28 +32,33 @@ import AnalyticsPlugin from '../dashboard/helper/AnalyticsHelper/plugin';
 
 Vue.config.env = process.env;
 
-// if (process.env.NODE_ENV !== 'development') {
-Sentry.init({
-  Vue,
-  dsn: process.env.VUE_APP_SENTRY_DSN_DASHBOARD,
-  environment: process.env.VUE_APP_ENVIRONMENT,
-  release: process.env.VUE_APP_VERSION,
-  denyUrls: [
-    // Chrome extensions
-    /^chrome:\/\//i,
-    /chrome-extension:/i,
-    /extensions\//i,
+if (process.env.NODE_ENV !== 'development') {
+  Sentry.init({
+    Vue,
+    dsn: process.env.VUE_APP_SENTRY_DSN_DASHBOARD,
+    environment: process.env.VUE_APP_ENVIRONMENT,
+    release: process.env.VUE_APP_VERSION,
+    denyUrls: [
+      // Chrome extensions
+      /^chrome:\/\//i,
+      /chrome-extension:/i,
+      /extensions\//i,
 
-    // Locally saved copies
-    /file:\/\//i,
+      // Locally saved copies
+      /file:\/\//i,
 
-    // Safari extensions.
-    /safari-web-extension:/i,
-    /safari-extension:/i,
-  ],
-  integrations: [new Integrations.BrowserTracing()],
-});
-// }
+      // Safari extensions.
+      /safari-web-extension:/i,
+      /safari-extension:/i,
+    ],
+    integrations: [
+      new Sentry.BrowserTracing({
+        routingInstrumentation: Sentry.vueRouterInstrumentation(router),
+      }),
+    ],
+    tracesSampleRate: 0.3,
+  });
+}
 
 Vue.use(VueDOMPurifyHTML, domPurifyConfig);
 Vue.use(VueRouter);

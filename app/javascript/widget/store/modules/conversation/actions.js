@@ -22,7 +22,6 @@ export const actions = {
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
     } catch (error) {
       captureSentryException(error);
-      // Ignore error
     } finally {
       commit('setConversationUIFlag', { isCreating: false });
     }
@@ -40,7 +39,6 @@ export const actions = {
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
     try {
       const { data } = await sendMessageAPI(content);
-
       commit('deleteMessage', message.id);
       commit('pushMessageToConversation', { ...data, status: 'sent' });
     } catch (error) {
@@ -124,7 +122,6 @@ export const actions = {
       await toggleTyping(data);
     } catch (error) {
       captureSentryException(error);
-      // IgnoreError
     }
   },
 
@@ -138,7 +135,6 @@ export const actions = {
       commit('setMetaUserLastSeenAt', lastSeen);
       await setUserLastSeenAt({ lastSeen });
     } catch (error) {
-      captureSentryException(error);
       // IgnoreError
     }
   },
