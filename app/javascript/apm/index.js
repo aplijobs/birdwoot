@@ -6,8 +6,7 @@ if (process.env.VUE_APP_ENVIRONMENT === 'development') {
     serviceName: 'birdwoot',
 
     // Set custom APM Server URL (default: http://localhost:8200)
-    serverUrl:
-      'https://9e6f0234c8904621a9d66f6826a3e010.apm.us-east-1.aws.cloud.es.io:443',
+    serverUrl: process.env.VUE_APP_APM_RUM_SERVER_URL,
 
     // Set the service version (required for source map feature)
     serviceVersion: process.env.VUE_APP_VERSION,
