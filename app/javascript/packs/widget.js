@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== 'development') {
   Sentry.init({
     Vue,
     dsn: process.env.VUE_APP_SENTRY_DSN_CHAT,
-    environment: process.env.VUE_APP_ENVIRONMENT,
+    environment: process.env.NODE_ENV,
     release: process.env.VUE_APP_VERSION,
     integrations: [
       new Sentry.BrowserTracing({
