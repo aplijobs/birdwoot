@@ -1,6 +1,6 @@
 import { init as initApm } from '@elastic/apm-rum';
 
-if (process.env.VUE_APP_ENVIRONMENT === 'development') {
+if (process.env.NODE_ENV !== 'development') {
   initApm({
     // Set required service name (allowed characters: a-z, A-Z, 0-9, -, _, and space)
     serviceName: 'birdwoot',
@@ -12,6 +12,6 @@ if (process.env.VUE_APP_ENVIRONMENT === 'development') {
     serviceVersion: process.env.VUE_APP_VERSION,
 
     // Set the service environment
-    environment: process.env.VUE_APP_ENVIRONMENT,
+    environment: process.env.NODE_ENV,
   });
 }
