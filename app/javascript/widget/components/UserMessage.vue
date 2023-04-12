@@ -64,7 +64,7 @@ import FluentIcon from 'shared/components/FluentIcon/Index';
 import FileBubble from 'widget/components/FileBubble';
 import timeMixin from 'dashboard/mixins/time';
 import messageMixin from '../mixins/messageMixin';
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'UserMessage',
@@ -90,7 +90,6 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
-    ...mapActions('conversation', ['sendAttachment']),
 
     isInProgress() {
       const { status = '' } = this.message;
