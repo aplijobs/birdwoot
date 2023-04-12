@@ -117,7 +117,7 @@ export default {
     messageStatusLabel() {
       let status = '';
       if (this.isFailed) {
-        status = 'Failed to sent';
+        status = 'Failed to send';
         if (!this.hasAttachments) status += '. Tap to retry';
       }
       return status;
