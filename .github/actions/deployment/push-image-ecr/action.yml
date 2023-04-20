@@ -1,16 +1,16 @@
-name: "Push Docker Image to AWS ECR"
+name: 'Push Docker Image to AWS ECR'
 
 inputs:
   BRANCH:
-    description: "Specify which branch needs a push to fire the workflow"
+    description: 'Specify which branch needs a push to fire the workflow'
     required: true
 
   AWS_ACCESS_KEY_ID:
-    description: "Access Key required to login into AWS"
+    description: 'Access Key required to login into AWS'
     required: true
 
   AWS_SECRET_ACCESS_KEY:
-    description: "Secret Access Key required to login into AWS"
+    description: 'Secret Access Key required to login into AWS'
     required: true
 
   VUE_APP_SENTRY_DSN_CHAT: 
@@ -22,15 +22,15 @@ inputs:
     required: true
 
   ECR_REGISTRY:
-    description: "ECR Registry where the image is going to be pushed"
+    description: 'ECR Registry where the image is going to be pushed'
     required: true
 
   ECR_REPOSITORY:
-    description: "ECR Repository where the image is going to be pushed"
+    description: 'ECR Repository where the image is going to be pushed'
     required: true
 
   DOCKERFILE_PATH:
-    description: "Path where the Dockerfile is stored"
+    description: 'Path where the Dockerfile is stored'
     required: true
 
 runs:
@@ -38,7 +38,7 @@ runs:
   steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    - name: Setup ENV
+    - name: Setup Vue ENV vars
       shell: bash
       run: |
         touch .env
@@ -62,3 +62,4 @@ runs:
       run: |
         docker build -t ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest -f ${{ inputs.DOCKERFILE_PATH}} .
         docker push ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest
+
