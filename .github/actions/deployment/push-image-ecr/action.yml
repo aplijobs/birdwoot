@@ -1,39 +1,48 @@
-name: "Push Docker Image to AWS ECR"
+name: 'Push Docker Image to AWS ECR'
 
 inputs:
   BRANCH:
-    description: "Specify which branch needs a push to fire the workflow"
+    description: 'Specify which branch needs a push to fire the workflow'
     required: true
 
   AWS_ACCESS_KEY_ID:
-    description: "Access Key required to login into AWS"
+    description: 'Access Key required to login into AWS'
     required: true
 
   AWS_SECRET_ACCESS_KEY:
-    description: "Secret Access Key required to login into AWS"
+    description: 'Secret Access Key required to login into AWS'
+    required: true
+
+  VUE_APP_SENTRY_DSN_CHAT: 
+    description: "Add DSN chat from secrets"
+    required: true
+
+  VUE_APP_VERSION: 
+    description: "Last release commit for Sentry"
     required: true
 
   ECR_REGISTRY:
-    description: "ECR Registry where the image is going to be pushed"
+    description: 'ECR Registry where the image is going to be pushed'
     required: true
 
   ECR_REPOSITORY:
-    description: "ECR Repository where the image is going to be pushed"
+    description: 'ECR Repository where the image is going to be pushed'
     required: true
 
   DOCKERFILE_PATH:
-    description: "Path where the Dockerfile is stored"
+    description: 'Path where the Dockerfile is stored'
     required: true
-
-  SSM_VUE_APP_VERSION:
-    description: "SSM Parameter name for environment variable deploy commit hash"
-    required: false
 
 runs:
   using: 'composite'
   steps:
     - name: Checkout code
       uses: actions/checkout@v3
+    - name: Setup Vue ENV vars
+      shell: bash
+      run: |
+        touch .env
+        echo "VUE_APP_SENTRY_DSN_CHAT=${{ inputs.VUE_APP_SENTRY_DSN_CHAT }}" >> .env
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -42,18 +51,15 @@ runs:
         aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
-    - name: Set Vue app version 
-      if: ${{ inputs.SSM_VUE_APP_VERSION != '' }}
-      shell: bash
-      run: 
-        aws ssm put-parameter --name ${{inputs.SSM_VUE_APP_VERSION}} --value $(git rev-parse --short HEAD) --type "SecureString"
-    
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
     - name: Build, tag, and push image to Amazon ECR
       shell: bash
+      env:
+        VUE_APP_VERSION: ${{ inputs.VUE_APP_VERSION }}
       run: |
-        docker build -t ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest -f ${{ inputs.DOCKERFILE_PATH}} .
+        docker build --build-arg VUE_APP_SENTRY_DSN_CHAT=${ inputs.VUE_APP_SENTRY_DSN_CHAT } -t ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest -f ${{ inputs.DOCKERFILE_PATH}} .
         docker push ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest
+

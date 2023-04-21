@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "2.15.0",
+  "version": "2.16.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -45,6 +45,7 @@
     "idb": "^7.1.1",
     "ionicons": "~2.0.1",
     "js-cookie": "^2.2.1",
+    "libphonenumber-js": "^1.10.24",
     "logrocket": "^3.0.1",
     "logrocket-vuex": "^0.0.3",
     "markdown-it": "^13.0.1",
@@ -98,6 +99,7 @@
     "babel-loader": "8.2.2",
     "babel-preset-vue": "^2.0.2",
     "cypress": "4.12.1",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-config-prettier": "^4.0.0",
