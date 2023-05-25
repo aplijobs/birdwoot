@@ -25,16 +25,6 @@ jobs:
           ECR_REPOSITORY: conversations/birdwoot/production/birdwootmain
           DOCKERFILE_PATH: docker/Dockerfile
           SSM_VUE_APP_VERSION: /conversations/birdwoot/production/taskdefinition/environment/vue-app-version
-      
-      - name: Build and publish Docker image into AWS ECR for Sidekiq
-        uses: ./.github/actions/deployment/push-image-ecr
-        with:
-          BRANCH: trunk
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PRODUCTION }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PRODUCTION }}
-          ECR_REGISTRY: 663605677942.dkr.ecr.us-east-1.amazonaws.com
-          ECR_REPOSITORY: conversations/birdwoot/production/sidekiq
-          DOCKERFILE_PATH: docker/dockerfiles/sidekiq.Dockerfile
 
       # Send status notification
       - name: Build Slack notification payload
