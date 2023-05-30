@@ -5,7 +5,7 @@
     :style="{ borderColor: widgetColor, color: widgetColor }"
   >
     <button class="option-button button" @click="onClick">
-      <span v-if="action.image_url" class="icon"><img :src="action.image_url"/></span>
+      <span v-if="action.image_url" class="icon"><img :src="action.image_url" alt="icon" /></span>
       <span :style="{ color: widgetColor }">{{ action.title }}</span>
     </button>
   </div>
