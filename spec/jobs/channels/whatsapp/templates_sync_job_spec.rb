@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Channels::Whatsapp::TemplatesSyncJob do
+RSpec.describe Channels::Whatsapp::TemplatesSyncJob, type: :job do
   let(:channel_whatsapp) { create(:channel_whatsapp, sync_templates: false) }
 
   it 'enqueues the job' do

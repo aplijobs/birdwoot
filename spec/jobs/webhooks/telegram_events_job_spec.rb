@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Webhooks::TelegramEventsJob do
+RSpec.describe Webhooks::TelegramEventsJob, type: :job do
   subject(:job) { described_class.perform_later(params) }
 
   let!(:telegram_channel) { create(:channel_telegram) }

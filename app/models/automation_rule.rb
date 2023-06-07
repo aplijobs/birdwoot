@@ -77,4 +77,4 @@ class AutomationRule < ApplicationRecord
   end
 end
 
-AutomationRule.include_mod_with('Audit::AutomationRule')
+AutomationRule.include_mod_with('Audit::Inbox')

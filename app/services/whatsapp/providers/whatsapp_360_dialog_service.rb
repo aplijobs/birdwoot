@@ -23,8 +23,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
 
   def sync_templates
     response = HTTParty.get("#{api_base_path}/configs/templates", headers: api_headers)
-    whatsapp_channel[:message_templates] = response['waba_templates'] if response.success?
-    whatsapp_channel.update(message_templates_last_updated: Time.now.utc)
+    whatsapp_channel.update(message_templates: response['waba_templates'], message_templates_last_updated: Time.now.utc) if response.success?
   end
 
   def validate_provider_config?

@@ -37,7 +37,7 @@
             </div>
             <div>
               <thumbnail
-                v-if="hasAssignee(notificationItem)"
+                v-if="notificationItem.primary_actor.meta.assignee"
                 :src="notificationItem.primary_actor.meta.assignee.thumbnail"
                 size="16px"
                 :username="notificationItem.primary_actor.meta.assignee.name"
@@ -126,9 +126,6 @@ export default {
           name: 'notifications_index',
         });
       }
-    },
-    hasAssignee(notification) {
-      return notification.primary_actor.meta?.assignee;
     },
   },
 };

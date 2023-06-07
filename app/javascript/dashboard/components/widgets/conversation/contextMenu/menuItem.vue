@@ -15,7 +15,6 @@
       v-if="variant === 'agent'"
       :username="option.label"
       :src="option.thumbnail"
-      :status="option.status"
       size="20px"
       class="agent-thumbnail"
     />

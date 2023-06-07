@@ -1,7 +1,6 @@
 const { colors } = require('tailwindcss/defaultTheme');
 
 module.exports = {
-  dark: 'class',
   purge: [
     './app/javascript/widget/**/*.vue',
     './app/javascript/portal/**/*.vue',
@@ -11,9 +10,6 @@ module.exports = {
   ],
   future: {
     removeDeprecatedGapUtilities: true,
-  },
-  experimental: {
-    darkModeVariant: true,
   },
   theme: {
     colors: {

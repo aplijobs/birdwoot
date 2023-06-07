@@ -1,7 +1,7 @@
 class SwaggerController < ApplicationController
   def respond
     if Rails.env.development? || Rails.env.test?
-      render inline: Rails.root.join('swagger', derived_path).read
+      render inline: File.read(Rails.root.join('swagger', derived_path))
     else
       head :not_found
     end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe WebhookJob do
+RSpec.describe WebhookJob, type: :job do
   include ActiveJob::TestHelper
 
   subject(:job) { described_class.perform_later(url, payload) }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DataImportJob do
+RSpec.describe DataImportJob, type: :job do
   subject(:job) { described_class.perform_later(data_import) }
 
   let!(:data_import) { create(:data_import) }

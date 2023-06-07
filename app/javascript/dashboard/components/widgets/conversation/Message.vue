@@ -25,13 +25,9 @@
         <blockquote v-if="storyReply" class="story-reply-quote">
           <span>{{ $t('CONVERSATION.REPLIED_TO_STORY') }}</span>
           <bubble-image
-            v-if="!hasImgStoryError && storyUrl"
+            v-if="!hasStoryError"
             :url="storyUrl"
             @error="onStoryLoadError"
-          />
-          <bubble-video
-            v-else-if="hasImgStoryError && storyUrl"
-            :url="storyUrl"
           />
         </blockquote>
         <bubble-text
@@ -204,7 +200,7 @@ export default {
       hasImageError: false,
       contextMenuPosition: {},
       showBackgroundHighlight: false,
-      hasImgStoryError: false,
+      hasStoryError: false,
     };
   },
   computed: {
@@ -433,12 +429,12 @@ export default {
   watch: {
     data() {
       this.hasImageError = false;
-      this.hasImgStoryError = false;
+      this.hasStoryError = false;
     },
   },
   mounted() {
     this.hasImageError = false;
-    this.hasImgStoryError = false;
+    this.hasStoryError = false;
     bus.$on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     this.setupHighlightTimer();
   },
@@ -468,7 +464,7 @@ export default {
       this.hasImageError = true;
     },
     onStoryLoadError() {
-      this.hasImgStoryError = true;
+      this.hasStoryError = true;
     },
     openContextMenu(e) {
       const shouldSkipContextMenu =

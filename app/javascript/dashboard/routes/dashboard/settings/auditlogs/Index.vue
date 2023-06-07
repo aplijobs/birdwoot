@@ -1,8 +1,8 @@
 <template>
-  <div class="column content-box audit-log--settings">
+  <div class="column content-box">
     <!-- List Audit Logs -->
-    <div>
-      <div>
+    <div class="row">
+      <div class="small-8 columns with-right-space ">
         <p
           v-if="!uiFlags.fetchingList && !records.length"
           class="no-items-error-message"
@@ -16,13 +16,8 @@
 
         <table
           v-if="!uiFlags.fetchingList && records.length"
-          class="woot-table width-100"
+          class="woot-table"
         >
-          <colgroup>
-            <col class="column-activity" />
-            <col />
-            <col />
-          </colgroup>
           <thead>
             <!-- Header -->
             <th
@@ -34,19 +29,15 @@
           </thead>
           <tbody>
             <tr v-for="auditLogItem in records" :key="auditLogItem.id">
+              <td class="wrap-break-words">{{ auditLogItem.username }}</td>
               <td class="wrap-break-words">
-                {{ generateLogText(auditLogItem) }}
-              </td>
-              <td class="wrap-break-words">
-                {{
-                  messageTimestamp(
-                    auditLogItem.created_at,
-                    'MMM dd, yyyy hh:mm a'
-                  )
-                }}
+                {{ auditLogItem.auditable_type }}.{{ auditLogItem.action }}
               </td>
               <td class="remote-address">
                 {{ auditLogItem.remote_address }}
+              </td>
+              <td class="wrap-break-words">
+                {{ dynamicTime(auditLogItem.created_at) }}
               </td>
             </tr>
           </tbody>
@@ -85,48 +76,13 @@ export default {
       records: 'auditlogs/getAuditLogs',
       uiFlags: 'auditlogs/getUIFlags',
       meta: 'auditlogs/getMeta',
-      agentList: 'agents/getAgents',
     }),
   },
   mounted() {
     // Fetch API Call
     this.$store.dispatch('auditlogs/fetch', { page: 1 });
-    this.$store.dispatch('agents/get');
   },
   methods: {
-    getAgentName(email) {
-      if (email === null) {
-        return this.$t('AUDIT_LOGS.ACTION.SYSTEM');
-      }
-      const agentName = this.agentList.find(agent => agent.email === email)
-        ?.name;
-      // If agent does not exist(removed/deleted), return email from audit log
-      return agentName || email;
-    },
-    generateLogText(auditLogItem) {
-      const username = this.getAgentName(auditLogItem.username);
-      const auditableType = auditLogItem.auditable_type.toLowerCase();
-      const action = auditLogItem.action.toLowerCase();
-
-      const logActions = {
-        create: this.$t('AUDIT_LOGS.ACTION.ADD'),
-        destroy: this.$t('AUDIT_LOGS.ACTION.DELETE'),
-        update: this.$t('AUDIT_LOGS.ACTION.EDIT'),
-        sign_in: this.$t('AUDIT_LOGS.ACTION.SIGN_IN'),
-        sign_out: this.$t('AUDIT_LOGS.ACTION.SIGN_OUT'),
-      };
-
-      // detect if the action is custom user action, which involves
-      // only the user, such as signing in, signing out etc.
-      // if it is, then do not show the auditable type
-      const userActions = this.getUserActions(action);
-      return `${username} ${logActions[action] || action} ${
-        userActions ? '' : auditableType
-      }`;
-    },
-    getUserActions(action) {
-      return ['sign_in', 'sign_out'].includes(action);
-    },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
       try {
@@ -140,24 +96,12 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.audit-log--settings {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-
-  .remote-address {
-    width: 14rem;
-  }
-
-  .wrap-break-words {
-    word-break: break-all;
-    white-space: normal;
-  }
-
-  .column-activity {
-    width: 60%;
-  }
+<style scoped>
+.remote-address {
+  width: 14rem;
+}
+.wrap-break-words {
+  word-break: break-all;
+  white-space: normal;
 }
 </style>

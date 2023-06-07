@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ConversationParticipant do
+RSpec.describe ConversationParticipant, type: :model do
   context 'with validations' do
     it { is_expected.to validate_presence_of(:account_id) }
     it { is_expected.to validate_presence_of(:conversation_id) }

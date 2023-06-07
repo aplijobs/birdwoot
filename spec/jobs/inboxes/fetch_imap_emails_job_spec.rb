@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Inboxes::FetchImapEmailsJob do
+RSpec.describe Inboxes::FetchImapEmailsJob, type: :job do
   include ActionMailbox::TestHelper
 
   let(:account) { create(:account) }

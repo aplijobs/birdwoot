@@ -10,22 +10,15 @@
       "TITLE": "Manage Audit Logs",
       "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
       "TABLE_HEADER": [
-        "Activity",
-        "Time",
-        "IP Address"
+        "User",
+        "Action",
+        "IP Address",
+        "Time"
       ]
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
       "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
-    },
-    "ACTION": {
-      "ADD": "created",
-      "EDIT": "updated",
-      "DELETE": "deleted",
-      "SIGN_IN": "signed in",
-      "SIGN_OUT": "signed out",
-      "SYSTEM": "System"
     }
   }
 }

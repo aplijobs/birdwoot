@@ -1,6 +1,5 @@
 import {
   SET_BUBBLE_VISIBILITY,
-  SET_COLOR_SCHEME,
   SET_REFERRER_HOST,
   SET_WIDGET_APP_CONFIG,
   SET_WIDGET_COLOR,
@@ -56,9 +55,6 @@ export const actions = {
   setWidgetColor({ commit }, widgetColor) {
     commit(SET_WIDGET_COLOR, widgetColor);
   },
-  setColorScheme({ commit }, darkMode) {
-    commit(SET_COLOR_SCHEME, darkMode);
-  },
   setReferrerHost({ commit }, referrerHost) {
     commit(SET_REFERRER_HOST, referrerHost);
   },
@@ -86,9 +82,6 @@ export const mutations = {
   },
   [SET_BUBBLE_VISIBILITY]($state, hideMessageBubble) {
     $state.hideMessageBubble = hideMessageBubble;
-  },
-  [SET_COLOR_SCHEME]($state, darkMode) {
-    $state.darkMode = darkMode;
   },
 };
 

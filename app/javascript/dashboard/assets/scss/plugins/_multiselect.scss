@@ -13,9 +13,7 @@
 }
 
 .multiselect {
-  &:not(.no-margin) {
-    margin-bottom: var(--space-normal);
-  }
+  margin-bottom: var(--space-normal);
 
   &.multiselect--disabled {
     opacity: 0.8;

@@ -5,20 +5,12 @@
 }
 
 .date-picker {
-  &.no-margin {
-    .mx-input {
-      margin-bottom: 0;
-    }
-  }
-
-  &:not(.auto-width) {
-    .mx-datepicker-range {
-      width: 320px;
-    }
-  }
-
   .mx-datepicker {
     width: 100%;
+  }
+
+  .mx-datepicker-range {
+    width: 320px;
   }
 
   .mx-input {

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe BulkActionsJob do
+RSpec.describe BulkActionsJob, type: :job do
   params = {
     type: 'Conversation',
     fields: { status: 'snoozed' },

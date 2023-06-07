@@ -1,4 +1,4 @@
-class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
+class DeviseOverrides::SessionsController < ::DeviseTokenAuth::SessionsController
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
   wrap_parameters format: []
@@ -37,5 +37,3 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     @resource = user if user&.valid_sso_auth_token?(params[:sso_auth_token])
   end
 end
-
-DeviseOverrides::SessionsController.prepend_mod_with('DeviseOverrides::SessionsController')

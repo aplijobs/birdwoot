@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Labels::UpdateJob do
+RSpec.describe Labels::UpdateJob, type: :job do
   subject(:job) { described_class.perform_later(new_label_title, old_label_title, account_id) }
 
   let(:new_label_title) { 'new-title' }

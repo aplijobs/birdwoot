@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::V1::Integrations::Webhooks' do
+RSpec.describe 'Api::V1::Integrations::Webhooks', type: :request do
   describe 'POST /api/v1/integrations/webhooks' do
     it 'consumes webhook' do
       builder = Integrations::Slack::IncomingMessageBuilder.new({})

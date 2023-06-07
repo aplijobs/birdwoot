@@ -79,7 +79,6 @@ import MenuItem from './menuItem.vue';
 import MenuItemWithSubmenu from './menuItemWithSubmenu.vue';
 import wootConstants from 'dashboard/constants/globals';
 import snoozeTimesMixin from 'dashboard/mixins/conversation/snoozeTimesMixin';
-import agentMixin from 'dashboard/mixins/agentMixin';
 import { mapGetters } from 'vuex';
 import AgentLoadingPlaceholder from './agentLoadingPlaceholder.vue';
 export default {
@@ -88,7 +87,7 @@ export default {
     MenuItemWithSubmenu,
     AgentLoadingPlaceholder,
   },
-  mixins: [snoozeTimesMixin, agentMixin],
+  mixins: [snoozeTimesMixin],
   props: {
     status: {
       type: String,
@@ -203,16 +202,6 @@ export default {
       teams: 'teams/getTeams',
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
-    filteredAgentOnAvailability() {
-      const agents = this.$store.getters[
-        'inboxAssignableAgents/getAssignableAgents'
-      ](this.inboxId);
-      const agentsByUpdatedPresence = this.getAgentsByUpdatedPresence(agents);
-      const filteredAgents = this.sortedAgentsByAvailability(
-        agentsByUpdatedPresence
-      );
-      return filteredAgents;
-    },
     assignableAgents() {
       return [
         {
@@ -223,7 +212,9 @@ export default {
           account_id: 0,
           email: 'None',
         },
-        ...this.filteredAgentOnAvailability,
+        ...this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
+          this.inboxId
+        ),
       ];
     },
   },
@@ -255,7 +246,6 @@ export default {
         ...(type === 'icon' && { icon: option.icon }),
         ...(type === 'label' && { color: option.color }),
         ...(type === 'agent' && { thumbnail: option.thumbnail }),
-        ...(type === 'agent' && { status: option.availability_status }),
         ...(type === 'text' && { label: option.label }),
         ...(type === 'label' && { label: option.title }),
         ...(type === 'agent' && { label: option.name }),

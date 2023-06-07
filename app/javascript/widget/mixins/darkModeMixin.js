@@ -9,9 +9,6 @@ export default {
       if (this.darkMode === 'light') {
         return light;
       }
-      if (this.darkMode === 'dark') {
-        return dark;
-      }
       return light + ' ' + dark;
     },
   },

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Campaign do
+RSpec.describe Campaign, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:inbox) }

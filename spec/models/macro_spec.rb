@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Macro do
+RSpec.describe Macro, type: :model do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
 

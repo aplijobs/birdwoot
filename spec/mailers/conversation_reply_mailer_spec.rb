@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ConversationReplyMailer do
+RSpec.describe ConversationReplyMailer, type: :mailer do
   describe 'reply' do
     let!(:account) { create(:account) }
     let!(:agent) { create(:user, email: 'agent1@example.com', account: account) }

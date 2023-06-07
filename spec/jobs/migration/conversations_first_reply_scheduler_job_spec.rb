@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Migration::ConversationsFirstReplySchedulerJob do
+RSpec.describe Migration::ConversationsFirstReplySchedulerJob, type: :job do
   subject(:job) { described_class.perform_later }
 
   let!(:account) { create(:account) }

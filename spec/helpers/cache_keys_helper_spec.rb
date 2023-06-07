@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CacheKeysHelper do
+RSpec.describe CacheKeysHelper, type: :helper do
   let(:account_id) { 1 }
   let(:key) { 'example_key' }
 

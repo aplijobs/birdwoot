@@ -134,7 +134,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        blob = response.parsed_body
+        blob = JSON.parse(response.body)
 
         expect(blob['blob_key']).to be_present
         expect(blob['blob_id']).to be_present
@@ -167,13 +167,13 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
              headers: administrator.create_new_auth_token,
              params: { attachment: file_1 }
 
-        blob_1 = response.parsed_body
+        blob_1 = JSON.parse(response.body)
 
         post "/api/v1/accounts/#{account.id}/automation_rules/attach_file",
              headers: administrator.create_new_auth_token,
              params: { attachment: file_2 }
 
-        blob_2 = response.parsed_body
+        blob_2 = JSON.parse(response.body)
 
         params[:actions] = [
           {

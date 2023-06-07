@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportMailbox do
+RSpec.describe SupportMailbox, type: :mailbox do
   include ActionMailbox::TestHelper
 
   describe 'when a chatwoot notification email is received' do

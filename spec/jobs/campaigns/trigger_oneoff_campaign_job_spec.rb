@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Campaigns::TriggerOneoffCampaignJob do
+RSpec.describe Campaigns::TriggerOneoffCampaignJob, type: :job do
   let(:account) { create(:account) }
   let!(:twilio_sms) { create(:channel_twilio_sms) }
   let!(:twilio_inbox) { create(:inbox, channel: twilio_sms) }
