@@ -21,20 +21,19 @@ export const getters = {
   getUIFlags($state) {
     return $state.uiFlags;
   },
-  isFeatureEnabledonAccount: ($state, _, __, rootGetters) => (
-    id,
-    featureName
-  ) => {
-    // If a user is SuperAdmin and has access to the account, then they would see all the available features
-    const isUserASuperAdmin = rootGetters.getCurrentUser?.type === 'SuperAdmin';
-    if (isUserASuperAdmin) {
-      return true;
-    }
+  isFeatureEnabledonAccount:
+    ($state, _, __, rootGetters) => (id, featureName) => {
+      // If a user is SuperAdmin and has access to the account, then they would see all the available features
+      const isUserASuperAdmin =
+        rootGetters.getCurrentUser?.type === 'SuperAdmin';
+      if (isUserASuperAdmin) {
+        return true;
+      }
 
-    const { features = {} } =
-      $state.records.find(record => record.id === Number(id)) || {};
-    return features[featureName] || false;
-  },
+      const { features = {} } =
+        $state.records.find(record => record.id === Number(id)) || {};
+      return features[featureName] || false;
+    },
 };
 
 export const actions = {
@@ -97,6 +96,15 @@ export const actions = {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: false });
     }
   },
+
+  limits: async ({ commit }) => {
+    try {
+      const response = await EnterpriseAccountAPI.getLimits();
+      commit(types.default.SET_ACCOUNT_LIMITS, response.data);
+    } catch (error) {
+      // silent error
+    }
+  },
 };
 
 export const mutations = {
@@ -108,6 +116,7 @@ export const mutations = {
   },
   [types.default.ADD_ACCOUNT]: MutationHelpers.setSingleRecord,
   [types.default.EDIT_ACCOUNT]: MutationHelpers.update,
+  [types.default.SET_ACCOUNT_LIMITS]: MutationHelpers.updateAttributes,
 };
 
 export default {

@@ -7,7 +7,10 @@ import store from '../widget/store';
 import App from '../widget/App.vue';
 import ActionCableConnector from '../widget/helpers/actionCable';
 import i18n from '../widget/i18n';
-import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
+import {
+  startsWithPlus,
+  isPhoneNumberValidWithDialCode,
+} from 'shared/helpers/Validators';
 import router from '../widget/router';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 import * as Sentry from '@sentry/vue';
@@ -27,6 +30,7 @@ if (process.env.NODE_ENV !== 'development') {
     tracesSampleRate: 0.3,
   });
 }
+const PhoneInput = () => import('../widget/components/Form/PhoneInput');
 
 Vue.use(VueI18n);
 Vue.use(Vuelidate);
@@ -37,12 +41,22 @@ const i18nConfig = new VueI18n({
   messages: i18n,
 });
 Vue.use(VueFormulate, {
+  library: {
+    phoneInput: {
+      classification: 'number',
+      component: PhoneInput,
+      slotProps: {
+        component: ['placeholder', 'hasErrorInPhoneInput'],
+      },
+    },
+  },
   rules: {
-    isPhoneE164OrEmpty: ({ value }) => isPhoneE164OrEmpty(value),
+    startsWithPlus: ({ value }) => startsWithPlus(value),
+    isValidPhoneNumber: ({ value }) => isPhoneNumberValidWithDialCode(value),
   },
   classes: {
-    outer: 'mb-4 wrapper',
-    error: 'text-red-400 mt-2 text-xs font-medium',
+    outer: 'mb-2 wrapper',
+    error: 'text-red-400 mt-2 text-xs leading-3 font-medium',
   },
 });
 // Event Bus

@@ -27,9 +27,8 @@ export const actions = {
   get: async function getCustomViews({ commit }, filterType) {
     commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isFetching: true });
     try {
-      const response = await CustomViewsAPI.getCustomViewsByFilterType(
-        filterType
-      );
+      const response =
+        await CustomViewsAPI.getCustomViewsByFilterType(filterType);
       commit(types.SET_CUSTOM_VIEW, response.data);
     } catch (error) {
       // Ignore error
@@ -42,6 +41,18 @@ export const actions = {
     try {
       const response = await CustomViewsAPI.create(obj);
       commit(types.ADD_CUSTOM_VIEW, response.data);
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message;
+      throw new Error(errorMessage);
+    } finally {
+      commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isCreating: false });
+    }
+  },
+  update: async function updateCustomViews({ commit }, obj) {
+    commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isCreating: true });
+    try {
+      const response = await CustomViewsAPI.update(obj.id, obj);
+      commit(types.UPDATE_CUSTOM_VIEW, response.data);
     } catch (error) {
       const errorMessage = error?.response?.data?.message;
       throw new Error(errorMessage);
@@ -72,6 +83,7 @@ export const mutations = {
 
   [types.ADD_CUSTOM_VIEW]: MutationHelpers.create,
   [types.SET_CUSTOM_VIEW]: MutationHelpers.set,
+  [types.UPDATE_CUSTOM_VIEW]: MutationHelpers.update,
   [types.DELETE_CUSTOM_VIEW]: MutationHelpers.destroy,
 };
 

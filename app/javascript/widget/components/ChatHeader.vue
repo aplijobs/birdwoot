@@ -4,7 +4,11 @@
     :class="$dm('bg-white', 'dark:bg-slate-900')"
   >
     <div class="flex items-center">
-      <button v-if="showBackButton" @click="onBackButtonClick">
+      <button
+        v-if="showBackButton"
+        class="-ml-3 px-2"
+        @click="onBackButtonClick"
+      >
         <fluent-icon
           icon="chevron-left"
           size="24"
@@ -19,14 +23,14 @@
       />
       <div>
         <div
-          class="font-medium text-base flex items-center"
+          class="font-medium text-base leading-4 flex items-center"
           :class="$dm('text-black-900', 'dark:text-slate-50')"
         >
           <span v-dompurify-html="title" class="mr-1" />
           <div class="h-2 w-2 rounded-full leading-4 bg-green-500" />
         </div>
         <div
-          class="text-xs mt-1"
+          class="text-xs mt-1 leading-3"
           :class="$dm('text-black-700', 'dark:text-slate-400')"
         >
           {{ $t('TEAM_AVAILABILITY.ONLINE') }}
@@ -43,7 +47,7 @@ import { mapGetters } from 'vuex';
 import availabilityMixin from 'widget/mixins/availability';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import HeaderActions from './HeaderActions';
+import HeaderActions from './HeaderActions.vue';
 import routerMixin from 'widget/mixins/routerMixin';
 import darkMixin from 'widget/mixins/darkModeMixin.js';
 

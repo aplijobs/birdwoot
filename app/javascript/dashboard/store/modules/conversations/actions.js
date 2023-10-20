@@ -10,8 +10,6 @@ import {
   isOnUnattendedView,
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
-import AnalyticsHelper from '../../../helper/AnalyticsHelper';
-import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import messageTranslateActions from './actions/messageTranslateActions';
 import { captureSentryException } from '../../../../shared/utils/exceptions';
 // actions
@@ -84,6 +82,18 @@ const actions = {
       }
     } catch (error) {
       captureSentryException(error);
+    }
+  },
+
+  fetchAllAttachments: async ({ commit }, conversationId) => {
+    try {
+      const { data } = await ConversationApi.getAllAttachments(conversationId);
+      commit(types.SET_ALL_ATTACHMENTS, {
+        id: conversationId,
+        data: data.payload,
+      });
+    } catch (error) {
+      // Handle error
     }
   },
 
@@ -239,12 +249,11 @@ const actions = {
         status: MESSAGE_STATUS.PROGRESS,
       });
       const response = await MessageApi.create(pendingMessage);
-      AnalyticsHelper.track(
-        pendingMessage.private
-          ? CONVERSATION_EVENTS.SENT_PRIVATE_NOTE
-          : CONVERSATION_EVENTS.SENT_MESSAGE
-      );
       commit(types.ADD_MESSAGE, {
+        ...response.data,
+        status: MESSAGE_STATUS.SENT,
+      });
+      commit(types.ADD_CONVERSATION_ATTACHMENTS, {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
       });
@@ -270,6 +279,7 @@ const actions = {
         conversationId: message.conversation_id,
         canReply: true,
       });
+      commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
     }
   },
 
@@ -284,6 +294,7 @@ const actions = {
     try {
       const { data } = await MessageApi.delete(conversationId, messageId);
       commit(types.ADD_MESSAGE, data);
+      commit(types.DELETE_CONVERSATION_ATTACHMENTS, data);
     } catch (error) {
       throw new Error(error);
     }

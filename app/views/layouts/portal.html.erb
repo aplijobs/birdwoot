@@ -28,14 +28,23 @@ By default, it renders:
     <% end %>
   </head>
   <body>
-    <div class="antialiased">
-      <main class="main-content min-h-screen flex flex-col" role="main">
-        <%= render "public/api/v1/portals/header", portal: @portal %>
+    <div class="antialiased <%= @theme %>">
+      <main class="main-content min-h-screen flex flex-col bg-white dark:bg-slate-900" role="main">
+        <% if !@is_plain_layout_enabled %>
+          <%= render "public/api/v1/portals/header", portal: @portal %>
+        <% end %>
         <%= yield %>
-        <%= render "public/api/v1/portals/footer" %>
+        <% if !@is_plain_layout_enabled %>
+          <%= render "public/api/v1/portals/footer" %>
+        <% end %>
       </main>
     </div>
   </body>
+  <style>
+  :root {
+    color-scheme: '<%= @theme %>';
+  }
+  </style>
   <script>
     window.portalConfig = {
       portalSlug: '<%= @portal.slug %>',
@@ -46,6 +55,7 @@ By default, it renders:
         loadingPlaceholder: '<%= I18n.t('public_portal.search.loading_placeholder') %>',
         resultsTitle: '<%= I18n.t('public_portal.search.results_title') %>',
       },
+      isPlainLayoutEnabled: '<%= @is_plain_layout_enabled %>',
       tocHeader: '<%= I18n.t('public_portal.toc_header') %>'
     };
   </script>
