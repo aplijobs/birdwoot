@@ -56,7 +56,7 @@ import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
+import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
@@ -199,7 +199,9 @@ export default {
   flex: 1;
 
   &.is-focused {
-    box-shadow: 0 0 0 1px $color-woot, 0 0 2px 3px $color-primary-light;
+    box-shadow:
+      0 0 0 1px $color-woot,
+      0 0 2px 3px $color-primary-light;
   }
 }
 

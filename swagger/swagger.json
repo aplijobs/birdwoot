@@ -848,6 +848,16 @@
         "security": [
 
         ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/public_conversation_create_payload"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -996,6 +1006,29 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/survey/responses/{conversation_uuid}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/conversation_uuid"
+        }
+      ],
+      "get": {
+        "tags": [
+          "CSAT Survey Page"
+        ],
+        "operationId": "get-csat-survey-page",
+        "summary": "Get CSAT survey page",
+        "description": "You can redirect the client to this URL, instead of implementing the CSAT survey component yourself.",
+        "security": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -6567,8 +6600,39 @@
       "type": "object",
       "properties": {
         "submitted_values": {
+          "oneOf": [
+            {
+              "type": "object",
+              "description": "Replies to the Bot Message Types",
+              "properties": {
+                "csat_survey_response": {
+                  "type": "object",
+                  "description": "CSAT Survey Response if original message is CSAT Survey",
+                  "properties": {
+                    "rating": {
+                      "type": "integer",
+                      "description": "CSAT Rating",
+                      "example": 5
+                    },
+                    "feedback_message": {
+                      "type": "string",
+                      "description": "CSAT Comment",
+                      "example": "Great"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "public_conversation_create_payload": {
+      "type": "object",
+      "properties": {
+        "custom_attributes": {
           "type": "object",
-          "description": "Replies to the Bot Message Types"
+          "description": "Custom attributes of the conversation"
         }
       }
     },
@@ -6973,6 +7037,13 @@
       "required": true,
       "description": "The numeric ID of the conversation"
     },
+    "conversation_uuid": {
+      "in": "path",
+      "name": "conversation_uuid",
+      "type": "integer",
+      "required": true,
+      "description": "The uuid of the conversation"
+    },
     "custom_filter_id": {
       "in": "path",
       "name": "custom_filter_id",
@@ -7092,6 +7163,12 @@
         "Contacts API",
         "Conversations API",
         "Messages API"
+      ]
+    },
+    {
+      "name": "Others",
+      "tags": [
+        "CSAT Survey Page"
       ]
     }
   ]

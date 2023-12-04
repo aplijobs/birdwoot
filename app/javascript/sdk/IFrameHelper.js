@@ -23,13 +23,9 @@ import {
 } from './bubbleHelpers';
 import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
-import {
-  CHATWOOT_ERROR,
-  CHATWOOT_ON_MESSAGE,
-  CHATWOOT_READY,
-} from '../widget/constants/sdkEvents';
+import { CHATWOOT_ERROR, CHATWOOT_READY } from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
-import { getUserCookieName } from './cookieHelpers';
+import { getUserCookieName, setCookieWithDomain } from './cookieHelpers';
 import {
   getAlertAudio,
   initOnEvents,
@@ -39,18 +35,18 @@ import { popoutChatWindow } from '../widget/helpers/popoutHelper';
 import { openFullScreenWindow } from '../widget/helpers/fullscreenHelper';
 import addHours from 'date-fns/addHours';
 
-const updateAuthCookie = (cookieContent, websiteToken) => {
-  Cookies.set(`cw_conversation_${websiteToken}`, cookieContent, {
+const updateAuthCookie = (cookieContent, baseDomain = '') =>
+  setCookieWithDomain(`cw_conversation_${websiteToken}`, cookieContent, {
+    baseDomain,
     expires: 365,
     sameSite: 'Lax',
   });
-};
 
-const updateCampaignReadStatus = () => {
+const updateCampaignReadStatus = baseDomain => {
   const expireBy = addHours(new Date(), 1);
-  Cookies.set('cw_snooze_campaigns_till', Number(expireBy), {
+  setCookieWithDomain('cw_snooze_campaigns_till', Number(expireBy), {
     expires: expireBy,
-    sameSite: 'Lax',
+    baseDomain,
   });
 };
 
@@ -160,7 +156,7 @@ export const IFrameHelper = {
 
   events: {
     loaded: message => {
-      updateAuthCookie(message.config.authToken, window.$chatwoot.websiteToken);
+      updateAuthCookie(message.config.authToken, window.$chatwoot.baseDomain);
       window.$chatwoot.hasLoaded = true;
       const campaignsSnoozedTill = Cookies.get('cw_snooze_campaigns_till');
       IFrameHelper.sendMessage('config-set', {
@@ -198,19 +194,19 @@ export const IFrameHelper = {
         Cookies.remove(getUserCookieName());
       }
     },
-    onMessage({ data }) {
-      dispatchWindowEvent({ eventName: CHATWOOT_ON_MESSAGE, data });
+    onEvent({ eventIdentifier: eventName, data }) {
+      dispatchWindowEvent({ eventName, data });
     },
     setBubbleLabel(message) {
       setBubbleText(window.$chatwoot.launcherTitle || message.label);
     },
 
     setAuthCookie({ data: { widgetAuthToken } }) {
-      updateAuthCookie(widgetAuthToken, window.$chatwoot.websiteToken);
+      updateAuthCookie(widgetAuthToken, window.$chatwoot.baseDomain);
     },
 
     setCampaignReadOn() {
-      updateCampaignReadStatus();
+      updateCampaignReadStatus(window.$chatwoot.baseDomain);
     },
 
     toggleBubble: state => {

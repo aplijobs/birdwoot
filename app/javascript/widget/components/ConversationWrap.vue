@@ -33,7 +33,7 @@ import DateSeparator from 'shared/components/DateSeparator.vue';
 import QuickReplies from 'widget/components/QuickReplies.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
-
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -61,17 +61,29 @@ export default {
   computed: {
     ...mapGetters({
       earliestMessage: 'conversation/getEarliestMessage',
+      lastMessage: 'conversation/getLastMessage',
       allMessagesLoaded: 'conversation/getAllMessagesLoaded',
       isFetchingList: 'conversation/getIsFetchingList',
       conversationSize: 'conversation/getConversationSize',
       isAgentTyping: 'conversation/getIsAgentTyping',
       quickRepliesOptions: 'conversation/getQuickRepliesOptions',
+      conversationAttributes: 'conversationAttributes/getConversationParams',
     }),
     colorSchemeClass() {
       return `${this.darkMode === 'dark' ? 'dark-scheme' : 'light-scheme'}`;
     },
     hasQuickRepliesOptions() {
       return Boolean(this.quickRepliesOptions.length);
+    },
+    showStatusIndicator() {
+      const { status } = this.conversationAttributes;
+      const isConversationInPendingStatus = status === 'pending';
+      const isLastMessageIncoming =
+        this.lastMessage.message_type === MESSAGE_TYPE.INCOMING;
+      return (
+        this.isAgentTyping ||
+        (isConversationInPendingStatus && isLastMessageIncoming)
+      );
     },
   },
   watch: {

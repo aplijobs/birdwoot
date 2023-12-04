@@ -21,15 +21,15 @@ ENV BUNDLE_PATH="/gems"
 RUN apk add --update --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main vips
 
 RUN apk update && apk add --no-cache \
-    openssl \
-    tar \
-    build-base \
-    tzdata \
-    postgresql-dev \
-    postgresql-client \
-    nodejs-current \
-    yarn \
-    git \
+  openssl \
+  tar \
+  build-base \
+  tzdata \
+  postgresql-dev \
+  postgresql-client \
+  nodejs-current \
+  yarn \
+  git \
   && mkdir -p /var/app \
   && gem install bundler
 
@@ -101,12 +101,12 @@ RUN apk add --update --no-cache --repository http://dl-3.alpinelinux.org/alpine/
 
 RUN apk update && apk add --no-cache \
   build-base \
-    openssl \
-    tzdata \
-    postgresql-client \
-    imagemagick \
-    git \
-    vips \
+  openssl \
+  tzdata \
+  postgresql-client \
+  imagemagick \
+  git \
+  vips \
   && gem install bundler
 
 RUN if [ "$RAILS_ENV" != "production" ]; then \

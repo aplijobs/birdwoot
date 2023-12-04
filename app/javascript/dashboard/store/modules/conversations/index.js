@@ -3,6 +3,7 @@ import types from '../../mutation-types';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
 import { findPendingMessageIndex } from './helpers';
+import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 
@@ -56,6 +57,12 @@ export const mutations = {
       chat.messages.unshift(...data);
     }
   },
+  [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
+    const [chat] = _state.allConversations.filter(c => c.id === id);
+    if (!chat) return;
+    Vue.set(chat, 'attachments', []);
+    chat.attachments.push(...data);
+  },
   [types.SET_MISSING_MESSAGES](_state, { id, data }) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
     if (!chat) return;
@@ -83,7 +90,9 @@ export const mutations = {
     { lastActivityAt, conversationId }
   ) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
-    Vue.set(chat, 'last_activity_at', lastActivityAt);
+    if (chat) {
+      Vue.set(chat, 'last_activity_at', lastActivityAt);
+    }
   },
   [types.ASSIGN_PRIORITY](_state, { priority, conversationId }) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
@@ -115,6 +124,44 @@ export const mutations = {
     Vue.set(chat, 'muted', false);
   },
 
+  [types.ADD_CONVERSATION_ATTACHMENTS]({ allConversations }, message) {
+    const { conversation_id: conversationId } = message;
+    const [chat] = getSelectedChatConversation({
+      allConversations,
+      selectedChatId: conversationId,
+    });
+
+    if (!chat) return;
+
+    const isMessageSent =
+      message.status === MESSAGE_STATUS.SENT && message.attachments;
+    if (isMessageSent) {
+      message.attachments.forEach(attachment => {
+        if (!chat.attachments.some(a => a.id === attachment.id)) {
+          chat.attachments.push(attachment);
+        }
+      });
+    }
+  },
+
+  [types.DELETE_CONVERSATION_ATTACHMENTS]({ allConversations }, message) {
+    const { conversation_id: conversationId } = message;
+    const [chat] = getSelectedChatConversation({
+      allConversations,
+      selectedChatId: conversationId,
+    });
+
+    if (!chat) return;
+
+    const isMessageSent = message.status === MESSAGE_STATUS.SENT;
+    if (isMessageSent) {
+      const attachmentIndex = chat.attachments.findIndex(
+        a => a.message_id === message.id
+      );
+      if (attachmentIndex !== -1) chat.attachments.splice(attachmentIndex, 1);
+    }
+  },
+
   [types.ADD_MESSAGE]({ allConversations, selectedChatId }, message) {
     const { conversation_id: conversationId } = message;
     const [chat] = getSelectedChatConversation({
@@ -132,6 +179,7 @@ export const mutations = {
       const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
       chat.unread_count = unreadCount;
       if (selectedChatId === conversationId) {
+        window.bus.$emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         window.bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     }
@@ -154,6 +202,7 @@ export const mutations = {
       };
       Vue.set(allConversations, currentConversationIndex, currentConversation);
       if (_state.selectedChatId === conversation.id) {
+        window.bus.$emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         window.bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     } else {
