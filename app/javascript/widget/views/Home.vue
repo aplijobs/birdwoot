@@ -13,8 +13,11 @@
 
 <script>
 import configMixin from '../mixins/configMixin';
+import {
+  setCustomAttributes,
+} from 'widget/api/conversation';
 import TeamAvailability from 'widget/components/TeamAvailability';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import routerMixin from 'widget/mixins/routerMixin';
 export default {
   name: 'Home',
@@ -43,12 +46,19 @@ export default {
     }),
   },
   methods: {
-    startConversation() {
+    ...mapActions('conversation', [
+      'clearConversations',
+    ]),
+    async startConversation() {
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
-        this.$store.dispatch('conversation/createConversation', {});
-      }
-      if (this.preChatFormEnabled && !this.conversationSize) {
+        try {
+          await setCustomAttributes({"ref": ref});
+          this.clearConversations();
+        } catch (e) {
+          // Ignore error
+        }
+      } else if (this.preChatFormEnabled && !this.conversationSize) {
         return this.replaceRoute('prechat-form');
       }
       return this.replaceRoute('messages');
