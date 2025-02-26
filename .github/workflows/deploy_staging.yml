@@ -3,7 +3,7 @@ name: Deploy Staging
 on:
   push:
     branches: 
-      - develop
+      - feature/moreConsoles
   workflow_dispatch:
   
   
@@ -18,7 +18,7 @@ jobs:
       - name: Build and publish Docker image into AWS ECR for Birdwoot
         uses: ./.github/actions/deployment/push-image-ecr
         with:
-          BRANCH: develop
+          BRANCH: feature/moreConsoles
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STAGING }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
           ECR_REGISTRY: 823532849758.dkr.ecr.us-east-1.amazonaws.com
