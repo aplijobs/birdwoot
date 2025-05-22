@@ -20,9 +20,11 @@ ENV NODE_OPTIONS ${NODE_OPTIONS}
 ENV BUNDLE_PATH="/gems"
 
 RUN apk update && apk add --no-cache \
+    curl \    
     openssl \
     tar \
     build-base \
+    ruby-dev \
     tzdata \
     postgresql-dev \
     postgresql-client \
