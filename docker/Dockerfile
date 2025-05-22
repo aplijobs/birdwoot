@@ -30,8 +30,13 @@ RUN apk update && apk add --no-cache \
     postgresql-client \
     nodejs-current \
     yarn \
+    npm \
     git \
+    vips \
+    imagemagick \
   && mkdir -p /var/app \
+  && npm install -g pnpm@${PNPM_VERSION} \
+  && pnpm --version \
   && gem install bundler
 
 COPY Gemfile Gemfile.lock ./tmp/
@@ -52,9 +57,6 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
  bundle install -j 4 -r 3 --verbose; \
  else bundle install -j 4 -r 3 --verbose; \
   fi
-
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm i
 
 ENV app /app
 RUN mkdir $app
@@ -107,13 +109,22 @@ ENV RAILS_ENV ${RAILS_ENV}
 ENV BUNDLE_PATH="/gems"
 
 RUN apk update && apk add --no-cache \
-  build-base \
-  openssl \
-  tzdata \
-  postgresql-client \
-  imagemagick \
-  git \
-  vips \
+  curl \    
+    openssl \
+    tar \
+    build-base \
+    ruby-dev \
+    tzdata \
+    postgresql-dev \
+    postgresql-client \
+    nodejs-current \
+    yarn \
+    npm \
+    git \
+    vips \
+    imagemagick \
+  && npm install -g pnpm@${PNPM_VERSION} \
+  && pnpm --version \
   && gem install bundler
 
 COPY --from=node /usr/local/bin/node /usr/local/bin/
@@ -126,6 +137,9 @@ RUN if [ "$RAILS_ENV" != "production" ]; then \
   && npm install -g pnpm@${PNPM_VERSION} \
   && pnpm --version; \
   fi
+
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm i
 
 COPY --from=pre-builder /gems/ /gems/
 COPY --from=pre-builder /app /app
