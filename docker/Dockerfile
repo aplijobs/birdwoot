@@ -6,6 +6,7 @@ FROM ruby:3.2.2-alpine3.18 AS pre-builder
 ARG BUNDLE_WITHOUT="development:test"
 ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
 ENV BUNDLER_VERSION=2.5.13
+RUN gem install bundler -v "$BUNDLER_VERSION"
 
 ARG RAILS_SERVE_STATIC_FILES=true
 ENV RAILS_SERVE_STATIC_FILES ${RAILS_SERVE_STATIC_FILES}
@@ -41,10 +42,13 @@ WORKDIR /tmp
 RUN apk update && apk add --no-cache build-base musl ruby-full ruby-dev gcc make musl-dev openssl openssl-dev g++ linux-headers xz vips
 RUN bundle config set --local force_ruby_platform true
 
+# Verify connectivity with rubygems
+RUN curl -I https://rubygems.org
+
 # Do not install development or test gems in production
 RUN if [ "$RAILS_ENV" = "production" ]; then \
-  bundle install -j 4 -r 3 --verbose; \
-  else bundle install -j 4 -r 3 --verbose; \
+ bundle install -j 4 -r 3 --verbose; \
+ else bundle install -j 4 -r 3 --verbose; \
   fi
 
 COPY package.json pnpm-lock.yaml ./
@@ -85,6 +89,7 @@ ENV PNPM_VERSION=${PNPM_VERSION}
 ARG BUNDLE_WITHOUT="development:test"
 ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
 ENV BUNDLER_VERSION=2.5.13
+RUN gem install bundler -v "$BUNDLER_VERSION"
 
 ARG EXECJS_RUNTIME="Disabled"
 ENV EXECJS_RUNTIME ${EXECJS_RUNTIME}
