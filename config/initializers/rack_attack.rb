@@ -121,19 +121,19 @@ class Rack::Attack
   ###-----------------------------------------------###
 
   ## Prevent Conversation Bombing on Widget APIs ###
-  throttle('api/v1/widget/conversations', limit: 300, period: 1.hours) do |req|
+  throttle('api/v1/widget/conversations', limit: 300, period: 1.hour) do |req|
     req.ip if req.path_without_extentions == '/api/v1/widget/conversations' && req.post?
   end
 
-    ## Prevent Contact update Bombing in Widget API ###
-    throttle('api/v1/widget/contacts', limit: 60, period: 1.hour) do |req|
-      req.ip if req.path_without_extentions == '/api/v1/widget/contacts' && (req.patch? || req.put?)
-    end
+  ## Prevent Contact update Bombing in Widget API ###
+  throttle('api/v1/widget/contacts', limit: 60, period: 1.hour) do |req|
+    req.ip if req.path_without_extentions == '/api/v1/widget/contacts' && (req.patch? || req.put?)
+  end
 
-    ## Prevent Conversation Bombing through multiple sessions
-    throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
-      req.ip if req.path_without_extentions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
-    end
+  ## Prevent Conversation Bombing through multiple sessions
+  throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
+    req.ip if req.path_without_extentions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
+  end
 
   ##-----------------------------------------------##
 
@@ -178,31 +178,32 @@ class Rack::Attack
     match_data[:account_id] if match_data.present?
   end
 
-# Log blocked events
-ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start, _finish, _request_id, payload|
-  req = payload[:request]
+  # Log blocked events
+  ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start, _finish, _request_id, payload|
+    req = payload[:request]
 
-  user_uid = req.get_header('HTTP_UID')
-  api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+    user_uid = req.get_header('HTTP_UID')
+    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
 
-  # Mask the token if present
-  masked_api_token = api_access_token.present? ? "#{api_access_token[0..4]}...[REDACTED]" : nil
+    # Mask the token if present
+    masked_api_token = api_access_token.present? ? "#{api_access_token[0..4]}...[REDACTED]" : nil
 
-  # Use uid if present, otherwise fallback to masked api_access_token for tracking
-  user_identifier = user_uid.presence || masked_api_token.presence || 'unknown_user'
+    # Use uid if present, otherwise fallback to masked api_access_token for tracking
+    user_identifier = user_uid.presence || masked_api_token.presence || 'unknown_user'
 
-  # Extract account ID if present
-  account_match = %r{/accounts/(?<account_id>\d+)}.match(req.path)
-  account_id = account_match ? account_match[:account_id] : 'unknown_account'
+    # Extract account ID if present
+    account_match = %r{/accounts/(?<account_id>\d+)}.match(req.path)
+    account_id = account_match ? account_match[:account_id] : 'unknown_account'
 
-  Rails.logger.warn(
-    "[Rack::Attack][Blocked] remote_ip: \"#{req.remote_ip}\", " \
-    "path: \"#{req.path}\", " \
-    "user_identifier: \"#{user_identifier}\", " \
-    "account_id: \"#{account_id}\", " \
-    "method: \"#{req.request_method}\", " \
-    "user_agent: \"#{req.user_agent}\""
-  )
+    Rails.logger.warn(
+      "[Rack::Attack][Blocked] remote_ip: \"#{req.remote_ip}\", " \
+      "path: \"#{req.path}\", " \
+      "user_identifier: \"#{user_identifier}\", " \
+      "account_id: \"#{account_id}\", " \
+      "method: \"#{req.request_method}\", " \
+      "user_agent: \"#{req.user_agent}\""
+    )
+  end
+
+  Rack::Attack.enabled = Rails.env.production? ? ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK', true)) : false
 end
-
-Rack::Attack.enabled = Rails.env.production? ? ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK', true)) : false
