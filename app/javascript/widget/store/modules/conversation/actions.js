@@ -11,8 +11,9 @@ import {
 } from 'widget/api/conversation';
 import { captureSentryException } from 'shared/utils/exceptions';
 
+import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
-
+import { emitter } from 'shared/helpers/mitt';
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
@@ -22,6 +23,8 @@ export const actions = {
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
+      // Emit event to notify that conversation is created and show the chat screen
+      emitter.emit(ON_CONVERSATION_CREATED);
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
         await setCustomAttributes({"ref": ref});
@@ -33,13 +36,12 @@ export const actions = {
     }
   },
   sendMessage: async ({ dispatch }, params) => {
-    const { content } = params;
-    const message = createTemporaryMessage({ content });
-
+    const { content, replyTo } = params;
+    const message = createTemporaryMessage({ content, replyTo });
     dispatch('sendMessageWithData', message);
   },
   sendMessageWithData: async ({ commit }, message) => {
-    const { id, content, meta = {} } = message;
+    const { id, content, replyTo, meta = {} } = message;
 
     commit('pushMessageToConversation', message);
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
@@ -74,6 +76,7 @@ export const actions = {
     };
     const tempMessage = createTemporaryMessage({
       attachments: [attachment],
+      replyTo: params.replyTo,
     });
     commit('pushMessageToConversation', tempMessage);
     try {
