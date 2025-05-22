@@ -134,7 +134,6 @@ class Rack::Attack
     throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
       req.ip if req.path_without_extentions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
     end
-  end
 
   ##-----------------------------------------------##
 
@@ -178,9 +177,6 @@ class Rack::Attack
     match_data = %r{/api/v2/accounts/(?<account_id>\d+)/reports}.match(req.path)
     match_data[:account_id] if match_data.present?
   end
-
-  ## ----------------------------------------------- ##
-end
 
 # Log blocked events
 ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start, _finish, _request_id, payload|
