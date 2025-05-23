@@ -22,10 +22,10 @@ export default {
   },
   computed: {
     formattedMessage() {
-      const messageWithLineBreak = this.message.replace(/\\n/g,'\n')
-      return this.formatMessage(messageWithLineBreak)
-    }
-  }
+      const messageWithLineBreak = this.message.replace(/\\n/g,'\n');
+      return this.formatMessage(messageWithLineBreak);
+    },
+  },
 };
 </script>
 

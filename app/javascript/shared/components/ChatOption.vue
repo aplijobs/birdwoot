@@ -5,7 +5,9 @@
     :style="{ borderColor: widgetColor, color: widgetColor }"
   >
     <button class="option-button button" @click="onClick">
-      <span v-if="action.image_url" class="icon"><img :src="action.image_url" alt="icon" /></span>
+      <span v-if="action.image_url" class="icon">
+        <img :src="action.image_url" alt="icon" />
+      </span>
       <span :style="{ color: widgetColor }">{{ action.title }}</span>
     </button>
   </div>
@@ -50,18 +52,6 @@ export default {
   },
 };
 </script>
-
-<template>
-  <li
-    class="option"
-    :class="{ 'is-selected': isSelected }"
-    :style="{ borderColor: widgetColor }"
-  >
-    <button class="option-button button" @click="onClick">
-      <span :style="{ color: widgetColor }">{{ action.title }}</span>
-    </button>
-  </li>
-</template>
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
