@@ -6,6 +6,7 @@ import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { sendEmailTranscript } from 'widget/api/conversation';
 import { emitter } from 'shared/helpers/mitt';
+import routerMixin from './mixins/routerMixin';
 
 export default {
   components: {

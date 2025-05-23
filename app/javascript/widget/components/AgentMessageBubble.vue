@@ -1,5 +1,6 @@
 <script>
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { mapActions, mapMutations } from 'vuex';
 import ChatCard from 'shared/components/ChatCard.vue';
 import ChatForm from 'shared/components/ChatForm.vue';
 import ChatOptions from 'shared/components/ChatOptions.vue';
@@ -75,7 +76,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('conversation', ['sendMessage']),
+    ...mapActions('conversation'),
     ...mapMutations({
       setOptions: 'conversation/setQuickRepliesOptions',
       setCallback: 'conversation/setQuickRepliesCallback',
