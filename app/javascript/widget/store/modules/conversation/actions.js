@@ -27,7 +27,7 @@ export const actions = {
       emitter.emit(ON_CONVERSATION_CREATED);
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
-        await setCustomAttributes({"ref": ref});
+        await setCustomAttributes({ "ref": ref });
       }
     } catch (error) {
       captureSentryException(error);
@@ -41,7 +41,7 @@ export const actions = {
     dispatch('sendMessageWithData', message);
   },
   sendMessageWithData: async ({ commit }, message) => {
-    const { id, content, replyTo, meta = {} } = message;
+    const { id, content, meta = {} } = message;
 
     commit('pushMessageToConversation', message);
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
@@ -109,7 +109,7 @@ export const actions = {
       commit('setConversationListLoading', false);
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
-        await setCustomAttributes({"ref": ref});
+        await setCustomAttributes({ "ref": ref });
       }
     } catch (error) {
       captureSentryException(error);

@@ -1,33 +1,3 @@
-<template>
-  <div class="px-5 pb-5 responsive-container">
-    <div class="flex items-center justify-between mb-4">
-      <div
-        class="max-w-xs"
-        :class="$dm('text-black-700', 'dark:text-slate-50')"
-      >
-        <div class="text-base leading-5 font-medium mb-1">
-          {{ $t('TEAM_AVAILABILITY.ONLINE') }}
-        </div>
-        <div class="text-xs leading-4 mt-1">
-          {{ replyWaitMessage }}
-        </div>
-      </div>
-      <available-agents v-if="isOnline" :agents="availableAgents" />
-    </div>
-    <custom-button
-      class="font-medium"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
-      @click="startConversation"
-    >
-      {{
-        hasConversation ? $t('CONTINUE_CONVERSATION') : $t('START_CONVERSATION')
-      }}
-    </custom-button>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
@@ -36,12 +6,10 @@ import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
 import { IFrameHelper } from 'widget/helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
-import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
 
 export default {
   name: 'TeamAvailability',
   components: {
-    GroupedAvatars,
   },
   mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
   props: {
@@ -94,6 +62,36 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="px-5 pb-5 responsive-container">
+    <div class="flex items-center justify-between mb-4">
+      <div
+        class="max-w-xs"
+        :class="$dm('text-black-700', 'dark:text-slate-50')"
+      >
+        <div class="text-base leading-5 font-medium mb-1">
+          {{ $t('TEAM_AVAILABILITY.ONLINE') }}
+        </div>
+        <div class="text-xs leading-4 mt-1">
+          {{ replyWaitMessage }}
+        </div>
+      </div>
+      <AvailableAgents v-if="isOnline" :agents="availableAgents" />
+    </div>
+    <CustomButton
+      class="font-medium"
+      block
+      :bg-color="widgetColor"
+      :text-color="textColor"
+      @click="startConversation"
+    >
+      {{
+        hasConversation ? $t('CONTINUE_CONVERSATION') : $t('START_CONVERSATION')
+      }}
+    </CustomButton>
+  </div>
+</template>
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';

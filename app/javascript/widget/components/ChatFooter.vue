@@ -1,53 +1,16 @@
-<template>
-  <footer
-    v-if="!hideReplyBox"
-    class="footer-chat mb-1 z-50 relative w-full"
-    :class="{ 'rounded-lg': !isWidgetStyleFlat }"
-  >
-    <chat-input-wrap
-      :on-send-message="handleSendMessage"
-      :on-send-attachment="handleSendAttachment"
-    />
-  </footer>
-  <div v-else>
-    <custom-button
-      class="font-medium"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
-      @click="startNewConversation"
-    >
-      {{ $t('START_NEW_CONVERSATION') }}
-    </custom-button>
-    <custom-button
-      v-if="showEmailTranscriptButton"
-      type="clear"
-      class="font-normal"
-      @click="sendTranscript"
-    >
-      {{ $t('EMAIL_TRANSCRIPT.BUTTON_TEXT') }}
-    </custom-button>
-  </div>
-</template>
-
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import CustomButton from 'shared/components/Button.vue';
-import FooterReplyTo from 'widget/components/FooterReplyTo.vue';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { sendEmailTranscript } from 'widget/api/conversation';
-import routerMixin from 'widget/mixins/routerMixin';
-import { IFrameHelper } from '../helpers/utils';
-import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
     ChatInputWrap,
     CustomButton,
-    FooterReplyTo,
   },
   mixins: [routerMixin],
   data() {
@@ -146,6 +109,39 @@ export default {
   },
 };
 </script>
+
+<template>
+  <footer
+    v-if="!hideReplyBox"
+    class="footer-chat mb-1 z-50 relative w-full"
+    :class="{ 'rounded-lg': !isWidgetStyleFlat }"
+  >
+    <ChatInputWrap
+      :on-send-message="handleSendMessage"
+      :on-send-attachment="handleSendAttachment"
+    />
+  </footer>
+  <div v-else>
+    <CustomButton
+      class="font-medium"
+      block
+      :bg-color="widgetColor"
+      :text-color="textColor"
+      @click="startNewConversation"
+    >
+      {{ $t('START_NEW_CONVERSATION') }}
+    </CustomButton>
+    <CustomButton
+      v-if="showEmailTranscriptButton"
+      type="clear"
+      class="font-normal"
+      @click="sendTranscript"
+    >
+      {{ $t('EMAIL_TRANSCRIPT.BUTTON_TEXT') }}
+    </CustomButton>
+  </div>
+</template>
+
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
 

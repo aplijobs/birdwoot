@@ -44,8 +44,7 @@ export default {
         {{ description }}
       </p>
       <CardButton v-for="action in actions" 
-      :key="action.id" 
-      :action="action"
+      :key="action.id" :action="action"
       />
     </div>
   </div>

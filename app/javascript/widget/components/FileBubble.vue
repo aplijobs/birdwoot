@@ -1,27 +1,3 @@
-<template>
-  <div class="file flex flex-row items-center p-3 cursor-pointer">
-    <div class="icon-wrap" :style="{ color: textColor }">
-      <fluent-icon icon="document" size="28" type="solid" />
-    </div>
-    <div class="meta">
-      <div class="link-wrap mb-1">
-        <a
-          class="download"
-          rel="noreferrer noopener nofollow"
-          target="_blank"
-          :style="{ color: textColor }"
-          :href="url"
-        >
-          <div class="title" :class="titleColor" :style="{ color: textColor }">
-            {{ title }}
-          </div>
-          {{ $t('COMPONENTS.FILE_BUBBLE.DOWNLOAD') }}
-        </a>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { getContrastingTextColor } from '@chatwoot/utils';
@@ -78,17 +54,10 @@ export default {
 <template>
   <div class="file flex flex-row items-center p-3 cursor-pointer">
     <div class="icon-wrap" :style="{ color: textColor }">
-      <FluentIcon icon="document" size="28" />
+      <FluentIcon icon="document" size="28" type="solid" />
     </div>
-    <div class="ltr:pr-1 rtl:pl-1">
-      <div
-        class="m-0 font-medium text-sm"
-        :class="{ 'text-n-slate-12': !isUserBubble }"
-        :style="{ color: textColor }"
-      >
-        {{ title }}
-      </div>
-      <div class="leading-none mb-1">
+    <div class="meta">
+      <div class="link-wrap mb-1">
         <a
           class="download"
           rel="noreferrer noopener nofollow"
@@ -96,6 +65,9 @@ export default {
           :style="{ color: textColor }"
           :href="url"
         >
+          <div class="title" :class="titleColor" :style="{ color: textColor }">
+            {{ title }}
+          </div>
           {{ $t('COMPONENTS.FILE_BUBBLE.DOWNLOAD') }}
         </a>
       </div>
