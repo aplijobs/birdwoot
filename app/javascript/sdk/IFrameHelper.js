@@ -57,7 +57,7 @@ export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken, referral }) {
     let ref = '';
     if (referral) {
-      ref = `&referral=${referral}`
+      ref = `&referral=${referral}`;
     }
     return `${baseUrl}/widget?website_token=${websiteToken}${ref}`;
   },

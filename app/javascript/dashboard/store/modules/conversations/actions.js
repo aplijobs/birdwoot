@@ -33,7 +33,7 @@ const actions = {
       commit(types.UPDATE_CONVERSATION, response.data);
       commit(`contacts/${types.SET_CONTACT_ITEM}`, response.data.meta.sender);
     } catch (error) {
-      captureSentryException(error);
+      Sentry.captureException(error);
     }
   },
 
@@ -51,7 +51,7 @@ const actions = {
         params.assigneeType
       );
     } catch (error) {
-      captureSentryException(error);
+      Sentry.captureException(error);
     }
   },
 
@@ -66,7 +66,7 @@ const actions = {
         'appliedFilters'
       );
     } catch (error) {
-      captureSentryException(error);
+      Sentry.captureException(error);
     }
   },
 
@@ -197,7 +197,7 @@ const actions = {
         });
         data.dataFetched = true;
       } catch (error) {
-        captureSentryException(error);
+        Sentry.captureException(error);
       }
     }
   },
@@ -210,7 +210,7 @@ const actions = {
       });
       dispatch('setCurrentChatAssignee', response.data);
     } catch (error) {
-      captureSentryException(error);
+      Sentry.captureException(error);
     }
   },
 
@@ -226,7 +226,7 @@ const actions = {
       });
       dispatch('setCurrentChatTeam', { team: response.data, conversationId });
     } catch (error) {
-      captureSentryException(error);
+      Sentry.captureException(error);
     }
   },
 
@@ -257,7 +257,7 @@ const actions = {
         snoozedUntil: updatedSnoozedUntil,
       });
     } catch (error) {
-      captureSentryException(error);
+      Sentry.captureException(error);
     }
   },
 
@@ -412,7 +412,7 @@ const actions = {
       await ConversationApi.mute(conversationId);
       commit(types.MUTE_CONVERSATION);
     } catch (error) {
-      captureSentryException(error);
+      Sentry.captureException(error);
     }
   },
 
@@ -421,7 +421,7 @@ const actions = {
       await ConversationApi.unmute(conversationId);
       commit(types.UNMUTE_CONVERSATION);
     } catch (error) {
-      captureSentryException(error);
+      Sentry.captureException(error);
     }
   },
 
@@ -445,7 +445,7 @@ const actions = {
       const { custom_attributes } = response.data;
       commit(types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, custom_attributes);
     } catch (error) {
-      captureSentryException(error);
+      Sentry.captureException(error);
     }
   },
 

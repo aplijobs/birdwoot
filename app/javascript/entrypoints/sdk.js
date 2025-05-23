@@ -206,7 +206,7 @@ const runSDK = ({ baseUrl, websiteToken, referral }) => {
       iframe.src = IFrameHelper.getUrl({
         baseUrl: window.$chatwoot.baseUrl,
         websiteToken: window.$chatwoot.websiteToken,
-        referral: window.$chatwoot.referral
+        referral: window.$chatwoot.referral,
       });
 
       window.$chatwoot.resetTriggered = true;
@@ -216,7 +216,7 @@ const runSDK = ({ baseUrl, websiteToken, referral }) => {
   IFrameHelper.createFrame({
     baseUrl,
     websiteToken,
-    referral
+    referral,
   });
 };
 
