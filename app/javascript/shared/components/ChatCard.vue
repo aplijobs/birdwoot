@@ -1,29 +1,3 @@
-<template>
-  <div
-    class="card-message chat-bubble agent"
-    :class="$dm('bg-white', 'dark:bg-slate-700')"
-  >
-    <img v-if="mediaUrl" class="media" :src="mediaUrl" />
-    <div class="card-body">
-      <h4 
-      v-if="title" 
-      class="title" 
-      :class="$dm('text-black-900', 'dark:text-slate-50')"
-      >
-        {{ title }}
-      </h4>
-      <p class="body" :class="$dm('text-black-900', 'dark:text-slate-100')">
-        {{ description }}
-      </p>
-      <CardButton
-        v-for="action in actions"
-        :key="action.id"
-        :action="action"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import CardButton from 'shared/components/CardButton.vue';
 
@@ -51,6 +25,30 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="card-message chat-bubble agent"
+    :class="$dm('bg-white', 'dark:bg-slate-700')"
+  >
+    <img v-if="mediaUrl" class="media" :src="mediaUrl" />
+    <div class="card-body">
+      <h4 
+        v-if="title" 
+        class="title" 
+        :class="$dm('text-black-900', 'dark:text-slate-50')"
+      >
+        {{ title }}
+      </h4>
+      <p class="body" :class="$dm('text-black-900', 'dark:text-slate-100')">
+        {{ description }}
+      </p>
+      <CardButton
+        v-for="action in actions" :key="action.id" :action="action"
+      />
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';

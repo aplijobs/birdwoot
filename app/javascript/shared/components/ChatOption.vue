@@ -1,18 +1,3 @@
-<template>
-  <div
-    class="option"
-    :class="optionClass"
-    :style="{ borderColor: widgetColor, color: widgetColor }"
-  >
-    <button class="option-button button" @click="onClick">
-      <span v-if="action.image_url" class="icon">
-        <img :src="action.image_url" alt="icon" />
-      </span>
-      <span :style="{ color: widgetColor }">{{ action.title }}</span>
-    </button>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
@@ -52,6 +37,21 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="option"
+    :class="optionClass"
+    :style="{ borderColor: widgetColor, color: widgetColor }"
+  >
+    <button class="option-button button" @click="onClick">
+      <span v-if="action.image_url" class="icon">
+        <img :src="action.image_url" alt="icon" />
+      </span>
+      <span :style="{ color: widgetColor }">{{ action.title }}</span>
+    </button>
+  </div>
+</template>
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';

@@ -1,13 +1,3 @@
-<template>
-  <div class="chat-bubble agent" :class="$dm('bg-white', 'dark:bg-slate-700')">
-    <div
-      v-dompurify-html="formattedMessage"
-      class="message-content"
-      :class="$dm('text-black-900', 'dark:text-slate-50')"
-    />
-  </div>
-</template>
-
 <script>
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
@@ -28,6 +18,16 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="chat-bubble agent" :class="$dm('bg-white', 'dark:bg-slate-700')">
+    <div
+      v-dompurify-html="formattedMessage"
+      class="message-content"
+      :class="$dm('text-black-900', 'dark:text-slate-50')"
+    />
+  </div>
+</template>
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
