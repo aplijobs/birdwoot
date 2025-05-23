@@ -27,9 +27,7 @@ export default {
       default: false,
     },
   },
-  computed: {
-    ...mapGetters({
-    }),
+  computed: {...mapGetters({}),
   },
 };
 </script>

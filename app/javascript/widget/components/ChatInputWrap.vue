@@ -196,8 +196,8 @@ export default {
   flex: 1;
 
   &.is-focused {
-    box-shadow: 
-      0 0 0 1px $color-woot, 
+    box-shadow:
+      0 0 0 1px $color-woot,
       0 0 2px 3px $color-primary-light;
   }
 }

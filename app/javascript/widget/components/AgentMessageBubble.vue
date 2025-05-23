@@ -75,8 +75,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('conversation', ['sendMessage',
-    ]),
+    ...mapActions('conversation', ['sendMessage']),
     ...mapMutations({
       setOptions: 'conversation/setQuickRepliesOptions',
       setCallback: 'conversation/setQuickRepliesCallback',

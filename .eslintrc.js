@@ -1,11 +1,11 @@
 module.exports = {
   extends: [
     'airbnb-base/legacy',
-    'prettier',
     'plugin:vue/vue3-recommended',
     'plugin:vitest-globals/recommended',
     // use recommended-legacy when upgrading the plugin to v4
     'plugin:@intlify/vue-i18n/recommended',
+    'prettier',
   ],
   overrides: [
     {

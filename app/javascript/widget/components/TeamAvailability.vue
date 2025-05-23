@@ -9,8 +9,7 @@ import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 
 export default {
   name: 'TeamAvailability',
-  components: {
-  },
+  components: {},
   mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
   props: {
     availableAgents: {
