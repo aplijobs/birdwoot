@@ -33,9 +33,9 @@ export default {
   >
     <img v-if="mediaUrl" class="media" :src="mediaUrl" />
     <div class="card-body">
-      <h4 
-        v-if="title" 
-        class="title" 
+      <h4
+        v-if="title"
+        class="title"
         :class="$dm('text-black-900', 'dark:text-slate-50')"
       >
         {{ title }}
@@ -43,8 +43,9 @@ export default {
       <p class="body" :class="$dm('text-black-900', 'dark:text-slate-100')">
         {{ description }}
       </p>
-      <CardButton
-        v-for="action in actions" :key="action.id" :action="action"
+      <CardButton v-for="action in actions" 
+      :key="action.id" 
+      :action="action"
       />
     </div>
   </div>
