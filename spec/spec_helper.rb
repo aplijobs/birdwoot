@@ -3,7 +3,9 @@ require 'webmock/rspec'
 
 SimpleCov.start 'rails' do
   minimum_coverage 85
+  SimpleCov.refuse_coverage_drop false
 end
+
 WebMock.disable_net_connect!(allow_localhost: true)
 
 RSpec.configure do |config|
