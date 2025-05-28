@@ -4,6 +4,7 @@ describe '/app/login', type: :request do
   context 'without DEFAULT_LOCALE' do
     it 'renders the dashboard' do
       get '/app/login'
+      puts response.body
       expect(response).to have_http_status(:success)
     end
   end
