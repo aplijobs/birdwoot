@@ -68,7 +68,7 @@ $masked-bg: rgba(0, 0, 0, .4);
 // Color-palettes
 
 $color-primary-light: #c7e3ff;
-$color-primary-dark: darken(#1F93FF, 20%);
+$color-primary-dark: color.adjust(#1F93FF, $lightness: -20%);
 
 // Thumbnail
 $thumbnail-radius: 2.5rem;
