@@ -1,13 +1,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import ChatOption from 'shared/components/ChatOption.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   components: {
     ChatOption,
   },
-  mixins: [darkModeMixin],
+  mixins: [],
   props: {
     isVisible: { type: Boolean, default: false },
   },

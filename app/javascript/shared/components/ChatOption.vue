@@ -1,11 +1,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   components: {},
-  mixins: [darkModeMixin],
+  mixins: [],
   props: {
     action: {
       type: Object,
