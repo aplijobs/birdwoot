@@ -138,7 +138,7 @@ export default {
 }
 
 .conversation-wrap {
-  max-width: $break-point-tablet;
+  max-width: 800px;
   margin: auto auto 0;
   width: 100%;
 }
