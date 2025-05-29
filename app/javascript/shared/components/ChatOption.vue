@@ -53,8 +53,8 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '../assets/scss/_variables.scss';
-@import '../assets/scss/_mixins.scss';
+@import 'widget/assets/scss/_variables.scss';
+@import 'dashboard/assets/scss/_mixins.scss';
 
 .option {
   @include light-shadow;

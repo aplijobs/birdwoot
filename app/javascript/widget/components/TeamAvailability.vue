@@ -97,7 +97,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '../assets/scss/_variables.scss';
+@import 'widget/assets/scss/_variables.scss';
 
 .responsive-container {
   max-width: $break-point-tablet;
