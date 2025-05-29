@@ -44,7 +44,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import '../assets/scss/variables.scss';
 
 .icon-button {
   border-radius: 50%;
