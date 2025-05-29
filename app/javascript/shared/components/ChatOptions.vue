@@ -29,7 +29,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '../assets/scss/variables.scss';
+@import '../assets/scss/_variables.scss';
 
 .options-message {
   max-width: 17rem;
