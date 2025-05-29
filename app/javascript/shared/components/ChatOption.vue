@@ -57,7 +57,7 @@ export default {
 @import 'dashboard/assets/scss/_mixins.scss';
 
 .option {
-  @include light-shadow;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: $space-jumbo;
   border: 1px solid $color-woot;
   margin: $space-smaller;
