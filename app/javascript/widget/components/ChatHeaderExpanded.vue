@@ -1,14 +1,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import HeaderActions from './HeaderActions.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   name: 'ChatHeaderExpanded',
   components: {
     HeaderActions,
   },
-  mixins: [darkModeMixin],
+  mixins: [],
   props: {
     avatarUrl: {
       type: String,
