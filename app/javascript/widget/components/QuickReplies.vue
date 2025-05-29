@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import ChatOption from 'shared/components/ChatOption';
+import ChatOption from 'shared/components/ChatOption.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
