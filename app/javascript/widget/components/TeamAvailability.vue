@@ -11,7 +11,6 @@ import CustomButton from 'shared/components/Button.vue';
 export default {
   name: 'TeamAvailability',
   components: {
-    AvailableAgents,
     CustomButton,
   },
   mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
