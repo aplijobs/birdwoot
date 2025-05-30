@@ -66,6 +66,8 @@ export default {
 </template>
 
 <style scoped lang="scss">
+@import 'widget/assets/scss/_variables.scss';
+
 .action-button {
   align-items: center;
   border-radius: $space-micro;
