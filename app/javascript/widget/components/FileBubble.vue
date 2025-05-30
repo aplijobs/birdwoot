@@ -77,7 +77,7 @@ export default {
 
 <style lang="scss" scoped>
 .file {
-  padding: $space-slab $space-normal !important;
+  padding: 0.75rem $space-normal !important;
   .icon-wrap {
     font-size: $font-size-mega;
     color: $color-woot;
