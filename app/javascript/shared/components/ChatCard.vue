@@ -70,7 +70,7 @@ export default {
   }
 
   .media {
-    @include border-light;
+    border: 1px solid #e0e0e0;
     width: 100%;
     object-fit: contain;
     max-height: 150px;
@@ -79,7 +79,7 @@ export default {
 
   .action-button + .action-button {
     background: $color-white;
-    @include thin-border($color-woot);
+    border: 1px solid $color-woot;
     color: $color-woot;
   }
 }
