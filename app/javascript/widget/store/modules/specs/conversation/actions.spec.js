@@ -47,9 +47,9 @@ describe('#actions', () => {
     });
   });
 
-    describe('#addOrUpdateMessage', () => {
-      const mockState = {
-        quickReplies: {
+  describe('#addOrUpdateMessage', () => {
+    const mockState = {
+      quickReplies: {
         options: [],
       },
     };
