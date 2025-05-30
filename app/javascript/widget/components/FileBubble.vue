@@ -77,27 +77,27 @@ export default {
 
 <style lang="scss" scoped>
 .file {
-  padding: 0.75rem $space-normal !important;
+  padding: 0.75rem 1rem !important;
   .icon-wrap {
-    font-size: $font-size-mega;
-    color: $color-woot;
+    font-size: 2.125rem;
+    color: #1f93ff;
     line-height: 1;
-    margin-left: $space-smaller;
-    margin-right: $space-small;
+    margin-left: 0.25rem;
+    margin-right: 0.5rem;
   }
 
   .title {
     text-decoration: underline;
-    font-weight: $font-weight-medium;
-    font-size: $font-size-default;
+    font-weight: 500;
+    font-size: 1rem;
     margin: 0 0 4px 0;
   }
 
   .download {
-    color: $color-woot;
-    font-weight: $font-weight-medium;
+    color: #1f93ff;
+    font-weight: 500;
     margin: 0;
-    font-size: $font-size-small;
+    font-size: 0.875rem;
     text-decoration: none;
   }
 
@@ -105,7 +105,7 @@ export default {
     line-height: 1;
   }
   .meta {
-    padding-right: $space-smaller;
+    padding-right: 0.25rem;
   }
 }
 </style>
