@@ -7,10 +7,12 @@ import availabilityMixin from 'widget/mixins/availability';
 import { IFrameHelper } from 'widget/helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 import CustomButton from 'shared/components/Button.vue';
+import AvailableAgents from './AvailableAgents.vue';
 
 export default {
   name: 'TeamAvailability',
   components: {
+    AvailableAgents,
     CustomButton,
   },
   mixins: [configMixin, nextAvailabilityTime, availabilityMixin],

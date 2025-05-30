@@ -47,52 +47,52 @@ describe('#actions', () => {
     });
   });
 
-  describe('#addOrUpdateMessage', () => {
-  const mockState = {
-    quickReplies: {
-      options: [],
-    },
-  };
+    describe('#addOrUpdateMessage', () => {
+      const mockState = {
+        quickReplies: {
+        options: [],
+      },
+    };
 
-  it('sends correct actions for non-deleted message', () => {
-    actions.addOrUpdateMessage(
-      { commit, state: mockState },
-      {
+    it('sends correct actions for non-deleted message', () => {
+      actions.addOrUpdateMessage(
+        { commit, state: mockState },
+        {
+          id: 1,
+          content: 'Hey',
+          content_attributes: {},
+        }
+      );
+      expect(commit).toBeCalledWith('pushMessageToConversation', {
         id: 1,
         content: 'Hey',
         content_attributes: {},
-      }
-    );
-    expect(commit).toBeCalledWith('pushMessageToConversation', {
-      id: 1,
-      content: 'Hey',
-      content_attributes: {},
+      });
     });
-  });
 
-  it('sends correct actions for deleted message', () => {
-    actions.addOrUpdateMessage(
-      { commit, state: mockState },
-      {
+    it('sends correct actions for deleted message', () => {
+      actions.addOrUpdateMessage(
+        { commit, state: mockState },
+        {
+          id: 1,
+          content: 'Hey',
+          content_attributes: { deleted: true },
+        }
+      );
+      expect(commit).toBeCalledWith('deleteMessage', 1);
+    });
+
+    it('plays audio when agent sends a message', () => {
+      actions.addOrUpdateMessage(
+        { commit, state: mockState },
+        { id: 1, message_type: 1 }
+      );
+      expect(commit).toBeCalledWith('pushMessageToConversation', {
         id: 1,
-        content: 'Hey',
-        content_attributes: { deleted: true },
-      }
-    );
-    expect(commit).toBeCalledWith('deleteMessage', 1);
-  });
-
-  it('plays audio when agent sends a message', () => {
-    actions.addOrUpdateMessage(
-      { commit, state: mockState },
-      { id: 1, message_type: 1 }
-    );
-    expect(commit).toBeCalledWith('pushMessageToConversation', {
-      id: 1,
-      message_type: 1,
+        message_type: 1,
+      });
     });
   });
-});
 
   describe('#toggleAgentTyping', () => {
     it('sends correct mutations', () => {
