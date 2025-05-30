@@ -1,8 +1,7 @@
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
-  mixins: [messageFormatterMixin],
+  mixins: [],
   props: {
     message: {
       type: String,
