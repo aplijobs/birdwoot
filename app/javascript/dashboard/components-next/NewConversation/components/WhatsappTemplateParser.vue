@@ -45,8 +45,7 @@ const processedString = computed(() => {
 });
 
 const processedStringWithVariableHighlight = computed(() => {
-  const variables = templateString.value.match(
-    /{{\s*([a-zA-Z0-9_]+)\s*}}/g
+  const variables = templateString.value.match(/{{\s*([a-zA-Z0-9_]+)\s*}}/g
   ) || [];
 
   return variables.reduce((result, variable) => {
