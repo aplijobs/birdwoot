@@ -148,7 +148,7 @@ export function extractTextFromMarkdown(markdown) {
     .replace(/```[\s\S]*?```/g, '') // Remove code blocks
     .replace(/`.*?`/g, '') // Remove inline code
     .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images before removing links
-    .replace(/\[([^\]\n]{1,200})\]\((https?:\/\/[^\)\s]{1,500})\)/g, '$1') // Remove links but keep the text
+    .replace(/\[([^\]\n]{1,200})\]\((https?:\/\/[^)\s]{1,500})\)/g, '$1') // Remove links but keep the text
     .replace(/#+\s*|[*_-]{1,3}/g, '') // Remove headers, bold, italic, lists etc.
     .split('\n')
     .map(line => line.trim())
