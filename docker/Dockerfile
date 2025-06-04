@@ -86,6 +86,17 @@ RUN rm -rf /gems/ruby/3.3.0/cache/*.gem \
 # final build stage
 FROM ruby:3.3.3-alpine3.19
 
+RUN apk add --no-cache build-base postgresql-dev nodejs yarn
+
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+WORKDIR /app
+COPY . /app
+RUN chown -R appuser:appgroup /app
+
+USER appuser
+
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+
 ARG NODE_VERSION="23.7.0"
 ARG PNPM_VERSION="10.2.0"
 ENV NODE_VERSION=${NODE_VERSION}
@@ -140,7 +151,7 @@ RUN if [ "$RAILS_ENV" != "production" ]; then \
   fi
 
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm i
+RUN pnpm install --ignore-scripts
 
 COPY --from=pre-builder /gems/ /gems/
 COPY --from=pre-builder /app /app

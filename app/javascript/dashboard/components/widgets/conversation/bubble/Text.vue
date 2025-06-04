@@ -59,6 +59,7 @@ export default {
       this.attachment = {
         file_type: 'image',
         data_url: src,
+        // Math.random() is safe for use since message_id doesn't require to be safe
         message_id: Math.floor(Math.random() * 100),
       };
       this.availableAttachments = [{ ...this.attachment }];

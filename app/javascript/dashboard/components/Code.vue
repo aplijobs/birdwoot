@@ -30,7 +30,7 @@ const { t } = useI18n();
 
 const scrubbedScript = computed(() => {
   // remove trailing and leading extra lines and not spaces
-  const scrubbed = props.script.replace(/^\s*[\r\n]/gm, '');
+  const scrubbed = props.script.replace(/^[ \t]*[\r\n]+/gm, '');
   const lines = scrubbed.split('\n');
 
   // remove extra indentations

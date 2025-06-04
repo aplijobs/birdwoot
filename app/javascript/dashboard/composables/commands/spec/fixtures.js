@@ -94,7 +94,7 @@ export const mockCurrentChat = {
       browser_version: '127.0.0.0',
       platform_version: '10.15.7',
     },
-    referer: 'http://chatwoot.com/widget_tests?dark_mode=auto',
+    referer: 'https://chatwoot.com/widget_tests?dark_mode=auto',
     initiated_at: {
       timestamp: 'Fri Aug 02 2024 15:21:18 GMT+0530 (India Standard Time)',
     },

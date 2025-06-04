@@ -44,11 +44,11 @@ export default {
     });
 
     const variables = computed(() => {
-      return templateString.value.match(/{{([^}]+)}}/g);
+      return templateString.value.match(/{{\s*([a-zA-Z0-9_]+)\s*}}/g);
     });
 
     const processedString = computed(() => {
-      return templateString.value.replace(/{{([^}]+)}}/g, (match, variable) => {
+      return templateString.value.replace(/{{\s*([a-zA-Z0-9_]+)\s*}}/g, (match, variable) => {
         const variableKey = processVariable(variable);
         return processedParams.value[variableKey] || `{{${variable}}}`;
       });
@@ -65,7 +65,7 @@ export default {
     );
 
     const generateVariables = () => {
-      const matchedVariables = templateString.value.match(/{{([^}]+)}}/g);
+      const matchedVariables = templateString.value.match(/{{\s*([a-zA-Z0-9_]+)\s*}}/g);
       if (!matchedVariables) return;
 
       const finalVars = matchedVariables.map(i => processVariable(i));

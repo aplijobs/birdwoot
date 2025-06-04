@@ -35,14 +35,14 @@ const processVariable = str => {
 };
 
 const processedString = computed(() => {
-  return templateString.value.replace(/{{([^}]+)}}/g, (match, variable) => {
+  return templateString.value.replace(/{{\s*([a-zA-Z0-9_]+)\s*}}/g, (match, variable) => {
     const variableKey = processVariable(variable);
     return processedParams.value[variableKey] || `{{${variable}}}`;
   });
 });
 
 const processedStringWithVariableHighlight = computed(() => {
-  const variables = templateString.value.match(/{{([^}]+)}}/g) || [];
+  const variables = templateString.value.match(/{{\s*([a-zA-Z0-9_]+)\s*}}/g) || [];
 
   return variables.reduce((result, variable) => {
     const variableKey = processVariable(variable);
@@ -72,7 +72,7 @@ const getFieldErrorType = key => {
 };
 
 const generateVariables = () => {
-  const matchedVariables = templateString.value.match(/{{([^}]+)}}/g);
+  const matchedVariables = templateString.value.match(/{{\s*([a-zA-Z0-9_]+)\s*}}/g);
   if (!matchedVariables) return;
 
   const finalVars = matchedVariables.map(i => processVariable(i));
