@@ -35,11 +35,12 @@ const processVariable = str => {
 };
 
 const processedString = computed(() => {
-  return templateString.value.replace(/{{\s*([a-zA-Z0-9_]+)\s*}}/g,
-  (match, variable) => {
+  return templateString.value.replace(
+    /{{\s*([a-zA-Z0-9_]+)\s*}}/g,
+    (match, variable) => {
       const variableKey = processVariable(variable);
       return processedParams.value[variableKey] || `{{${variable}}}`;
-  }
+    }
   );
 });
 
