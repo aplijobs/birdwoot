@@ -88,6 +88,12 @@ const openDelete = inbox => {
     </template>
     <template #body>
       <table class="min-w-full overflow-x-auto">
+        <thead class="text-left text-sm font-semibold text-slate-500">
+          <tr>
+            <th class="py-2 px-4">Inbox</th>
+            <th class="py-2 px-4 text-right">Actions</th>
+          </tr>
+        </thead>
         <tbody
           class="divide-y divide-n-weak flex-1 text-slate-700 dark:text-slate-100"
         >

@@ -67,6 +67,15 @@ export default {
       />
     </div>
     <table class="woot-table notifications-table overflow-auto">
+      <thead>
+        <tr>
+          <th>{{ $t('NOTIFICATIONS_PAGE.TABLE_HEADERS.ID') }}</th>
+          <th class="text-right">{{ $t('NOTIFICATIONS_PAGE.TABLE_HEADERS.TYPE') }}</th>
+          <th>{{ $t('NOTIFICATIONS_PAGE.TABLE_HEADERS.ASSIGNEE') }}</th>
+          <th class="text-right">{{ $t('NOTIFICATIONS_PAGE.TABLE_HEADERS.DATE') }}</th>
+          <th>{{ $t('NOTIFICATIONS_PAGE.TABLE_HEADERS.STATUS') }}</th>
+        </tr>
+      </thead>
       <tbody v-show="!isLoading">
         <tr
           v-for="notificationItem in notifications"
