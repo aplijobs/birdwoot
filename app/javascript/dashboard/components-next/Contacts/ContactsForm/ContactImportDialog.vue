@@ -84,7 +84,7 @@ defineExpose({ dialogRef });
 
     <div class="flex flex-col gap-2">
       <div class="flex items-center gap-2">
-        <label class="text-sm text-n-slate-12 whitespace-nowrap">
+        <label for="file-input" class="text-sm text-n-slate-12 whitespace-nowrap">
           {{ t('CONTACTS_LAYOUT.HEADER.ACTIONS.IMPORT_CONTACT.LABEL') }}
         </label>
         <div class="flex items-center justify-between w-full gap-2">
@@ -124,6 +124,7 @@ defineExpose({ dialogRef });
       </div>
     </div>
     <input
+      id="file-input"
       ref="fileInput"
       type="file"
       accept="text/csv"
