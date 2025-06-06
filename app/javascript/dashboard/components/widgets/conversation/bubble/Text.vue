@@ -59,8 +59,8 @@ export default {
       this.attachment = {
         file_type: 'image',
         data_url: src,
-        // Math.random() is safe for use since message_id doesn't require to be safe
-        message_id: Math.floor(Math.random() * 100),
+        // SonarCloud: this use of Math.random() is safe because message_id is non-sensitive
+        message_id: Math.floor(Math.random() * 100), // NOSONAR
       };
       this.availableAttachments = [{ ...this.attachment }];
     },

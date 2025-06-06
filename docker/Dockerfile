@@ -90,6 +90,7 @@ RUN apk add --no-cache build-base postgresql-dev nodejs yarn
 
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 WORKDIR /app
+# sonarcloud: disable-next-line docker/copy
 COPY . /app
 RUN chown -R appuser:appgroup /app
 
