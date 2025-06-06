@@ -126,7 +126,7 @@ const resolveValue = candidate => {
 const equalTo = (filterValue, conversationValue) => {
   if (Array.isArray(filterValue)) {
     if (filterValue.includes('all')) return true;
-    if (filterValue == 'all') return true;
+    if (filterValue === 'all') return true;
 
     if (Array.isArray(conversationValue)) {
       // For array values like labels, check if any of the filter values exist in the array

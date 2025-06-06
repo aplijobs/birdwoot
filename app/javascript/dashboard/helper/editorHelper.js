@@ -27,7 +27,6 @@ export function cleanSignature(signature) {
       })
       .join('\n');
 
-
     const nodes = new MessageMarkdownTransformer(messageSchema).parse(
       signature
     );

@@ -70,9 +70,13 @@ export default {
       <thead>
         <tr>
           <th>{{ $t('NOTIFICATIONS_PAGE.TABLE_HEADERS.ID') }}</th>
-          <th class="text-right">{{ $t('NOTIFICATIONS_PAGE.TABLE_HEADERS.TYPE') }}</th>
+          <th class="text-right">
+            {{ $t('NOTIFICATIONS_PAGE.TABLE_HEADERS.TYPE') }}
+          </th>
           <th>{{ $t('NOTIFICATIONS_PAGE.TABLE_HEADERS.ASSIGNEE') }}</th>
-          <th class="text-right">{{ $t('NOTIFICATIONS_PAGE.TABLE_HEADERS.DATE') }}</th>
+          <th class="text-right">
+            {{ $t('NOTIFICATIONS_PAGE.TABLE_HEADERS.DATE') }}
+          </th>
           <th>{{ $t('NOTIFICATIONS_PAGE.TABLE_HEADERS.STATUS') }}</th>
         </tr>
       </thead>

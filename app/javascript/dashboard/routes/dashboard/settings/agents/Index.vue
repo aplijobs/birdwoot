@@ -162,10 +162,18 @@ const confirmDeletion = () => {
       <table class="divide-y divide-slate-75 dark:divide-slate-700">
         <thead>
           <tr class="text-left text-sm font-semibold text-n-slate-11">
-            <th class="py-2 ltr:pr-4 rtl:pl-4">{{ $t('AGENT_MGMT.TABLE_HEADERS.AGENT') }}</th>
-            <th class="py-2 ltr:pr-4 rtl:pl-4">{{ $t('AGENT_MGMT.TABLE_HEADERS.ROLE') }}</th>
-            <th class="py-2 ltr:pr-4 rtl:pl-4">{{ $t('AGENT_MGMT.TABLE_HEADERS.STATUS') }}</th>
-            <th class="py-2 text-right">{{ $t('AGENT_MGMT.TABLE_HEADERS.ACTIONS') }}</th>
+            <th class="py-2 ltr:pr-4 rtl:pl-4">
+              {{ $t('AGENT_MGMT.TABLE_HEADERS.AGENT') }}
+            </th>
+            <th class="py-2 ltr:pr-4 rtl:pl-4">
+              {{ $t('AGENT_MGMT.TABLE_HEADERS.ROLE') }}
+            </th>
+            <th class="py-2 ltr:pr-4 rtl:pl-4">
+              {{ $t('AGENT_MGMT.TABLE_HEADERS.STATUS') }}
+            </th>
+            <th class="py-2 text-right">
+              {{ $t('AGENT_MGMT.TABLE_HEADERS.ACTIONS') }}
+            </th>
           </tr>
         </thead>
         <tbody class="divide-y divide-n-weak text-n-slate-11">
