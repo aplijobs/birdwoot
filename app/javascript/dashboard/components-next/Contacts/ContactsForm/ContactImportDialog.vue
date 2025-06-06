@@ -84,8 +84,8 @@ defineExpose({ dialogRef });
 
     <div class="flex flex-col gap-2">
       <div class="flex items-center gap-2">
-        <label 
-          for="file-input" 
+        <label
+          for="file-input"
           class="text-sm text-n-slate-12 whitespace-nowrap"
         >
           {{ t('CONTACTS_LAYOUT.HEADER.ACTIONS.IMPORT_CONTACT.LABEL') }}
