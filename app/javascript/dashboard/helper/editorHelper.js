@@ -20,7 +20,11 @@ export function cleanSignature(signature) {
     // remove any horizontal rule tokens
     signature = signature
       .split('\n')
-      .filter(line => !/^(\s*\*\s*){3,6}$/.test(line))
+      .filter(line => {
+        const trimmed = line.trim();
+        const starCount = (trimmed.match(/\*/g) || []).length;
+        return !(starCount >= 3 && /^\**$/.test(trimmed));
+      })
       .join('\n');
 
 
