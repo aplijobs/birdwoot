@@ -1,8 +1,4 @@
 {
-  "TABLE_HEADERS" : {
-    "INBOX": "Inbox",
-    "ACTIONS": "Actions"
-  },
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descargar",
