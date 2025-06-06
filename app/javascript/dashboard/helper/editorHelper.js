@@ -19,9 +19,9 @@ export function cleanSignature(signature) {
   try {
     // remove any horizontal rule tokens
     signature = signature
-      .replace(/^\s*\*\s*\*\s*\*\s*$/gm, '')
-      .replace(/^\s*\*\s*\*\s*\*\s*$/gm, '')
-      .replace(/^\s*\*\s*\*\s*\*\s*$/gm, '');
+      .replace(/^\s*(\*\s*){3,}\s*$/gm, '')
+      .replace(/^\s*(\*\s*){3,}\s*$/gm, '')
+      .replace(/^\s*(\*\s*){3,}\s*$/gm, '');
 
     const nodes = new MessageMarkdownTransformer(messageSchema).parse(
       signature
