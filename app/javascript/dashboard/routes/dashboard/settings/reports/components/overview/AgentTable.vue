@@ -122,7 +122,6 @@ const table = useVueTable({
 
 <template>
   <div class="flex flex-col flex-1">
-    <!-- eslint-disable-next-line vuejs-accessibility/table-header -->
     <Table :table="table" class="max-h-[calc(100vh-21.875rem)]" />
     <Pagination
       class="mt-2"

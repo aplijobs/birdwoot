@@ -31,7 +31,6 @@ const { pageIndex } = defineProps({
 
 const emit = defineEmits(['pageChange']);
 const { t } = useI18n();
-// const isRTL = useMapGetter('accounts/isRTL');
 const csatResponses = useMapGetter('csat/getCSATResponses');
 const metrics = useMapGetter('csat/getMetrics');
 
@@ -148,7 +147,6 @@ const table = useVueTable({
   <div
     class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-5"
   >
-    <!-- eslint-disable-next-line vuejs-accessibility/table-header -->
     <Table :table="table" class="max-h-[calc(100vh-21.875rem)]" />
     <div
       v-show="!tableData.length"

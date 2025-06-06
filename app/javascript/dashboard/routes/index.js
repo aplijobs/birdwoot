@@ -38,7 +38,7 @@ export const initalizeRouter = () => {
     });
 
     userAuthentication.then(() => {
-      return validateAuthenticateRoutePermission(to, next, store);
+      return validateAuthenticateRoutePermission(to, next);
     });
   });
 };
