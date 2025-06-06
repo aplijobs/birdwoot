@@ -25,7 +25,8 @@ export function cleanSignature(signature) {
         const isAsteriskRule =
           (trimmed.match(/\*/g) || []).length >= 3 && /^\**$/.test(trimmed);
         const isDashRule = /^-{2,}$/.test(trimmed);
-        return !isAsteriskRule && !isDashRule;
+        const isUnderscoreRule = /^_{2,}$/.test(trimmed);
+        return !isAsteriskRule && !isDashRule && !isUnderscoreRule;
       })
       .join('\n');
 
