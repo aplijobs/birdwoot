@@ -22,8 +22,10 @@ export function cleanSignature(signature) {
       .split('\n')
       .filter(line => {
         const trimmed = line.trim();
-        const starCount = (trimmed.match(/\*/g) || []).length;
-        return !(starCount >= 3 && /^\**$/.test(trimmed));
+        const isAsteriskRule =
+          (trimmed.match(/\*/g) || []).length >= 3 && /^\**$/.test(trimmed);
+          const isDashRule = /^-{2,}$/.test(trimmed);
+        return !isAsteriskRule && !isDashRule;
       })
       .join('\n');
 
