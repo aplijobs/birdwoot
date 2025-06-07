@@ -18,7 +18,7 @@ export const SIGNATURE_DELIMITER = '--';
 export function cleanSignature(signature) {
   try {
     // remove any horizontal rule tokens
-    const lines = signature.split('\n')
+    const lines = signature.split('\n');
     const cleanedLines = [];
 
     let consecutiveStars = 0;
