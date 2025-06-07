@@ -20,18 +20,48 @@ export function cleanSignature(signature) {
     // remove any horizontal rule tokens
     signature = signature
       .split('\n')
-      .filter(line => {
+
+      const cleanedLines = [];
+      let consecutiveStars = 0;
+
+      for (const line of lines) {
         const trimmed = line.trim();
-        const isAsteriskRule =
-          (trimmed.match(/\*/g) || []).length >= 3 && /^\**$/.test(trimmed);
-        const isDashRule = /^-{2,}$/.test(trimmed);
-        const isUnderscoreRule = /^_{2,}$/.test(trimmed);
-        return !isAsteriskRule && !isDashRule && !isUnderscoreRule;
-      })
-      .join('\n');
+
+        if (/^\*$/.test(trimmed)) {
+          consecutiveStars += 1;
+        } else {
+          if (consecutiveStars >= 3) {
+            consecutiveStars = 0;
+          } else {
+            while (consecutiveStars > 0) {
+              cleanedLines.push('*');
+              consecutiveStars--;
+            }
+          }
+          cleanedLines.push(line);
+        }
+      }
+
+      if (consecutiveStars > 3) {
+        while (consecutiveStars > 0) {
+          cleanedLines.push('*');
+          consecutiveStars--;
+        }
+      }
+
+      const result = cleanedLines
+        .filter(line => {
+          const trimmed = line.trim();
+          const isAsteriskRule =
+            (trimmed.match(/\*/g) || []).length >= 3 && /^\**$/.test(trimmed);
+          const isDashRule = /^-{2,}$/.test(trimmed);
+          const isUnderscoreRule = /^_{2,}$/.test(trimmed);
+          return !isAsteriskRule && !isDashRule && !isUnderscoreRule;
+        })
+        .join('\n');
 
     const nodes = new MessageMarkdownTransformer(messageSchema).parse(
-      signature
+      result
     );
     return MessageMarkdownSerializer.serialize(nodes);
   } catch (e) {
