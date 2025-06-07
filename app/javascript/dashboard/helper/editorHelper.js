@@ -18,8 +18,7 @@ export const SIGNATURE_DELIMITER = '--';
 export function cleanSignature(signature) {
   try {
     // remove any horizontal rule tokens
-    const lines = signature
-      .split('\n')
+    const lines = signature.split('\n')
 
     const cleanedLines = [];
     let consecutiveStars = 0;
@@ -60,8 +59,7 @@ export function cleanSignature(signature) {
       })
       .join('\n');
 
-    const nodes = new MessageMarkdownTransformer(messageSchema).parse(result
-    );
+    const nodes = new MessageMarkdownTransformer(messageSchema).parse(result);
     return MessageMarkdownSerializer.serialize(nodes);
   } catch (e) {
     // eslint-disable-next-line no-console
