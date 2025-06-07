@@ -19,33 +19,28 @@ export function cleanSignature(signature) {
   try {
     // remove any horizontal rule tokens
     const lines = signature.split('\n')
-
     const cleanedLines = [];
+
     let consecutiveStars = 0;
 
-    for (const line of lines) {
+    lines.forEach(line => {
       const trimmed = line.trim();
 
       if (/^\*$/.test(trimmed)) {
-        consecutiveStars += 1;
+        consecutiveStars.push(line);
       } else {
-        if (consecutiveStars >= 3) {
-          consecutiveStars = 0;
+        if (consecutiveStars.length >= 3) {
+          consecutiveStars = [];
         } else {
-          while (consecutiveStars > 0) {
-            cleanedLines.push('*');
-            consecutiveStars--;
-          }
+          cleanedLines.push(...consecutiveStars);
+          consecutiveStars = [];
         }
         cleanedLines.push(line);
       }
-    }
+    });
 
-    if (consecutiveStars > 3) {
-      while (consecutiveStars > 0) {
-        cleanedLines.push('*');
-        consecutiveStars--;
-       }
+    if (consecutiveStars.length > 3) {
+      cleanedLines.push(...consecutiveStars);
     }
 
     const result = cleanedLines
