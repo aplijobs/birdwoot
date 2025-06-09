@@ -24,8 +24,6 @@ export function cleanSignature(signature) {
     let tempLines = [];
 
     lines.forEach(line => {
-      const trimmed = line.trim();
-
       if (/^\s*\*+\s*$/.test(line)) {
         tempLines.push(line);
       } else {
