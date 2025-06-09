@@ -37,7 +37,7 @@ export function cleanSignature(signature) {
         }
         cleanedLines.push(line);
       }
-    })
+    });
 
     if (consecutiveStars.length < 3) {
       cleanedLines.push(...consecutiveStars);
