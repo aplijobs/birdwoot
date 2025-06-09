@@ -43,27 +43,28 @@ export function cleanSignature(signature) {
       cleanedLines.push(...consecutiveStars);
     }
 
-    const filteredLines = cleanedLines
-      .filter(line => {
-        const trimmed = line.trim();
-        const isOnlySpecialChars = /^[-_*~·•=]{2,}\s*$/.test(trimmed);
-        return !isOnlySpecialChars;
-      });
+  const filteredLines = cleanedLines
+    .filter(line => {
+      const trimmed = line.trim();
+      const isOnlySpecialChars = /^[-_*~·•=]{2,}\s*$/.test(trimmed);
+      return !isOnlySpecialChars;
+    });
 
-      const result = [];
-      for (let i = 0; i < filteredLines.length; i++) {
-        if (
-          i > 0 &&
-          filteredLines[i].trim() === filteredLines[i-1].trim() &&
-          filteredLines[i].trim() !== ''
-        ) {
-          continue;
-        }
-        result.push(filteredLines[i]);
+    const result = [];
+    let previousLine = null;
+    filteredLines.forEach(line => {
+      const trimmed = line.trim();
+      const previousTrimmed = previousLine ? previousLine.trim() : null;
+
+      const isDuplicate = previousTrimmed && trimmed === previousTrimmed && trimmed !== '';
+
+      if (!isDuplicate) {
+        result.push(line);
+        previousLine = line;
       }
+  });
 
-      const markdown = result.join('\n');
-
+    const markdown = result.join('\n');
     const nodes = new MessageMarkdownTransformer(messageSchema).parse(markdown);
     return MessageMarkdownSerializer.serialize(nodes);
   } catch (e) {
