@@ -21,51 +21,36 @@ export function cleanSignature(signature) {
     const lines = signature.split('\n');
     const cleanedLines = [];
 
-    let consecutiveStars = 0;
+    let tempLines = [];
 
-    lines.forEach(line => {
+    lines.forEach((line) => {
       const trimmed = line.trim();
 
-      if (/^\*$/.test(trimmed)) {
-        consecutiveStars.push(line);
+      if (trimmed === '*') {
+        tempLines.push(line);
       } else {
-        if (consecutiveStars.length >= 3) {
-          consecutiveStars = [];
+        if (tempLines.length >= 3) {
+          tempLines = [];
         } else {
-          cleanedLines.push(...consecutiveStars);
-          consecutiveStars = [];
+          cleanedLines.push(...tempLines);
+          tempLines = [];
         }
         cleanedLines.push(line);
       }
     });
 
-    if (consecutiveStars.length < 3) {
-      cleanedLines.push(...consecutiveStars);
+    if (tempLines.length > 0 && tempLines.length < 3) {
+      cleanedLines.push(...tempLines);
     }
 
-    const filteredLines = cleanedLines.filter(line => {
+    const result = cleanedLines
+    .filter(line => {
       const trimmed = line.trim();
-      const isOnlySpecialChars = /^[-_*~·•=]{2,}\s*$/.test(trimmed);
-      return !isOnlySpecialChars;
-    });
+      return !/^[-_*~·•=]{2,}\s*$/.test(trimmed);
+    })
+    .join('\n');
 
-    const result = [];
-    let previousLine = null;
-    filteredLines.forEach(line => {
-      const trimmed = line.trim();
-      const previousTrimmed = previousLine ? previousLine.trim() : null;
-
-      const isDuplicate =
-        previousTrimmed && trimmed === previousTrimmed && trimmed !== '';
-
-      if (!isDuplicate) {
-        result.push(line);
-        previousLine = line;
-      }
-    });
-
-    const markdown = result.join('\n');
-    const nodes = new MessageMarkdownTransformer(messageSchema).parse(markdown);
+    const nodes = new MessageMarkdownTransformer(messageSchema).parse(result);
     return MessageMarkdownSerializer.serialize(nodes);
   } catch (e) {
     // eslint-disable-next-line no-console
