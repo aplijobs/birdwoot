@@ -18,37 +18,15 @@ export const SIGNATURE_DELIMITER = '--';
 export function cleanSignature(signature) {
   try {
     // remove any horizontal rule tokens
-    const lines = signature.split('\n');
-    const cleanedLines = [];
-
-    let tempLines = [];
-
-    lines.forEach(line => {
-      if (/^\s*\*+\s*$/.test(line)) {
-        tempLines.push(line);
-      } else {
-        if (tempLines.length >= 3) {
-          tempLines = [];
-        } else {
-          cleanedLines.push(...tempLines);
-          tempLines = [];
-        }
-        cleanedLines.push(line);
-      }
-    });
-
-    if (tempLines.length < 3) {
-      cleanedLines.push(...tempLines);
-    }
-
-    const result = cleanedLines
+    const cleaned = signature
+      .split('\n')
       .filter(line => {
         const trimmed = line.trim();
-        return !/^[-_*~·•=]{2,}\s*$/.test(trimmed);
+        return !/^[-_*~·•=]{2,}\s*$/.test(trimmed) && !/^\*+\s*$/.test(trimmed);
       })
       .join('\n');
 
-    const nodes = new MessageMarkdownTransformer(messageSchema).parse(result);
+    const nodes = new MessageMarkdownTransformer(messageSchema).parse(cleaned);
     return MessageMarkdownSerializer.serialize(nodes);
   } catch (e) {
     // eslint-disable-next-line no-console
