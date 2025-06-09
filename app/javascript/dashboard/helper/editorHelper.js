@@ -26,7 +26,7 @@ export function cleanSignature(signature) {
     lines.forEach(line => {
       const trimmed = line.trim();
 
-      if (trimmed === '*') {
+      if (/^\*+$/.test(trimmed)) {
         tempLines.push(line);
       } else {
         if (tempLines.length >= 3) {
@@ -39,7 +39,7 @@ export function cleanSignature(signature) {
       }
     });
 
-    if (tempLines.length > 0 && tempLines.length < 3) {
+    if (tempLines.length < 3) {
       cleanedLines.push(...tempLines);
     }
 
