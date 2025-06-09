@@ -43,7 +43,7 @@ export function cleanSignature(signature) {
       cleanedLines.push(...consecutiveStars);
     }
 
-  const filteredLines = cleanedLines.filter(line => {
+    const filteredLines = cleanedLines.filter(line => {
       const trimmed = line.trim();
       const isOnlySpecialChars = /^[-_*~·•=]{2,}\s*$/.test(trimmed);
       return !isOnlySpecialChars;
@@ -55,8 +55,8 @@ export function cleanSignature(signature) {
       const trimmed = line.trim();
       const previousTrimmed = previousLine ? previousLine.trim() : null;
 
-      const isDuplicate = previousTrimmed && 
-      trimmed === previousTrimmed && trimmed !== '';
+      const isDuplicate = previousTrimmed && trimmed === previousTrimmed && 
+      trimmed !== '';
 
       if (!isDuplicate) {
         result.push(line);
