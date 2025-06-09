@@ -23,7 +23,7 @@ export function cleanSignature(signature) {
 
     let consecutiveStars = 0;
 
-    for (const line of lines) {
+    lines.forEach(line => {
       const trimmed = line.trim();
 
       if (/^\*$/.test(trimmed)) {
@@ -37,9 +37,9 @@ export function cleanSignature(signature) {
         }
         cleanedLines.push(line);
       }
-    }
+    })
 
-    if (consecutiveStars.length > 3) {
+    if (consecutiveStars.length < 3) {
       cleanedLines.push(...consecutiveStars);
     }
 
