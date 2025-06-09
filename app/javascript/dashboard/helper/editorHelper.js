@@ -29,15 +29,14 @@ export function cleanSignature(signature) {
       if (/^\*$/.test(trimmed)) {
         consecutiveStars.push(line);
       } else {
-        if (consecutiveStars.length >= 3) {
+        if (consecutiveStars.length >= 3) {
           consecutiveStars = [];
         } else {
-          cleanedLines.push(...consecutiveStars)
+          cleanedLines.push(...consecutiveStars);
           consecutiveStars = [];
         }
-        
         cleanedLines.push(line);
-      } 
+      }
     }
 
     if (consecutiveStars.length > 3) {
