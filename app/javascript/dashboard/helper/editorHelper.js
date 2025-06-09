@@ -23,7 +23,7 @@ export function cleanSignature(signature) {
 
     let tempLines = [];
 
-    lines.forEach((line) => {
+    lines.forEach(line => {
       const trimmed = line.trim();
 
       if (trimmed === '*') {
@@ -44,11 +44,11 @@ export function cleanSignature(signature) {
     }
 
     const result = cleanedLines
-    .filter(line => {
-      const trimmed = line.trim();
-      return !/^[-_*~·•=]{2,}\s*$/.test(trimmed);
-    })
-    .join('\n');
+      .filter(line => {
+        const trimmed = line.trim();
+        return !/^[-_*~·•=]{2,}\s*$/.test(trimmed);
+      })
+      .join('\n');
 
     const nodes = new MessageMarkdownTransformer(messageSchema).parse(result);
     return MessageMarkdownSerializer.serialize(nodes);
