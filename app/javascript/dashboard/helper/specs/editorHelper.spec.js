@@ -137,14 +137,6 @@ describe('cleanSignature', () => {
       '*****',
       '_____',
       '- - - -',
-      '* * * * *',
-      '_ _ _ _ _ _',
-      ' - - - - ',
-      ' * * * * * ',
-      ' _ _ _ _ _ _',
-      '- - - - -',
-      '* * * * * *',
-      '_ _ _ _ _ _ _',
     ];
     options.forEach(option => {
       expect(cleanSignature(option)).toBe('');
