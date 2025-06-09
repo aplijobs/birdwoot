@@ -43,15 +43,28 @@ export function cleanSignature(signature) {
       cleanedLines.push(...consecutiveStars);
     }
 
-    const result = cleanedLines
+    const filteredLines = cleanedLines
       .filter(line => {
         const trimmed = line.trim();
         const isOnlySpecialChars = /^[-_*~·•=]{2,}\s*$/.test(trimmed);
         return !isOnlySpecialChars;
-      })
-      .join('\n');
+      });
 
-    const nodes = new MessageMarkdownTransformer(messageSchema).parse(result);
+      const result = [];
+      for (let i = 0; i < filteredLines.length; i++) {
+        if (
+          i > 0 &&
+          filteredLines[i].trim() === filteredLines[i-1].trim() &&
+          filteredLines[i].trim() !== ''
+        ) {
+          continue;
+        }
+        result.push(filteredLines[i]);
+      }
+
+      const markdown = result.join('\n');
+
+    const nodes = new MessageMarkdownTransformer(messageSchema).parse(markdown);
     return MessageMarkdownSerializer.serialize(nodes);
   } catch (e) {
     // eslint-disable-next-line no-console
