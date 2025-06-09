@@ -23,21 +23,22 @@ export function cleanSignature(signature) {
 
     let consecutiveStars = 0;
 
-    lines.forEach(line => {
+    for (const line of lines) {
       const trimmed = line.trim();
 
       if (/^\*$/.test(trimmed)) {
         consecutiveStars.push(line);
       } else {
-        if (consecutiveStars.length >= 3) {
+        if (consecutiveStars.length >= 3) {
           consecutiveStars = [];
         } else {
-          cleanedLines.push(...consecutiveStars);
+          cleanedLines.push(...consecutiveStars)
           consecutiveStars = [];
         }
+        
         cleanedLines.push(line);
-      }
-    });
+      } 
+    }
 
     if (consecutiveStars.length > 3) {
       cleanedLines.push(...consecutiveStars);
@@ -46,11 +47,8 @@ export function cleanSignature(signature) {
     const result = cleanedLines
       .filter(line => {
         const trimmed = line.trim();
-        const isAsteriskRule =
-          (trimmed.match(/\*/g) || []).length >= 3 && /^\**$/.test(trimmed);
-        const isDashRule = /^-{2,}$/.test(trimmed);
-        const isUnderscoreRule = /^_{2,}$/.test(trimmed);
-        return !isAsteriskRule && !isDashRule && !isUnderscoreRule;
+        const isOnlySpecialChars = /^[-_*~·•=]{2,}\s*$/.test(trimmed);
+        return !isOnlySpecialChars;
       })
       .join('\n');
 
