@@ -55,8 +55,8 @@ export function cleanSignature(signature) {
       const trimmed = line.trim();
       const previousTrimmed = previousLine ? previousLine.trim() : null;
 
-      const isDuplicate = 
-      previousTrimmed && trimmed === previousTrimmed && trimmed !== '';
+      const isDuplicate =
+        previousTrimmed && trimmed === previousTrimmed && trimmed !== '';
 
       if (!isDuplicate) {
         result.push(line);
