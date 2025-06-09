@@ -1,6 +1,11 @@
 # pre-build stage
 FROM ruby:3.3.3-alpine3.19 AS pre-builder
 
+ARG NODE_VERSION="23.7.0"
+ARG PNPM_VERSION="10.2.0"
+ENV NODE_VERSION=${NODE_VERSION}
+ENV PNPM_VERSION=${PNPM_VERSION}
+
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
 ARG BUNDLE_WITHOUT="development:test"
@@ -28,7 +33,7 @@ RUN apk update && apk add --no-cache \
     tzdata \
     postgresql-dev \
     postgresql-client \
-    nodejs-current \
+    nodejs \
     yarn \
     npm \
     git \
@@ -75,7 +80,7 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   fi
 
 # Generate .git_sha file with current commit hash
-RUN git rev-parse HEAD > /app/.git_sha
+COPY .git_sha /app/.git_sha
 
 # Remove unnecessary files
 RUN rm -rf /gems/ruby/3.3.0/cache/*.gem \
@@ -106,11 +111,6 @@ USER appuser
 
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
 
-ARG NODE_VERSION="23.7.0"
-ARG PNPM_VERSION="10.2.0"
-ENV NODE_VERSION=${NODE_VERSION}
-ENV PNPM_VERSION=${PNPM_VERSION}
-
 ARG BUNDLE_WITHOUT="development:test"
 ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
 ENV BUNDLER_VERSION=2.5.13
@@ -129,8 +129,9 @@ ARG RAILS_ENV=production
 ENV RAILS_ENV ${RAILS_ENV}
 ENV BUNDLE_PATH="/gems"
 
-RUN apk update && apk add --no-cache \
-  curl \    
+RUN apk update && \
+  apk add --no-cache \
+    curl \
     openssl \
     tar \
     build-base \
@@ -138,15 +139,15 @@ RUN apk update && apk add --no-cache \
     tzdata \
     postgresql-dev \
     postgresql-client \
-    nodejs-current \
-    yarn \
+    nodejs \
     npm \
     git \
     vips \
-    imagemagick \
-  && npm install -g pnpm@${PNPM_VERSION} \
-  && pnpm --version \
-  && gem install bundler
+    imagemagick && \
+  apk add --no-cache yarn --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community && \
+  npm install -g pnpm@${PNPM_VERSION} && \
+  pnpm --version && \
+  gem install bundler
 
 COPY --from=node /usr/local/bin/node /usr/local/bin/
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
