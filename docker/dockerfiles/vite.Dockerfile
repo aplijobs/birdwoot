@@ -1,6 +1,6 @@
 FROM chatwoot:development
 
-ENV PNPM_HOME="/home/appuser/.local/share/pnpm"
+ENV PNPM_HOME="/root/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup

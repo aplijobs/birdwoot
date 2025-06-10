@@ -1,11 +1,6 @@
 # pre-build stage
 FROM ruby:3.3.3-alpine3.19 AS pre-builder
 
-ARG NODE_VERSION="23.7.0"
-ARG PNPM_VERSION="10.2.0"
-ENV NODE_VERSION=${NODE_VERSION}
-ENV PNPM_VERSION=${PNPM_VERSION}
-
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
 ARG BUNDLE_WITHOUT="development:test"
@@ -33,7 +28,7 @@ RUN apk update && apk add --no-cache \
     tzdata \
     postgresql-dev \
     postgresql-client \
-    nodejs \
+    nodejs-current \
     yarn \
     npm \
     git \
@@ -80,7 +75,7 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   fi
 
 # Generate .git_sha file with current commit hash
-COPY .git_sha /app/.git_sha
+RUN git rev-parse HEAD > /app/.git_sha
 
 # Remove unnecessary files
 RUN rm -rf /gems/ruby/3.3.0/cache/*.gem \
@@ -91,25 +86,10 @@ RUN rm -rf /gems/ruby/3.3.0/cache/*.gem \
 # final build stage
 FROM ruby:3.3.3-alpine3.19
 
-RUN apk add --no-cache build-base postgresql-dev nodejs yarn
-
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-WORKDIR /app
-COPY Gemfile Gemfile.lock ./
-COPY package.json pnpm-lock.yaml ./
-COPY app/ ./app/
-COPY config/ ./config/
-COPY public/ ./public/
-COPY bin/ ./bin/
-COPY db/ ./db/
-COPY lib/ ./lib/
-COPY Rakefile ./
-COPY .git_sha ./
-RUN chown -R appuser:appgroup /app
-
-USER appuser
-
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+ARG NODE_VERSION="23.7.0"
+ARG PNPM_VERSION="10.2.0"
+ENV NODE_VERSION=${NODE_VERSION}
+ENV PNPM_VERSION=${PNPM_VERSION}
 
 ARG BUNDLE_WITHOUT="development:test"
 ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
@@ -129,9 +109,8 @@ ARG RAILS_ENV=production
 ENV RAILS_ENV ${RAILS_ENV}
 ENV BUNDLE_PATH="/gems"
 
-RUN apk update && \
-  apk add --no-cache \
-    curl \
+RUN apk update && apk add --no-cache \
+  curl \    
     openssl \
     tar \
     build-base \
@@ -139,15 +118,15 @@ RUN apk update && \
     tzdata \
     postgresql-dev \
     postgresql-client \
-    nodejs \
+    nodejs-current \
+    yarn \
     npm \
     git \
     vips \
-    imagemagick && \
-  apk add --no-cache yarn --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community && \
-  npm install -g pnpm@${PNPM_VERSION} && \
-  pnpm --version && \
-  gem install bundler
+    imagemagick \
+  && npm install -g pnpm@${PNPM_VERSION} \
+  && pnpm --version \
+  && gem install bundler
 
 COPY --from=node /usr/local/bin/node /usr/local/bin/
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
@@ -161,7 +140,7 @@ RUN if [ "$RAILS_ENV" != "production" ]; then \
   fi
 
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --ignore-scripts
+RUN pnpm i
 
 COPY --from=pre-builder /gems/ /gems/
 COPY --from=pre-builder /app /app
