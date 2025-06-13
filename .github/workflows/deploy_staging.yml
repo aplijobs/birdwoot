@@ -4,6 +4,7 @@ on:
   push:
     branches: 
       - develop
+      - feature/update-may-2025
   workflow_dispatch:
   
   
