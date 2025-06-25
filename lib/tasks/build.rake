@@ -2,8 +2,10 @@
 # https://github.com/rails/rails/issues/43906#issuecomment-1099992310
 task before_assets_precompile: :environment do
   # run a command which starts your packaging
-  ENV['NODE_OPTIONS'] = '--openssl-legacy-provider'
-  system('yarn')
+  system('pnpm install')
+  system('echo "-------------- Bulding SDK for Production --------------"')
+  system('pnpm run build:sdk')
+  system('echo "-------------- Bulding App for Production --------------"')
 
 # every time you execute 'rake assets:precompile'
 # run 'before_assets_precompile' first
