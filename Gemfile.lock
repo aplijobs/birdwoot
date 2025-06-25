@@ -264,9 +264,6 @@ GEM
       faraday (>= 1.0.0, < 3.0)
       googleauth (~> 1)
     ffi (1.17.2)
-    ffi (1.17.2-arm64-darwin)
-    ffi (1.17.2-x86_64-darwin)
-    ffi (1.17.2-x86_64-linux-gnu)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
@@ -346,15 +343,6 @@ GEM
     grpc (1.72.0)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.72.0-arm64-darwin)
-      google-protobuf (>= 3.25, < 5.0)
-      googleapis-common-protos-types (~> 1.0)
-    grpc (1.72.0-x86_64-darwin)
-      google-protobuf (>= 3.25, < 5.0)
-      googleapis-common-protos-types (~> 1.0)
-    grpc (1.72.0-x86_64-linux)
-      google-protobuf (>= 3.25, < 5.0)
-      googleapis-common-protos-types (~> 1.0)
     haikunator (1.1.1)
     hairtrigger (1.0.0)
       activerecord (>= 6.0, < 8)
@@ -405,13 +393,6 @@ GEM
       hana (~> 1.3)
       regexp_parser (~> 2.0)
       uri_template (~> 0.7)
-    judoscale-rails (1.8.2)
-      judoscale-ruby (= 1.8.2)
-      railties
-    judoscale-ruby (1.8.2)
-    judoscale-sidekiq (1.8.2)
-      judoscale-ruby (= 1.8.2)
-      sidekiq (>= 5.0)
     jwt (2.8.1)
       base64
     kaminari (1.2.2)
@@ -446,6 +427,7 @@ GEM
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
+    localhost (1.5.0)
     logger (1.7.0)
     lograge (0.14.0)
       actionpack (>= 4)
@@ -504,12 +486,6 @@ GEM
     nio4r (2.7.3)
     nokogiri (1.18.8)
       mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
-    nokogiri (1.18.8-arm64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.18.8-x86_64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.18.8-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth (1.1.0)
       oauth-tty (~> 1.0, >= 1.0.1)
@@ -770,10 +746,6 @@ GEM
       fugit (~> 1.8)
       globalid (>= 1.0.1)
       sidekiq (>= 6)
-    sidekiq_alive (2.2.0)
-      rack (< 3)
-      sidekiq (>= 5, < 8)
-      webrick (>= 1, < 2)
     signet (0.17.0)
       addressable (~> 2.8)
       faraday (>= 0.17.5, < 3.a)
@@ -878,15 +850,7 @@ GEM
     zeitwerk (2.6.17)
 
 PLATFORMS
-  arm64-darwin-20
-  arm64-darwin-21
-  arm64-darwin-22
   ruby
-  x86_64-darwin-18
-  x86_64-darwin-20
-  x86_64-darwin-21
-  x86_64-darwin-22
-  x86_64-linux
 
 DEPENDENCIES
   active_record_query_trace
@@ -942,8 +906,6 @@ DEPENDENCIES
   jbuilder
   json_refs
   json_schemer
-  judoscale-rails
-  judoscale-sidekiq
   jwt
   kaminari
   koala
