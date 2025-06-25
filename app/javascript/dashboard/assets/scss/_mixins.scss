@@ -26,7 +26,7 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
     animation: spinner .9s linear infinite;
     border: 2px solid $spinner-before-border-color;
     border-radius: 50%;
-    border-top-color: color.adjust($color-woot, 10%);
+    border-top-color: adjust-color($color-woot, $lightness: 10%);
     box-sizing: border-box;
     content: '';
     height: $space-medium;
