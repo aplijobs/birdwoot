@@ -11,9 +11,7 @@ import {
 } from 'widget/api/conversation';
 import { captureSentryException } from 'shared/utils/exceptions';
 
-import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
-import { emitter } from 'shared/helpers/mitt';
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
@@ -25,7 +23,7 @@ export const actions = {
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
-        await setCustomAttributes({"ref": ref});
+        await setCustomAttributes({ ref: ref });
       }
     } catch (error) {
       captureSentryException(error);
@@ -39,7 +37,7 @@ export const actions = {
     dispatch('sendMessageWithData', message);
   },
   sendMessageWithData: async ({ commit }, message) => {
-    const { id, content, replyTo, meta = {} } = message;
+    const { id, content, meta = {} } = message;
 
     commit('pushMessageToConversation', message);
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
@@ -107,7 +105,7 @@ export const actions = {
       commit('setConversationListLoading', false);
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
-        await setCustomAttributes({"ref": ref});
+        await setCustomAttributes({ ref: ref });
       }
     } catch (error) {
       captureSentryException(error);
