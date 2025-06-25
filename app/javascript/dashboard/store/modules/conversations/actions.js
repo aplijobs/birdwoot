@@ -13,7 +13,6 @@ import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
 import { captureSentryException } from '../../../../shared/utils/exceptions';
 import * as Sentry from '@sentry/vue';
-import { hasMessageFailedWithExternalError } from '../../conversations/actions';
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {

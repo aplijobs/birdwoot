@@ -1,3 +1,5 @@
+@import 'app/assets/stylesheets/administrate/utilities/variables';
+
 .file-uploads .attachment-button + label {
   cursor: pointer;
 }
@@ -93,8 +95,7 @@
     .message-wrap {
       @apply max-w-full ltr:mr-2 rtl:ml-2;
     }
-
-    .in-progress {
+    
     .in-progress {
       opacity: 0.6;
     }
