@@ -6,6 +6,7 @@ task before_assets_precompile: :environment do
   system('echo "-------------- Bulding SDK for Production --------------"')
   system('pnpm run build:sdk')
   system('echo "-------------- Bulding App for Production --------------"')
+end
 
 # every time you execute 'rake assets:precompile'
 # run 'before_assets_precompile' first
