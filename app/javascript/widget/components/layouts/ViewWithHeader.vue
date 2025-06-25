@@ -1,53 +1,3 @@
-<template>
-  <div
-    class="w-full h-full flex flex-col"
-    :class="$dm('bg-slate-50', 'dark:bg-slate-800')"
-    @keydown.esc="closeWindow"
-  >
-    <div
-      class="header-wrap bg-white"
-      :class="{
-        expanded: !isHeaderCollapsed,
-        collapsed: isHeaderCollapsed,
-      }"
-    >
-      <transition
-        enter-active-class="transition-all delay-200 duration-300 ease-in"
-        leave-active-class="transition-all duration-200 ease-out"
-        enter-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-class="opacity-100"
-        leave-to-class="opacity-0"
-      >
-        <chat-header-expanded
-          v-if="!isHeaderCollapsed"
-          :intro-heading="channelConfig.welcomeTitle"
-          :intro-body="channelConfig.welcomeTagline"
-          :avatar-url="channelConfig.avatarUrl"
-          :show-popout-button="appConfig.showPopoutButton"
-        />
-        <chat-header
-          v-if="isHeaderCollapsed"
-          :title="channelConfig.websiteName"
-          :avatar-url="channelConfig.avatarUrl"
-          :show-popout-button="appConfig.showPopoutButton"
-          :available-agents="availableAgents"
-        />
-      </transition>
-    </div>
-    <banner />
-    <transition
-      enter-active-class="transition-all delay-300 duration-300 ease-in"
-      leave-active-class="transition-all duration-200 ease-out"
-      enter-class="opacity-0"
-      enter-to-class="opacity-100"
-      leave-class="opacity-100"
-      leave-to-class="opacity-0"
-    >
-      <router-view />
-    </transition>
-  </div>
-</template>
 <script>
 import Banner from '../Banner.vue';
 import ChatHeader from '../ChatHeader.vue';
@@ -145,19 +95,24 @@ export default {
 
 <template>
   <div
-    class="w-full h-full bg-n-slate-2 dark:bg-n-solid-1"
-    :class="{ 'overflow-auto': isOnHomeView }"
+    class="w-full h-full flex flex-col"
+    :class="$dm('bg-slate-50', 'dark:bg-slate-800')"
     @keydown.esc="closeWindow"
   >
-    <div class="relative flex flex-col h-full">
-      <div
-        :class="{
-          expanded: !isHeaderCollapsed,
-          collapsed: isHeaderCollapsed,
-          'shadow-[0_10px_15px_-16px_rgba(50,50,93,0.08),0_4px_6px_-8px_rgba(50,50,93,0.04)]':
-            isHeaderCollapsed,
-          ...opacityClass,
-        }"
+    <div
+      class="header-wrap bg-white"
+      :class="{
+        expanded: !isHeaderCollapsed,
+        collapsed: isHeaderCollapsed,
+      }"
+    >
+      <transition
+        enter-active-class="transition-all delay-200 duration-300 ease-in"
+        leave-active-class="transition-all duration-200 ease-out"
+        enter-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-class="opacity-100"
+        leave-to-class="opacity-0"
       >
         <ChatHeaderExpanded
           v-if="!isHeaderCollapsed"
@@ -172,13 +127,19 @@ export default {
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
           :available-agents="availableAgents"
-          :show-back-button="showBackButton"
         />
-      </div>
-      <Banner />
-      <router-view />
-
-      <Branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
+      </transition>
     </div>
+    <Banner />
+    <transition
+      enter-active-class="transition-all delay-300 duration-300 ease-in"
+      leave-active-class="transition-all duration-200 ease-out"
+      enter-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
+      <router-view />
+    </transition>
   </div>
 </template>

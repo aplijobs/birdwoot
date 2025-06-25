@@ -1,31 +1,3 @@
-<template>
-  <div
-    id="conversation-container"
-    class="conversation--container"
-    :class="colorSchemeClass"
-  >
-    <div class="conversation-wrap" :class="{ 'is-typing': isAgentTyping }">
-      <div v-if="isFetchingList" class="message--loader">
-        <spinner />
-      </div>
-      <div
-        v-for="groupedMessage in groupedMessages"
-        :key="groupedMessage.date"
-        class="messages-wrap"
-      >
-        <date-separator :date="groupedMessage.date" />
-        <chat-message
-          v-for="message in groupedMessage.messages"
-          :key="message.id"
-          :message="message"
-        />
-      </div>
-      <agent-typing-bubble v-if="isAgentTyping" />
-      <quick-replies :is-visible="hasQuickRepliesOptions" />
-    </div>
-  </div>
-</template>
-
 <script>
 import ChatMessage from 'widget/components/ChatMessage.vue';
 import AgentTypingBubble from 'widget/components/AgentTypingBubble.vue';
@@ -33,7 +5,6 @@ import DateSeparator from 'shared/components/DateSeparator.vue';
 import QuickReplies from 'widget/components/QuickReplies.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import { useDarkMode } from 'widget/composables/useDarkMode';
-import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -43,7 +14,7 @@ export default {
     AgentTypingBubble,
     DateSeparator,
     Spinner,
-    QuickReplies
+    QuickReplies,
   },
   props: {
     groupedMessages: {
@@ -64,7 +35,6 @@ export default {
   computed: {
     ...mapGetters({
       earliestMessage: 'conversation/getEarliestMessage',
-      lastMessage: 'conversation/getLastMessage',
       allMessagesLoaded: 'conversation/getAllMessagesLoaded',
       isFetchingList: 'conversation/getIsFetchingList',
       conversationSize: 'conversation/getConversationSize',
@@ -122,7 +92,11 @@ export default {
 </script>
 
 <template>
-  <div class="conversation--container" :class="colorSchemeClass">
+  <div
+    id="conversation-container"
+    class="conversation--container"
+    :class="colorSchemeClass"
+  >
     <div class="conversation-wrap" :class="{ 'is-typing': isAgentTyping }">
       <div v-if="isFetchingList" class="message--loader">
         <Spinner />
@@ -139,7 +113,8 @@ export default {
           :message="message"
         />
       </div>
-      <AgentTypingBubble v-if="showStatusIndicator" />
+      <AgentTypingBubble v-if="isAgentTyping" />
+      <QuickReplies :is-visible="hasQuickRepliesOptions" />
     </div>
   </div>
 </template>

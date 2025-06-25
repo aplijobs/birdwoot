@@ -1,15 +1,3 @@
-<template>
-  <div class="quick-replies" :style="showHideElement">
-    <chat-option
-      v-for="option in options"
-      :key="option.id"
-      :action="option"
-      :is-selected="isSelected(option)"
-      @click="onClick"
-    />
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import ChatOption from 'shared/components/ChatOption';
@@ -55,6 +43,18 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="quick-replies" :style="showHideElement">
+    <ChatOption
+      v-for="option in options"
+      :key="option.id"
+      :action="option"
+      :is-selected="isSelected(option)"
+      @click="onClick"
+    />
+  </div>
+</template>
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';

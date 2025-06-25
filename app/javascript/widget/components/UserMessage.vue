@@ -1,73 +1,10 @@
-<template>
-  <div class="user-message-wrap">
-    <div class="user-message">
-      <div
-        class="message-wrap"
-        :class="{ 'in-progress': isInProgress, 'is-failed': isFailed }"
-      >
-        <user-message-bubble
-          v-if="showTextBubble"
-          :message="message.content"
-          :status="message.status"
-          :widget-color="widgetColor"
-          :class="{ 'blur-layer': isFailed }"
-        />
-        <div
-          v-if="hasAttachments"
-          class="chat-bubble has-attachment user"
-          :class="{ 'blur-layer': isFailed }"
-        >
-          <div v-for="attachment in message.attachments" :key="attachment.id">
-            <image-bubble
-              v-if="attachment.file_type === 'image' && !hasImageError"
-              :url="attachment.data_url"
-              :thumb="attachment.data_url"
-              :readable-time="readableTime"
-              @error="onImageLoadError"
-            />
-            <file-bubble
-              v-else
-              :url="attachment.data_url"
-              :is-in-progress="isInProgress"
-              :widget-color="widgetColor"
-              :style="{ backgroundColor: widgetColor }"
-              is-user-bubble
-            />
-          </div>
-        </div>
-        <div
-          v-if="isFailed"
-          class="flex justify-end align-middle px-4 py-2 text-red-700"
-        >
-          <button
-            v-if="!hasAttachments"
-            :title="$t('COMPONENTS.MESSAGE_BUBBLE.RETRY')"
-            class="inline-flex justify-center items-center ml-2"
-            @click="retrySendMessage"
-          >
-            <fluent-icon icon="arrow-clockwise" size="20" />
-          </button>
-          <fluent-icon v-else icon="error" size="20" type="solid" />
-        </div>
-      </div>
-      <span v-if="isFailed" class="message-status">{{
-        messageStatusLabel
-      }}</span>
-    </div>
-  </div>
-</template>
-
 <script>
 import UserMessageBubble from 'widget/components/UserMessageBubble.vue';
-import MessageReplyButton from 'widget/components/MessageReplyButton.vue';
 import ImageBubble from 'widget/components/ImageBubble.vue';
-import VideoBubble from 'widget/components/VideoBubble.vue';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
 import { messageStamp } from 'shared/helpers/timeHelper';
 import messageMixin from '../mixins/messageMixin';
-import ReplyToChip from 'widget/components/ReplyToChip.vue';
-import DragWrapper from 'widget/components/DragWrapper.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { mapGetters } from 'vuex';
@@ -76,21 +13,13 @@ export default {
   name: 'UserMessage',
   components: {
     UserMessageBubble,
-    MessageReplyButton,
     ImageBubble,
-    VideoBubble,
     FileBubble,
     FluentIcon,
-    ReplyToChip,
-    DragWrapper,
   },
   mixins: [messageMixin],
   props: {
     message: {
-      type: Object,
-      default: () => {},
-    },
-    replyTo: {
       type: Object,
       default: () => {},
     },
@@ -168,79 +97,60 @@ export default {
 </script>
 
 <template>
-  <div class="user-message-wrap group">
-    <div class="flex gap-1 user-message">
+  <div class="user-message-wrap">
+    <div class="user-message">
       <div
         class="message-wrap"
         :class="{ 'in-progress': isInProgress, 'is-failed': isFailed }"
       >
-        <div v-if="hasReplyTo" class="flex justify-end mt-2 mb-1 text-xs">
-          <ReplyToChip :reply-to="replyTo" />
-        </div>
-        <div class="flex justify-end gap-1">
-          <div class="flex flex-col justify-end">
-            <MessageReplyButton
-              v-if="!isInProgress && !isFailed"
-              class="transition-opacity delay-75 opacity-0 group-hover:opacity-100 sm:opacity-0"
-              @click="toggleReply"
+        <UserMessageBubble
+          v-if="showTextBubble"
+          :message="message.content"
+          :status="message.status"
+          :widget-color="widgetColor"
+          :class="{ 'blur-layer': isFailed }"
+        />
+        <div
+          v-if="hasAttachments"
+          class="chat-bubble has-attachment user"
+          :class="{ 'blur-layer': isFailed }"
+        >
+          <div v-for="attachment in message.attachments" :key="attachment.id">
+            <ImageBubble
+              v-if="attachment.file_type === 'image' && !hasImageError"
+              :url="attachment.data_url"
+              :thumb="attachment.data_url"
+              :readable-time="readableTime"
+              @error="onImageLoadError"
+            />
+            <FileBubble
+              v-else
+              :url="attachment.data_url"
+              :is-in-progress="isInProgress"
+              :widget-color="widgetColor"
+              :style="{ backgroundColor: widgetColor }"
+              is-user-bubble
             />
           </div>
-          <DragWrapper direction="left" @dragged="toggleReply">
-            <UserMessageBubble
-              v-if="showTextBubble"
-              :message="message.content"
-              :status="message.status"
-              :widget-color="widgetColor"
-            />
-            <div
-              v-if="hasAttachments"
-              class="chat-bubble has-attachment user"
-              :style="{ backgroundColor: widgetColor }"
-            >
-              <div
-                v-for="attachment in message.attachments"
-                :key="attachment.id"
-              >
-                <ImageBubble
-                  v-if="attachment.file_type === 'image' && !hasImageError"
-                  :url="attachment.data_url"
-                  :thumb="attachment.data_url"
-                  :readable-time="readableTime"
-                  @error="onImageLoadError"
-                />
-
-                <VideoBubble
-                  v-if="attachment.file_type === 'video' && !hasVideoError"
-                  :url="attachment.data_url"
-                  :readable-time="readableTime"
-                  @error="onVideoLoadError"
-                />
-
-                <FileBubble
-                  v-else
-                  :url="attachment.data_url"
-                  :is-in-progress="isInProgress"
-                  :widget-color="widgetColor"
-                  is-user-bubble
-                />
-              </div>
-            </div>
-          </DragWrapper>
         </div>
         <div
           v-if="isFailed"
-          class="flex justify-end px-4 py-2 text-n-ruby-9 align-middle"
+          class="flex justify-end align-middle px-4 py-2 text-red-700"
         >
           <button
             v-if="!hasAttachments"
             :title="$t('COMPONENTS.MESSAGE_BUBBLE.RETRY')"
-            class="inline-flex items-center justify-center ltr:ml-2 rtl:mr-2"
+            class="inline-flex justify-center items-center ml-2"
             @click="retrySendMessage"
           >
-            <FluentIcon icon="arrow-clockwise" size="14" />
+            <FluentIcon icon="arrow-clockwise" size="20" />
           </button>
+          <FluentIcon v-else icon="error" size="20" type="solid" />
         </div>
       </div>
+      <span v-if="isFailed" class="message-status">{{
+        messageStatusLabel
+      }}</span>
     </div>
   </div>
 </template>

@@ -1,4 +1,7 @@
 {
+  "ARIA_LABEL": {
+    "EMOJI_PICKER": "Selector de emojis"
+  },
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descargar",

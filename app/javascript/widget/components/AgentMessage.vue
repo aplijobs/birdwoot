@@ -1,79 +1,14 @@
-<template>
-  <div
-    class="agent-message-wrap"
-    :class="{ 'has-response': hasRecordedResponse || isASubmittedForm }"
-  >
-    <div v-if="!isASubmittedForm" class="agent-message">
-      <div class="avatar-wrap">
-        <thumbnail
-          v-if="message.showAvatar || hasRecordedResponse"
-          :src="avatarUrl"
-          size="32px"
-          :username="agentName"
-        />
-      </div>
-      <div class="message-wrap">
-        <AgentMessageBubble
-          v-if="shouldDisplayAgentMessage"
-          :content-type="contentType"
-          :message-content-attributes="messageContentAttributes"
-          :message-id="message.id"
-          :message-type="messageType"
-          :message="message.content"
-        />
-        <div
-          v-if="hasAttachments"
-          class="chat-bubble has-attachment agent"
-          :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
-        >
-          <div v-for="attachment in message.attachments" :key="attachment.id">
-            <image-bubble
-              v-if="attachment.file_type === 'image' && !hasImageError"
-              :url="attachment.data_url"
-              :thumb="attachment.data_url"
-              :readable-time="readableTime"
-              @error="onImageLoadError"
-            />
-            <audio v-else-if="attachment.file_type === 'audio'" controls>
-              <source :src="attachment.data_url" />
-            </audio>
-            <file-bubble v-else :url="attachment.data_url" />
-          </div>
-        </div>
-        <p
-          v-if="message.showAvatar || hasRecordedResponse"
-          v-dompurify-html="agentName"
-          class="agent-name"
-          :class="$dm('text-slate-700', 'dark:text-slate-200')"
-        />
-      </div>
-    </div>
-
-    <UserMessage v-if="hasRecordedResponse" :message="responseMessage" />
-    <div v-if="isASubmittedForm">
-      <UserMessage
-        v-for="submittedValue in submittedFormValues"
-        :key="submittedValue.id"
-        :message="submittedValue"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import UserMessage from 'widget/components/UserMessage.vue';
 import AgentMessageBubble from 'widget/components/AgentMessageBubble.vue';
-import MessageReplyButton from 'widget/components/MessageReplyButton.vue';
 import { messageStamp } from 'shared/helpers/timeHelper';
 import ImageBubble from 'widget/components/ImageBubble.vue';
-import VideoBubble from 'widget/components/VideoBubble.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
 import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
-import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 
@@ -82,12 +17,9 @@ export default {
   components: {
     AgentMessageBubble,
     ImageBubble,
-    VideoBubble,
     Thumbnail,
     UserMessage,
     FileBubble,
-    MessageReplyButton,
-    ReplyToChip,
   },
   mixins: [configMixin, messageMixin],
   props: {
@@ -220,87 +152,51 @@ export default {
 
 <template>
   <div
-    class="agent-message-wrap group"
-    :class="{
-      'has-response': hasRecordedResponse || isASubmittedForm,
-    }"
+    class="agent-message-wrap"
+    :class="{ 'has-response': hasRecordedResponse || isASubmittedForm }"
   >
     <div v-if="!isASubmittedForm" class="agent-message">
       <div class="avatar-wrap">
         <Thumbnail
           v-if="message.showAvatar || hasRecordedResponse"
           :src="avatarUrl"
-          size="24px"
+          size="32px"
           :username="agentName"
         />
       </div>
       <div class="message-wrap">
-        <div v-if="hasReplyTo" class="flex mt-2 mb-1 text-xs">
-          <ReplyToChip :reply-to="replyTo" />
-        </div>
-        <div class="flex w-full gap-1">
-          <div
-            class="space-y-2"
-            :class="{
-              'w-full':
-                contentType === 'form' &&
-                !messageContentAttributes?.submitted_values,
-            }"
-          >
-            <AgentMessageBubble
-              v-if="shouldDisplayAgentMessage"
-              :content-type="contentType"
-              :message-content-attributes="messageContentAttributes"
-              :message-id="message.id"
-              :message-type="messageType"
-              :message="message.content"
+        <AgentMessageBubble
+          v-if="shouldDisplayAgentMessage"
+          :content-type="contentType"
+          :message-content-attributes="messageContentAttributes"
+          :message-id="message.id"
+          :message-type="messageType"
+          :message="message.content"
+        />
+        <div
+          v-if="hasAttachments"
+          class="chat-bubble has-attachment agent"
+          :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
+        >
+          <div v-for="attachment in message.attachments" :key="attachment.id">
+            <ImageBubble
+              v-if="attachment.file_type === 'image' && !hasImageError"
+              :url="attachment.data_url"
+              :thumb="attachment.data_url"
+              :readable-time="readableTime"
+              @error="onImageLoadError"
             />
-            <div
-              v-if="hasAttachments"
-              class="space-y-2 chat-bubble has-attachment agent bg-n-background dark:bg-n-solid-3"
-              :class="wrapClass"
-            >
-              <div
-                v-for="attachment in message.attachments"
-                :key="attachment.id"
-              >
-                <ImageBubble
-                  v-if="attachment.file_type === 'image' && !hasImageError"
-                  :url="attachment.data_url"
-                  :thumb="attachment.data_url"
-                  :readable-time="readableTime"
-                  @error="onImageLoadError"
-                />
-
-                <VideoBubble
-                  v-if="attachment.file_type === 'video' && !hasVideoError"
-                  :url="attachment.data_url"
-                  :readable-time="readableTime"
-                  @error="onVideoLoadError"
-                />
-
-                <audio
-                  v-else-if="attachment.file_type === 'audio'"
-                  controls
-                  class="h-10 dark:invert"
-                >
-                  <source :src="attachment.data_url" />
-                </audio>
-                <FileBubble v-else :url="attachment.data_url" />
-              </div>
-            </div>
-          </div>
-          <div class="flex flex-col justify-end">
-            <MessageReplyButton
-              class="transition-opacity delay-75 opacity-0 group-hover:opacity-100 sm:opacity-0"
-              @click="toggleReply"
-            />
+            <audio v-else-if="attachment.file_type === 'audio'" controls>
+              <source :src="attachment.data_url" />
+            </audio>
+            <FileBubble v-else :url="attachment.data_url" />
           </div>
         </div>
         <p
           v-if="message.showAvatar || hasRecordedResponse"
           v-dompurify-html="agentName"
-          class="agent-name text-n-slate-11"
+          class="agent-name"
+          :class="$dm('text-slate-700', 'dark:text-slate-200')"
         />
       </div>
     </div>

@@ -1,12 +1,8 @@
 <script>
 import configMixin from '../mixins/configMixin';
-import {
-  setCustomAttributes,
-} from 'widget/api/conversation';
 import TeamAvailability from 'widget/components/TeamAvailability';
 import { mapGetters } from 'vuex';
 import routerMixin from 'widget/mixins/routerMixin';
-import configMixin from 'widget/mixins/configMixin';
 import ArticleContainer from '../components/pageComponents/Home/Article/ArticleContainer.vue';
 export default {
   name: 'Home',
