@@ -76,6 +76,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@import 'widget/assets/scss/variables';
+
 .file {
   padding: $space-slab $space-normal !important;
   .icon-wrap {
