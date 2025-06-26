@@ -13,6 +13,8 @@ import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
 import { captureSentryException } from '../../../../shared/utils/exceptions';
 import * as Sentry from '@sentry/vue';
+import AnalyticsHelper from '../../../helper/AnalyticsHelper';
+import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -262,9 +264,12 @@ const actions = {
         ...pendingMessage,
         status: MESSAGE_STATUS.PROGRESS,
       });
-      const response = hasMessageFailedWithExternalError(pendingMessage)
-        ? await MessageApi.retry(conversationId, id)
-        : await MessageApi.create(pendingMessage);
+      const response = await MessageApi.create(pendingMessage);
+      AnalyticsHelper.track(
+        pendingMessage.private
+          ? CONVERSATION_EVENTS.SENT_PRIVATE_NOTE
+          : CONVERSATION_EVENTS.SENT_MESSAGE
+      );
       commit(types.ADD_MESSAGE, {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
