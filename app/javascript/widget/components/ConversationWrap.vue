@@ -120,6 +120,8 @@ export default {
 </template>
 
 <style scoped lang="scss">
+@import 'widget/assets/scss/variables';
+
 .conversation--container {
   display: flex;
   flex-direction: column;

@@ -145,7 +145,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables';
 
 .footer-chat {
   max-width: $break-point-tablet;

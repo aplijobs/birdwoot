@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import HeaderActions from './HeaderActions';
+import HeaderActions from './HeaderActions.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
@@ -64,7 +64,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables';
 
 .header-responsive {
   max-width: $break-point-tablet;

@@ -30,7 +30,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables';
 
 .options-message {
   max-width: 17rem;

@@ -49,8 +49,8 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
-@import '~dashboard/assets/scss/mixins.scss';
+@import 'widget/assets/scss/variables';
+@import 'dashboard/assets/scss/mixins';
 
 .card-message {
   padding: $space-small;

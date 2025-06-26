@@ -179,8 +179,8 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
-@import '~widget/assets/scss/mixins.scss';
+@import 'widget/assets/scss/variables';
+@import 'widget/assets/scss/mixins';
 
 .chat-input-container {
   display: flex;
