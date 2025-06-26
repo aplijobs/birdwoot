@@ -24,7 +24,7 @@ export const actions = {
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
-        await setCustomAttributes({"ref": ref});
+        await setCustomAttributes({ ref: ref });
       }
     } catch (error) {
       captureSentryException(error);
@@ -106,7 +106,7 @@ export const actions = {
       commit('setConversationListLoading', false);
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
-        await setCustomAttributes({"ref": ref});
+        await setCustomAttributes({ ref: ref });
       }
     } catch (error) {
       captureSentryException(error);
