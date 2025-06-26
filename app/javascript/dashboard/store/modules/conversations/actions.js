@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import types from '../../mutation-types';
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
@@ -7,14 +8,12 @@ import {
   buildConversationList,
   isOnMentionsView,
   isOnUnattendedView,
-  isOnFoldersView,
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
-import messageTranslateActions from './actions/messageTranslateActions';
-import { captureSentryException } from '../../../../shared/utils/exceptions';
-import * as Sentry from '@sentry/vue';
 import AnalyticsHelper from '../../../helper/AnalyticsHelper';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import messageTranslateActions from './actions/messageTranslateActions';
+import { captureSentryException } from '../../../../shared/utils/exceptions';
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -27,10 +26,9 @@ const actions = {
     }
   },
 
-  fetchAllConversations: async ({ commit, state, dispatch }) => {
+  fetchAllConversations: async ({ commit, dispatch }, params) => {
     commit(types.SET_LIST_LOADING_STATUS);
     try {
-      const params = state.conversationFilters;
       const {
         data: { data },
       } = await ConversationApi.get(params);
@@ -85,30 +83,7 @@ const actions = {
         commit(types.SET_ALL_MESSAGES_LOADED);
       }
     } catch (error) {
-      // Handle error
       captureSentryException(error);
-    }
-  },
-
-  fetchAllAttachments: async ({ commit }, conversationId) => {
-    let attachments = [];
-
-    try {
-      const { data } = await ConversationApi.getAllAttachments(conversationId);
-      attachments = data.payload;
-    } catch (error) {
-      // in case of error, log the error and continue
-      Sentry.setContext('Conversation', {
-        id: conversationId,
-      });
-      Sentry.captureException(error);
-    } finally {
-      // we run the commit even if the request fails
-      // this ensures that the `attachment` variable is always present on chat
-      commit(types.SET_ALL_ATTACHMENTS, {
-        id: conversationId,
-        data: attachments,
-      });
     }
   },
 
@@ -186,7 +161,7 @@ const actions = {
           before: data.messages[0].id,
           conversationId: data.id,
         });
-        data.dataFetched = true;
+        Vue.set(data, 'dataFetched', true);
       } catch (error) {
         captureSentryException(error);
       }
@@ -273,10 +248,6 @@ const actions = {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
       });
-      commit(types.ADD_CONVERSATION_ATTACHMENTS, {
-        ...response.data,
-        status: MESSAGE_STATUS.SENT,
-      });
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data.error
@@ -299,7 +270,6 @@ const actions = {
         conversationId: message.conversation_id,
         canReply: true,
       });
-      commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
     }
   },
 
@@ -314,17 +284,6 @@ const actions = {
     try {
       const { data } = await MessageApi.delete(conversationId, messageId);
       commit(types.ADD_MESSAGE, data);
-      commit(types.DELETE_CONVERSATION_ATTACHMENTS, data);
-    } catch (error) {
-      throw new Error(error);
-    }
-  },
-
-  deleteConversation: async ({ commit, dispatch }, conversationId) => {
-    try {
-      await ConversationApi.delete(conversationId);
-      commit(types.DELETE_CONVERSATION, conversationId);
-      dispatch('conversationStats/get', {}, { root: true });
     } catch (error) {
       throw new Error(error);
     }
@@ -336,12 +295,12 @@ const actions = {
       inbox_id: inboxId,
       meta: { sender },
     } = conversation;
+
     const hasAppliedFilters = !!appliedFilters.length;
     const isMatchingInboxFilter =
       !currentInbox || Number(currentInbox) === inboxId;
     if (
       !hasAppliedFilters &&
-      !isOnFoldersView(rootState) &&
       !isOnMentionsView(rootState) &&
       !isOnUnattendedView(rootState) &&
       isMatchingInboxFilter
@@ -460,14 +419,6 @@ const actions = {
     commit(types.CLEAR_CONVERSATION_FILTERS);
   },
 
-  setChatListFilters({ commit }, data) {
-    commit(types.SET_CHAT_LIST_FILTERS, data);
-  },
-
-  updateChatListFilters({ commit }, data) {
-    commit(types.UPDATE_CHAT_LIST_FILTERS, data);
-  },
-
   assignPriority: async ({ dispatch }, { conversationId, priority }) => {
     try {
       await ConversationApi.togglePriority({
@@ -486,19 +437,6 @@ const actions = {
 
   setCurrentChatPriority({ commit }, { priority, conversationId }) {
     commit(types.ASSIGN_PRIORITY, { priority, conversationId });
-  },
-
-  setContextMenuChatId({ commit }, chatId) {
-    commit(types.SET_CONTEXT_MENU_CHAT_ID, chatId);
-  },
-
-  getInboxCaptainAssistantById: async ({ commit }, conversationId) => {
-    try {
-      const response = await ConversationApi.getInboxAssistant(conversationId);
-      commit(types.SET_INBOX_CAPTAIN_ASSISTANT, response.data);
-    } catch (error) {
-      // Handle error
-    }
   },
 
   ...messageReadActions,

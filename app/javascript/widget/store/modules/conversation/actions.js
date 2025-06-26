@@ -12,6 +12,7 @@ import {
 import { captureSentryException } from 'shared/utils/exceptions';
 
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
+
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
@@ -23,7 +24,7 @@ export const actions = {
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
-        await setCustomAttributes({ ref: ref });
+        await setCustomAttributes({"ref": ref});
       }
     } catch (error) {
       captureSentryException(error);
@@ -32,8 +33,9 @@ export const actions = {
     }
   },
   sendMessage: async ({ dispatch }, params) => {
-    const { content, replyTo } = params;
-    const message = createTemporaryMessage({ content, replyTo });
+    const { content } = params;
+    const message = createTemporaryMessage({ content });
+
     dispatch('sendMessageWithData', message);
   },
   sendMessageWithData: async ({ commit }, message) => {
@@ -72,7 +74,6 @@ export const actions = {
     };
     const tempMessage = createTemporaryMessage({
       attachments: [attachment],
-      replyTo: params.replyTo,
     });
     commit('pushMessageToConversation', tempMessage);
     try {
@@ -105,7 +106,7 @@ export const actions = {
       commit('setConversationListLoading', false);
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
-        await setCustomAttributes({ ref: ref });
+        await setCustomAttributes({"ref": ref});
       }
     } catch (error) {
       captureSentryException(error);
