@@ -35,7 +35,7 @@ RUN apk update && apk add --no-cache \
   curl \
   xz \
   && mkdir -p /var/app \
-  && gem install bundler
+  && gem install bundler -v '2.5.11'
 
 COPY --from=node /usr/local/bin/node /usr/local/bin/
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
@@ -105,8 +105,8 @@ ARG PNPM_VERSION="10.2.0"
 ENV NODE_VERSION=${NODE_VERSION}
 ENV PNPM_VERSION=${PNPM_VERSION}
 
-ARG BUNDLE_WITHOUT="development:test"
-ENV BUNDLE_WITHOUT=${BUNDLE_WITHOUT}
+ARG BUNDLE_WITHOUT
+ARG RAILS_ENV
 ENV BUNDLER_VERSION=2.5.11
 
 ARG EXECJS_RUNTIME="Disabled"
@@ -130,7 +130,7 @@ RUN apk update && apk add --no-cache \
   imagemagick \
   git \
   vips \
-  && gem install bundler
+  && gem install bundler -v '2.5.11'
 
 COPY --from=node /usr/local/bin/node /usr/local/bin/
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules

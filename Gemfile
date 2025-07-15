@@ -119,6 +119,7 @@ gem 'sentry-sidekiq', '>= 5.19.0', require: false
 
 ##-- background job processing --##
 gem 'sidekiq', '>= 7.3.1'
+gem 'sidekiq_alive'
 # We want cron jobs
 gem 'sidekiq-cron', '>= 1.12.0'
 
@@ -180,6 +181,12 @@ gem 'ruby-openai'
 
 gem 'shopify_api'
 
+gem 'listen'
+gem 'active_record_query_trace'
+gem 'rack-mini-profiler', '>= 3.2.0', require: false
+gem 'bullet'
+gem 'annotate'
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 
@@ -190,8 +197,6 @@ group :production do
 end
 
 group :development do
-  gem 'annotate'
-  gem 'bullet'
   gem 'letter_opener'
   gem 'scss_lint', require: false
   gem 'web-console', '>= 4.2.1'
@@ -200,7 +205,6 @@ group :development do
   gem 'squasher'
 
   # profiling
-  gem 'rack-mini-profiler', '>= 3.2.0', require: false
   gem 'stackprof'
   # Should install the associated chrome extension to view query logs
   gem 'meta_request', '>= 0.8.3'
@@ -216,7 +220,7 @@ group :test do
 end
 
 group :development, :test do
-  gem 'active_record_query_trace'
+  #gem 'active_record_query_trace'
   ##--- gems for debugging and error reporting ---##
   # static analysis
   gem 'brakeman'
@@ -225,7 +229,6 @@ group :development, :test do
   gem 'climate_control'
   gem 'debug', '~> 1.8'
   gem 'factory_bot_rails', '>= 6.4.3'
-  gem 'listen'
   gem 'mock_redis'
   gem 'pry-rails'
   gem 'rspec_junit_formatter'

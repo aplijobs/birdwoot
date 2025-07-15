@@ -114,20 +114,22 @@ export default {
         leave-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <ChatHeaderExpanded
-          v-if="!isHeaderCollapsed"
-          :intro-heading="channelConfig.welcomeTitle"
-          :intro-body="channelConfig.welcomeTagline"
-          :avatar-url="channelConfig.avatarUrl"
-          :show-popout-button="appConfig.showPopoutButton"
-        />
-        <ChatHeader
-          v-if="isHeaderCollapsed"
-          :title="channelConfig.websiteName"
-          :avatar-url="channelConfig.avatarUrl"
-          :show-popout-button="appConfig.showPopoutButton"
-          :available-agents="availableAgents"
-        />
+        <template v-if="!isHeaderCollapsed">
+          <ChatHeaderExpanded
+            :intro-heading="channelConfig.welcomeTitle"
+            :intro-body="channelConfig.welcomeTagline"
+            :avatar-url="channelConfig.avatarUrl"
+            :show-popout-button="appConfig.showPopoutButton"
+          />
+        </template>
+        <template v-else>
+          <ChatHeader
+            :title="channelConfig.websiteName"
+            :avatar-url="channelConfig.avatarUrl"
+            :show-popout-button="appConfig.showPopoutButton"
+            :available-agents="availableAgents"
+          />
+        </template>
       </transition>
     </div>
     <Banner />

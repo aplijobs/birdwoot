@@ -1,0 +1,20 @@
+import { registerServices as registerErrorServices } from './error-logging';
+import { registerServices as registerPerfServices, observeUserInteractions } from './performance-monitoring';
+import { ServiceFactory } from './common/service-factory';
+import { isPlatformSupported, scheduleMicroTask, scheduleMacroTask, isBrowser } from './common/utils';
+import { patchAll, patchEventHandler } from './common/patching';
+import { observePageVisibility, observePageClicks } from './common/observers';
+import { PAGE_LOAD_DELAY, PAGE_LOAD, ERROR, CONFIG_SERVICE, LOGGING_SERVICE, TRANSACTION_SERVICE, APM_SERVER, PERFORMANCE_MONITORING, ERROR_LOGGING, EVENT_TARGET, CLICK } from './common/constants';
+import { getInstrumentationFlags } from './common/instrument';
+import afterFrame from './common/after-frame';
+import { bootstrap } from './bootstrap';
+import { createTracer } from './opentracing';
+
+function createServiceFactory() {
+  registerPerfServices();
+  registerErrorServices();
+  var serviceFactory = new ServiceFactory();
+  return serviceFactory;
+}
+
+export { createServiceFactory, ServiceFactory, patchAll, patchEventHandler, isPlatformSupported, isBrowser, getInstrumentationFlags, createTracer, scheduleMicroTask, scheduleMacroTask, afterFrame, ERROR, PAGE_LOAD_DELAY, PAGE_LOAD, CONFIG_SERVICE, LOGGING_SERVICE, TRANSACTION_SERVICE, APM_SERVER, PERFORMANCE_MONITORING, ERROR_LOGGING, EVENT_TARGET, CLICK, observeUserInteractions, bootstrap, observePageVisibility, observePageClicks };

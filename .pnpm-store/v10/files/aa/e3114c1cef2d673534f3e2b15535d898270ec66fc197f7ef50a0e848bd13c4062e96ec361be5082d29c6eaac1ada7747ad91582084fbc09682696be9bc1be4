@@ -1,0 +1,26 @@
+import { patchXMLHttpRequest } from './xhr-patch';
+import { patchFetch } from './fetch-patch';
+import { patchHistory } from './history-patch';
+import EventHandler from '../event-handler';
+import { HISTORY, FETCH, XMLHTTPREQUEST } from '../constants';
+var patchEventHandler = new EventHandler();
+var alreadyPatched = false;
+
+function patchAll() {
+  if (!alreadyPatched) {
+    alreadyPatched = true;
+    patchXMLHttpRequest(function (event, task) {
+      patchEventHandler.send(XMLHTTPREQUEST, [event, task]);
+    });
+    patchFetch(function (event, task) {
+      patchEventHandler.send(FETCH, [event, task]);
+    });
+    patchHistory(function (event, task) {
+      patchEventHandler.send(HISTORY, [event, task]);
+    });
+  }
+
+  return patchEventHandler;
+}
+
+export { patchAll, patchEventHandler };
