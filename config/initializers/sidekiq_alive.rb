@@ -2,7 +2,7 @@
 require 'sidekiq_alive'
 
 SidekiqAlive.setup do |config|
-  config.port = 7434
+  config.port = 7433
 end
 
 SidekiqAlive.start

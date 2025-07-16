@@ -45,7 +45,7 @@ services:
     <<: *base
     image: chatwoot-rails:development
     ports:
-      - 7433:7434
+      - 7433:7433
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
