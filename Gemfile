@@ -187,60 +187,46 @@ gem 'rack-mini-profiler', '>= 3.2.0', require: false
 gem 'bullet'
 gem 'annotate'
 
-### Gems required only in specific deployment environments ###
-##############################################################
+gem 'brakeman'
+gem 'bundle-audit', require: false
+gem 'byebug', platform: :mri
+gem 'climate_control'
+gem 'debug', '~> 1.8'
+gem 'factory_bot_rails', '>= 6.4.3'
+gem 'mock_redis'
+gem 'pry-rails'
+gem 'rspec_junit_formatter'
+gem 'rspec-rails', '>= 6.1.5'
+gem 'rubocop', require: false
+gem 'rubocop-performance', require: false
+gem 'rubocop-rails', require: false
+gem 'rubocop-rspec', require: false
+gem 'rubocop-factory_bot', require: false
+gem 'seed_dump'
+gem 'shoulda-matchers'
+gem 'simplecov', '0.17.1', require: false
+gem 'spring'
+gem 'spring-watcher-listen'
 
-group :production do
-  # we dont want request timing out in development while using byebug
-  gem 'rack-timeout'
-  gem 'localhost'
-end
+# we dont want request timing out in development while using byebug
+gem 'rack-timeout'
+gem 'localhost'
 
-group :development do
-  gem 'letter_opener'
-  gem 'scss_lint', require: false
-  gem 'web-console', '>= 4.2.1'
+gem 'letter_opener'
+gem 'scss_lint', require: false
+gem 'web-console', '>= 4.2.1'
 
-  # When we want to squash migrations
-  gem 'squasher'
+# When we want to squash migrations
+gem 'squasher'
 
-  # profiling
-  gem 'stackprof'
-  # Should install the associated chrome extension to view query logs
-  gem 'meta_request', '>= 0.8.3'
-end
+# profiling
+gem 'stackprof'
+# Should install the associated chrome extension to view query logs
+gem 'meta_request', '>= 0.8.3'
 
-group :test do
-  # fast cleaning of database
-  gem 'database_cleaner'
-  # mock http calls
-  gem 'webmock'
-  # test profiling
-  gem 'test-prof'
-end
-
-group :development, :test do
-  #gem 'active_record_query_trace'
-  ##--- gems for debugging and error reporting ---##
-  # static analysis
-  gem 'brakeman'
-  gem 'bundle-audit', require: false
-  gem 'byebug', platform: :mri
-  gem 'climate_control'
-  gem 'debug', '~> 1.8'
-  gem 'factory_bot_rails', '>= 6.4.3'
-  gem 'mock_redis'
-  gem 'pry-rails'
-  gem 'rspec_junit_formatter'
-  gem 'rspec-rails', '>= 6.1.5'
-  gem 'rubocop', require: false
-  gem 'rubocop-performance', require: false
-  gem 'rubocop-rails', require: false
-  gem 'rubocop-rspec', require: false
-  gem 'rubocop-factory_bot', require: false
-  gem 'seed_dump'
-  gem 'shoulda-matchers'
-  gem 'simplecov', '0.17.1', require: false
-  gem 'spring'
-  gem 'spring-watcher-listen'
-end
+# fast cleaning of database
+gem 'database_cleaner'
+# mock http calls
+gem 'webmock'
+# test profiling
+gem 'test-prof'
