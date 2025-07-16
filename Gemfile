@@ -187,6 +187,10 @@ gem 'rack-mini-profiler', '>= 3.2.0', require: false
 gem 'bullet'
 gem 'annotate'
 
+
+#gem 'active_record_query_trace'
+##--- gems for debugging and error reporting ---##
+# static analysis
 gem 'brakeman'
 gem 'bundle-audit', require: false
 gem 'byebug', platform: :mri
@@ -208,10 +212,6 @@ gem 'simplecov', '0.17.1', require: false
 gem 'spring'
 gem 'spring-watcher-listen'
 
-# we dont want request timing out in development while using byebug
-gem 'rack-timeout'
-gem 'localhost'
-
 gem 'letter_opener'
 gem 'scss_lint', require: false
 gem 'web-console', '>= 4.2.1'
@@ -224,9 +224,14 @@ gem 'stackprof'
 # Should install the associated chrome extension to view query logs
 gem 'meta_request', '>= 0.8.3'
 
+# we dont want request timing out in development while using byebug
+gem 'rack-timeout'
+gem 'localhost'
+
 # fast cleaning of database
 gem 'database_cleaner'
 # mock http calls
 gem 'webmock'
 # test profiling
 gem 'test-prof'
+
