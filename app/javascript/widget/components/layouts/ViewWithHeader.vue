@@ -5,6 +5,7 @@ import ChatHeaderExpanded from '../ChatHeaderExpanded.vue';
 import configMixin from '../../mixins/configMixin';
 import { mapGetters } from 'vuex';
 import { IFrameHelper } from 'widget/helpers/utils';
+import darkModeMixin from "../../mixins/darkModeMixin";
 
 export default {
   components: {
@@ -12,7 +13,7 @@ export default {
     ChatHeader,
     ChatHeaderExpanded,
   },
-  mixins: [configMixin],
+  mixins: [configMixin, darkModeMixin],
   data() {
     return { showPopoutButton: false };
   },
