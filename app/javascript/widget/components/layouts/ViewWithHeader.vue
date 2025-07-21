@@ -96,7 +96,7 @@ export default {
 <template>
   <div
     class="w-full h-full flex flex-col"
-    :class="$dm('bg-slate-50', 'dark:bg-slate-800')"
+    :class="dm('bg-slate-50', 'dark:bg-slate-800')"
     @keydown.esc="closeWindow"
   >
     <div
