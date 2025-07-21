@@ -43,7 +43,9 @@ services:
 
   sidekiq:
     <<: *base
-    image: chatwoot-rails:development
+    build:
+      context: .
+      dockerfile: ./docker/dockerfiles/sidekiq.Dockerfile
     ports:
       - 7433:7433
     volumes:
