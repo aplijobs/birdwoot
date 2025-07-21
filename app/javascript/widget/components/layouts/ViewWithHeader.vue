@@ -5,7 +5,7 @@ import ChatHeaderExpanded from '../ChatHeaderExpanded.vue';
 import configMixin from '../../mixins/configMixin';
 import { mapGetters } from 'vuex';
 import { IFrameHelper } from 'widget/helpers/utils';
-import darkModeMixin from "../../mixins/darkModeMixin";
+import darkModeMixin from '../../mixins/darkModeMixin';
 
 export default {
   components: {
