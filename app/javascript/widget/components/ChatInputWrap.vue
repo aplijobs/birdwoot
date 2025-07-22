@@ -6,6 +6,7 @@ import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
+import darkModeMixin from '../mixins/darkModeMixin';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
 
@@ -18,7 +19,7 @@ export default {
     FluentIcon,
     ResizableTextArea,
   },
-  mixins: [configMixin],
+  mixins: [configMixin, darkModeMixin],
   props: {
     onSendMessage: {
       type: Function,
@@ -49,16 +50,16 @@ export default {
       return this.userInput.length > 0;
     },
     inputColor() {
-      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
-        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
+      return `${this.dm('bg-white', 'dark:bg-slate-600')}
+        ${this.dm('text-black-900', 'dark:text-slate-50')}`;
     },
     emojiIconColor() {
       return this.showEmojiPicker
-        ? `text-woot-500 ${this.$dm('text-black-900', 'dark:text-slate-100')}`
-        : `${this.$dm('text-black-900', 'dark:text-slate-100')}`;
+        ? `text-woot-500 ${this.dm('text-black-900', 'dark:text-slate-100')}`
+        : `${this.dm('text-black-900', 'dark:text-slate-100')}`;
     },
     containerClass() {
-      let containerClass = `${this.$dm('bg-white ', 'dark:bg-slate-600')}`;
+      let containerClass = `${this.dm('bg-white ', 'dark:bg-slate-600')}`;
       if (this.isFocused) containerClass += ' is-focused';
       return containerClass;
     },
@@ -151,7 +152,7 @@ export default {
       <div class="button-wrap">
         <ChatAttachmentButton
           v-if="showAttachment"
-          :class="$dm('text-black-900', 'dark:text-slate-100')"
+          :class="dm('text-black-900', 'dark:text-slate-100')"
           :on-attach="onSendAttachment"
         />
         <button

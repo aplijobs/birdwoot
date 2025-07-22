@@ -8,6 +8,7 @@ import EmailInput from './template/EmailInput.vue';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
 import IntegrationCard from './template/IntegrationCard.vue';
 import { mapActions, mapMutations } from 'vuex';
+import darkModeMixin from '../mixins/darkModeMixin';
 
 export default {
   name: 'AgentMessageBubble',
@@ -20,6 +21,7 @@ export default {
     CustomerSatisfaction,
     IntegrationCard,
   },
+  mixins: [darkModeMixin],
   props: {
     message: { type: String, default: null },
     contentType: { type: String, default: null },
@@ -112,12 +114,12 @@ export default {
         !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
       "
       class="chat-bubble agent"
-      :class="$dm('bg-white', 'dark:bg-slate-700 has-dark-mode')"
+      :class="dm('bg-white', 'dark:bg-slate-700 has-dark-mode')"
     >
       <div
         v-dompurify-html="formatMessage(message, false)"
         class="message-content"
-        :class="$dm('text-black-900', 'dark:text-slate-50')"
+        :class="dm('text-black-900', 'dark:text-slate-50')"
       />
       <EmailInput
         v-if="isTemplateEmail"

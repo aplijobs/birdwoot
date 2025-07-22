@@ -4,6 +4,7 @@ import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import HeaderActions from './HeaderActions.vue';
 import routerMixin from 'widget/mixins/routerMixin';
+import darkModeMixin from '../mixins/darkModeMixin';
 
 export default {
   name: 'ChatHeader',
@@ -11,7 +12,7 @@ export default {
     FluentIcon,
     HeaderActions,
   },
-  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin],
+  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin, darkModeMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -56,14 +57,14 @@ export default {
 <template>
   <header
     class="header-wrap flex justify-between p-5 w-full"
-    :class="$dm('bg-white', 'dark:bg-slate-900')"
+    :class="dm('bg-white', 'dark:bg-slate-900')"
   >
     <div class="flex items-center">
       <button v-if="showBackButton" @click="onBackButtonClick">
         <FluentIcon
           icon="chevron-left"
           size="24"
-          :class="$dm('text-black-900', 'dark:text-slate-50')"
+          :class="dm('text-black-900', 'dark:text-slate-50')"
         />
       </button>
       <img
@@ -75,14 +76,14 @@ export default {
       <div>
         <div
           class="font-medium text-base flex items-center"
-          :class="$dm('text-black-900', 'dark:text-slate-50')"
+          :class="dm('text-black-900', 'dark:text-slate-50')"
         >
           <span v-dompurify-html="title" class="mr-1" />
           <div class="h-2 w-2 rounded-full leading-4 bg-green-500" />
         </div>
         <div
           class="text-xs mt-1"
-          :class="$dm('text-black-700', 'dark:text-slate-400')"
+          :class="dm('text-black-700', 'dark:text-slate-400')"
         >
           {{ $t('TEAM_AVAILABILITY.ONLINE') }}
         </div>

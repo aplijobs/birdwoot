@@ -11,6 +11,7 @@ import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
+import darkModeMixin from '../mixins/darkModeMixin';
 
 export default {
   name: 'AgentMessage',
@@ -21,7 +22,7 @@ export default {
     UserMessage,
     FileBubble,
   },
-  mixins: [configMixin, messageMixin],
+  mixins: [configMixin, messageMixin, darkModeMixin],
   props: {
     message: {
       type: Object,
@@ -176,7 +177,7 @@ export default {
         <div
           v-if="hasAttachments"
           class="chat-bubble has-attachment agent"
-          :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
+          :class="(wrapClass, dm('bg-white', 'dark:bg-slate-700'))"
         >
           <div v-for="attachment in message.attachments" :key="attachment.id">
             <ImageBubble
@@ -196,7 +197,7 @@ export default {
           v-if="message.showAvatar || hasRecordedResponse"
           v-dompurify-html="agentName"
           class="agent-name"
-          :class="$dm('text-slate-700', 'dark:text-slate-200')"
+          :class="dm('text-slate-700', 'dark:text-slate-200')"
         />
       </div>
     </div>

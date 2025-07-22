@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import HeaderActions from './HeaderActions.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import darkModeMixin from '../mixins/darkModeMixin';
 
 export default {
   name: 'ChatHeaderExpanded',
@@ -36,7 +36,7 @@ export default {
 <template>
   <header
     class="header-expanded header-responsive py-6 px-5 relative box-border w-full"
-    :class="$dm('bg-white', 'dark:bg-slate-900')"
+    :class="dm('bg-white', 'dark:bg-slate-900')"
   >
     <div
       class="flex items-start"
@@ -53,12 +53,12 @@ export default {
     <h2
       v-dompurify-html="introHeading"
       class="mt-5 text-3xl mb-3 font-normal"
-      :class="$dm('text-slate-900', 'dark:text-slate-50')"
+      :class="dm('text-slate-900', 'dark:text-slate-50')"
     />
     <p
       v-dompurify-html="introBody"
       class="text-lg leading-normal"
-      :class="$dm('text-slate-700', 'dark:text-slate-200')"
+      :class="dm('text-slate-700', 'dark:text-slate-200')"
     />
   </header>
 </template>

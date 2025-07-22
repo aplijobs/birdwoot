@@ -7,13 +7,14 @@ import availabilityMixin from 'widget/mixins/availability';
 import { IFrameHelper } from 'widget/helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 import CustomButton from 'shared/components/Button.vue';
+import darkModeMixin from '../mixins/darkModeMixin';
 
 export default {
   name: 'TeamAvailability',
   components: {
     CustomButton,
   },
-  mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
+  mixins: [configMixin, nextAvailabilityTime, availabilityMixin, darkModeMixin],
   props: {
     availableAgents: {
       type: Array,
@@ -70,7 +71,7 @@ export default {
     <div class="flex items-center justify-between mb-4">
       <div
         class="max-w-xs"
-        :class="$dm('text-black-700', 'dark:text-slate-50')"
+        :class="dm('text-black-700', 'dark:text-slate-50')"
       >
         <div class="text-base leading-5 font-medium mb-1">
           {{ $t('TEAM_AVAILABILITY.ONLINE') }}

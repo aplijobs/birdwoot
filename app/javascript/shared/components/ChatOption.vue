@@ -25,7 +25,7 @@ export default {
       return getContrastingTextColor(this.widgetColor);
     },
     optionClass() {
-      let optionClass = `${this.$dm('bg-white', 'dark:bg-slate-700')}`;
+      let optionClass = `${this.dm('bg-white', 'dark:bg-slate-700')}`;
       if (this.isSelected) optionClass = 'is-selected ' + optionClass;
       return optionClass;
     },
