@@ -69,10 +69,7 @@ export default {
 <template>
   <div class="px-5 pb-5 responsive-container">
     <div class="flex items-center justify-between mb-4">
-      <div
-        class="max-w-xs"
-        :class="dm('text-black-700', 'dark:text-slate-50')"
-      >
+      <div class="max-w-xs" :class="dm('text-black-700', 'dark:text-slate-50')">
         <div class="text-base leading-5 font-medium mb-1">
           {{ $t('TEAM_AVAILABILITY.ONLINE') }}
         </div>
