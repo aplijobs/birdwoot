@@ -14,9 +14,9 @@ class EnterpriseAccountAPI extends ApiClient {
     return axios.post(`${this.url}subscription`);
   }
 
-  getLimits() {
+  /* getLimits() {
     return axios.get(`${this.url}limits`);
-  }
+  } */
 
   toggleDeletion(action) {
     return axios.post(`${this.url}toggle_deletion`, {
