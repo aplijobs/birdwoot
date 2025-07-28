@@ -574,10 +574,12 @@ function resetAndFetchData() {
   store.dispatch('conversationPage/reset');
   store.dispatch('emptyAllConversations');
   store.dispatch('clearConversationFilters');
+  console.log(hasActiveFolders.value)
   if (hasActiveFolders.value) {
     const payload = activeFolder.value.query;
     fetchSavedFilteredConversations(payload);
   }
+  console.log(props.foldersId);
   if (props.foldersId) {
     return;
   }
@@ -763,7 +765,7 @@ useEmitter('fetch_conversation_stats', () => {
 useEventListener(conversationDynamicScroller, 'scroll', handleScroll);
 
 onMounted(() => {
-  console.log(store);
+  console.log(props);
   console.log(
     conversationFilters.value,
     activeStatus.value,
