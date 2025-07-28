@@ -564,6 +564,7 @@ function onToggleAdvanceFiltersModal() {
 }
 
 function fetchConversations() {
+  console.log('fetching convos', conversationFilters.value);
   store.dispatch('updateChatListFilters', conversationFilters.value);
   store.dispatch('fetchAllConversations').then(emitConversationLoaded);
 }
@@ -574,13 +575,14 @@ function resetAndFetchData() {
   store.dispatch('conversationPage/reset');
   store.dispatch('emptyAllConversations');
   store.dispatch('clearConversationFilters');
-  console.log(hasActiveFolders.value)
+  console.log(hasActiveFolders.value);
   if (hasActiveFolders.value) {
     const payload = activeFolder.value.query;
     fetchSavedFilteredConversations(payload);
   }
-  console.log(props.foldersId);
+  console.log(props.foldersId, 'folderId');
   if (props.foldersId) {
+    console.log('no folder id')
     return;
   }
   fetchConversations();
