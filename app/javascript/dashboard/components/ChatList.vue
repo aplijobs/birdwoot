@@ -567,6 +567,7 @@ function onToggleAdvanceFiltersModal() {
 function fetchConversations() {
   console.log('fetching convos', conversationFilters.value);
   store.dispatch('updateChatListFilters', conversationFilters.value);
+  console.log('fetchAllConversations::emit');
   store.dispatch('fetchAllConversations').then(emitConversationLoaded);
 }
 
