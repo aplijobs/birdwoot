@@ -112,6 +112,7 @@ const advancedFilterTypes = ref(
 
 const currentUser = useMapGetter('getCurrentUser');
 const chatLists = useMapGetter('getFilteredConversations');
+const allConvos = useMapGetter('getAllConversations');
 const mineChatsList = useMapGetter('getMineChats');
 const allChatList = useMapGetter('getAllStatusChats');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
@@ -840,6 +841,10 @@ watch(activeFolder, (newVal, oldVal) => {
 });
 
 watch(chatLists, () => {
+  chatsOnView.value = conversationList.value;
+});
+
+watch(allConvos, () => {
   chatsOnView.value = conversationList.value;
 });
 
