@@ -841,10 +841,12 @@ watch(activeFolder, (newVal, oldVal) => {
 });
 
 watch(chatLists, () => {
+  console.log('chastOnViewChatLists', conversationList.value);
   chatsOnView.value = conversationList.value;
 });
 
 watch(allConvos, () => {
+  console.log('chastOnViewAllConvos', conversationList.value);
   chatsOnView.value = conversationList.value;
 });
 

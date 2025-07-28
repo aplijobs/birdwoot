@@ -28,9 +28,11 @@ const actions = {
   fetchAllConversations: async ({ commit, dispatch }, params) => {
     commit(types.SET_LIST_LOADING_STATUS);
     try {
+      console.log('fetchAll', params);
       const {
         data: { data },
       } = await ConversationApi.get(params);
+      console.log('fetchAll::data', data);
       buildConversationList(
         { commit, dispatch },
         params,
@@ -38,6 +40,7 @@ const actions = {
         params.assigneeType
       );
     } catch (error) {
+      console.error(error);
       captureSentryException(error);
     }
   },

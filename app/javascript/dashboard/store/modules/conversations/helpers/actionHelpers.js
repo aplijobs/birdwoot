@@ -45,6 +45,7 @@ export const buildConversationList = (
   filterType
 ) => {
   const { payload: conversationList, meta: metaData } = responseData;
+  console.log('buildConvosList', responseData);
   context.commit(types.SET_ALL_CONVERSATION, conversationList);
   context.dispatch('conversationStats/set', metaData);
   context.dispatch(
