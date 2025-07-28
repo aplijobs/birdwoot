@@ -763,12 +763,19 @@ useEmitter('fetch_conversation_stats', () => {
 useEventListener(conversationDynamicScroller, 'scroll', handleScroll);
 
 onMounted(() => {
+  console.log(store);
+  console.log(
+    conversationFilters.value,
+    activeStatus.value,
+    activeSortBy.value
+  );
   store.dispatch('setChatListFilters', conversationFilters.value);
   setFiltersFromUISettings();
   store.dispatch('setChatStatusFilter', activeStatus.value);
   store.dispatch('setChatSortFilter', activeSortBy.value);
   resetAndFetchData();
   if (hasActiveFolders.value) {
+    console.log('fetching campaigns/get');
     store.dispatch('campaigns/get');
   }
 });
