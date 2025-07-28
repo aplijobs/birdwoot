@@ -582,7 +582,7 @@ function resetAndFetchData() {
   }
   console.log(props.foldersId, 'folderId');
   if (props.foldersId) {
-    console.log('no folder id')
+    console.log('no folder id');
     return;
   }
   fetchConversations();
