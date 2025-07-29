@@ -565,9 +565,7 @@ function onToggleAdvanceFiltersModal() {
 }
 
 function fetchConversations() {
-  console.log('fetching convos', conversationFilters.value);
   store.dispatch('updateChatListFilters', conversationFilters.value);
-  console.log('fetchAllConversations::emit');
   store.dispatch('fetchAllConversations').then(emitConversationLoaded);
 }
 
@@ -577,14 +575,11 @@ function resetAndFetchData() {
   store.dispatch('conversationPage/reset');
   store.dispatch('emptyAllConversations');
   store.dispatch('clearConversationFilters');
-  console.log(hasActiveFolders.value);
   if (hasActiveFolders.value) {
     const payload = activeFolder.value.query;
     fetchSavedFilteredConversations(payload);
   }
-  console.log(props.foldersId, 'folderId');
   if (props.foldersId) {
-    console.log('no folder id');
     return;
   }
   fetchConversations();
@@ -769,19 +764,12 @@ useEmitter('fetch_conversation_stats', () => {
 useEventListener(conversationDynamicScroller, 'scroll', handleScroll);
 
 onMounted(() => {
-  console.log(props);
-  console.log(
-    conversationFilters.value,
-    activeStatus.value,
-    activeSortBy.value
-  );
   store.dispatch('setChatListFilters', conversationFilters.value);
   setFiltersFromUISettings();
   store.dispatch('setChatStatusFilter', activeStatus.value);
   store.dispatch('setChatSortFilter', activeSortBy.value);
   resetAndFetchData();
   if (hasActiveFolders.value) {
-    console.log('fetching campaigns/get');
     store.dispatch('campaigns/get');
   }
 });
@@ -842,12 +830,10 @@ watch(activeFolder, (newVal, oldVal) => {
 });
 
 watch(chatLists, () => {
-  console.log('chastOnViewChatLists', conversationList.value);
   chatsOnView.value = conversationList.value;
 });
 
 watch(allConvos, () => {
-  console.log('chastOnViewAllConvos', conversationList.value);
   chatsOnView.value = conversationList.value;
 });
 

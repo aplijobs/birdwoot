@@ -28,12 +28,6 @@ module.exports = {
         'no-console': 'off',
       },
     },
-    {
-      files: ['**/*'],
-      rules: {
-        'no-console': 'off',
-      },
-    },
   ],
   plugins: ['html', 'prettier'],
   parserOptions: {
