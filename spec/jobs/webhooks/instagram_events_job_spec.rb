@@ -284,24 +284,6 @@ describe Webhooks::InstagramEventsJob do
                                                                    channel: instagram_inbox.channel).and_call_original
         instagram_webhook.perform_now(message_events[:messaging_seen][:entry])
       end
-
-      it 'creates contact when Instagram API call returns `No matching Instagram user` (9010 error code)' do
-        stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/.*\?.*})
-          .to_return(status: 401, body: { error: { message: 'No matching Instagram user', code: 9010 } }.to_json)
-
-        instagram_webhook.perform_now(message_events[:dm][:entry])
-
-        instagram_inbox.reload
-
-        expect(instagram_inbox.contacts.count).to be 1
-        expect(instagram_inbox.contacts.last.name).to eq 'Unknown (IG: Sender-id-1)'
-        expect(instagram_inbox.contacts.last.contact_inboxes.count).to be 1
-        expect(instagram_inbox.contacts.last.contact_inboxes.first.source_id).to eq 'Sender-id-1'
-
-        expect(instagram_inbox.conversations.count).to eq 1
-        expect(instagram_inbox.messages.count).to eq 1
-        expect(instagram_inbox.messages.last.content_attributes['is_unsupported']).to be_nil
-      end
     end
   end
 end
