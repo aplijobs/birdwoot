@@ -30,6 +30,8 @@ export default {
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
+      availableMessage: 'appConfig/getAvailableMessage',
+      unavailableMessage: 'appConfig/getUnavailableMessage',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -40,6 +42,11 @@ export default {
         avatar: agent.avatar_url,
         id: agent.id,
       }));
+    },
+    headerMessage() {
+      return this.isOnline
+        ? this.availableMessage || this.$t('TEAM_AVAILABILITY.ONLINE')
+        : this.unavailableMessage || this.$t('TEAM_AVAILABILITY.OFFLINE');
     },
     isOnline() {
       const { workingHoursEnabled } = this.channelConfig;
@@ -67,11 +74,13 @@ export default {
 </script>
 
 <template>
-  <div class="px-5 pb-5 responsive-container">
-    <div class="flex items-center justify-between mb-4">
-      <div class="max-w-xs" :class="dm('text-black-700', 'dark:text-slate-50')">
-        <div class="text-base leading-5 font-medium mb-1">
-          {{ $t('TEAM_AVAILABILITY.ONLINE') }}
+  <div
+    class="flex flex-col gap-3 w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-background dark:bg-n-solid-2 px-5 py-4"
+  >
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex flex-col gap-1">
+        <div class="font-medium text-n-slate-12 line-clamp-2">
+          {{ headerMessage }}
         </div>
         <div class="text-xs leading-4 mt-1">
           {{ replyWaitMessage }}

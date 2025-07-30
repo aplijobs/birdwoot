@@ -26,7 +26,7 @@ export default {
   computed: {
     ...mapGetters({
       globalConfig: 'globalConfig/get',
-      quickRepliesOptions: 'conversation/getQuickRepliesOptions',
+      shouldShowFilePicker: 'appConfig/getShouldShowFilePicker',
     }),
     fileUploadSizeLimit() {
       return MAXIMUM_FILE_UPLOAD_SIZE;
@@ -51,6 +51,9 @@ export default {
       }
     },
     handleClipboardPaste(e) {
+      // If file picker is not enabled, do not allow paste
+      if (!this.shouldShowFilePicker) return;
+
       const items = (e.clipboardData || e.originalEvent.clipboardData).items;
       // items is a DataTransferItemList object which does not have forEach method
       const itemsArray = Array.from(items);

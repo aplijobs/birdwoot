@@ -78,8 +78,11 @@ export default {
           class="font-medium text-base flex items-center"
           :class="dm('text-black-900', 'dark:text-slate-50')"
         >
-          <span v-dompurify-html="title" class="mr-1" />
-          <div class="h-2 w-2 rounded-full leading-4 bg-green-500" />
+          <span v-dompurify-html="title" class="ltr:mr-1 rtl:ml-1" />
+          <div
+            :class="`h-2 w-2 rounded-full
+              ${isOnline ? 'bg-n-teal-10' : 'hidden'}`"
+          />
         </div>
         <div
           class="text-xs mt-1"

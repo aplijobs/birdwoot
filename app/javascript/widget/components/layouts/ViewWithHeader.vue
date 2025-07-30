@@ -115,33 +115,25 @@ export default {
         leave-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <template v-if="!isHeaderCollapsed">
-          <ChatHeaderExpanded
-            :intro-heading="channelConfig.welcomeTitle"
-            :intro-body="channelConfig.welcomeTagline"
-            :avatar-url="channelConfig.avatarUrl"
-            :show-popout-button="appConfig.showPopoutButton"
-          />
-        </template>
-        <template v-else>
-          <ChatHeader
-            :title="channelConfig.websiteName"
-            :avatar-url="channelConfig.avatarUrl"
-            :show-popout-button="appConfig.showPopoutButton"
-            :available-agents="availableAgents"
-          />
-        </template>
-      </transition>
-    </div>
-    <Banner />
-    <transition
-      enter-active-class="transition-all delay-300 duration-300 ease-in"
-      leave-active-class="transition-all duration-200 ease-out"
-      enter-class="opacity-0"
-      enter-to-class="opacity-100"
-      leave-class="opacity-100"
-      leave-to-class="opacity-0"
-    >
+        <ChatHeaderExpanded
+          v-if="!isHeaderCollapsed"
+          :intro-heading="appConfig.welcomeTitle || channelConfig.welcomeTitle"
+          :intro-body="
+            appConfig.welcomeDescription || channelConfig.welcomeTagline
+          "
+          :avatar-url="channelConfig.avatarUrl"
+          :show-popout-button="appConfig.showPopoutButton"
+        />
+        <ChatHeader
+          v-if="isHeaderCollapsed"
+          :title="channelConfig.websiteName"
+          :avatar-url="channelConfig.avatarUrl"
+          :show-popout-button="appConfig.showPopoutButton"
+          :available-agents="availableAgents"
+          :show-back-button="showBackButton"
+        />
+      </div>
+      <Banner />
       <router-view />
     </transition>
   </div>

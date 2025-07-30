@@ -52,13 +52,11 @@ export default {
     </div>
     <h2
       v-dompurify-html="introHeading"
-      class="mt-5 text-3xl mb-3 font-normal"
-      :class="dm('text-slate-900', 'dark:text-slate-50')"
+      class="mt-4 text-2xl mb-1.5 font-medium text-n-slate-12 line-clamp-4"
     />
     <p
-      v-dompurify-html="introBody"
-      class="text-lg leading-normal"
-      :class="dm('text-slate-700', 'dark:text-slate-200')"
+      v-dompurify-html="formatMessage(introBody)"
+      class="text-lg leading-normal text-n-slate-11 [&_a]:underline line-clamp-6"
     />
   </header>
 </template>
