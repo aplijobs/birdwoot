@@ -138,10 +138,10 @@ onMounted(async () => {
     class="grid gap-1 text-sm cursor-pointer select-none"
   >
     <SidebarGroupHeader
-      :icon
-      :name
-      :label
-      :to
+      :icon="icon"
+      :name="name"
+      :label="label"
+      :to="to"
       :getter-keys="getterKeys"
       :is-active="isActive"
       :has-active-child="hasActiveChild"

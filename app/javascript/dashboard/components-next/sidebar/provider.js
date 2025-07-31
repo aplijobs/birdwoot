@@ -15,23 +15,43 @@ export function useSidebarContext() {
   const { shouldShow } = usePolicy();
 
   const resolvePath = to => {
-    if (to) return router.resolve(to)?.path || '/';
-    return '/';
+    if (!to) return '/';
+    try {
+      const resolved = router.resolve(to);
+      return resolved?.path || '/';
+    } catch (error) {
+      return '/';
+    }
   };
 
   const resolvePermissions = to => {
-    if (to) return router.resolve(to)?.meta?.permissions ?? [];
-    return [];
+    if (!to) return [];
+    try {
+      const resolved = router.resolve(to);
+      return resolved?.meta?.permissions ?? [];
+    } catch (error) {
+      return [];
+    }
   };
 
   const resolveFeatureFlag = to => {
-    if (to) return router.resolve(to)?.meta?.featureFlag || '';
-    return '';
+    if (!to) return '';
+    try {
+      const resolved = router.resolve(to);
+      return resolved?.meta?.featureFlag || '';
+    } catch (error) {
+      return '';
+    }
   };
 
   const resolveInstallationType = to => {
-    if (to) return router.resolve(to)?.meta?.installationTypes || [];
-    return [];
+    if (!to) return [];
+    try {
+      const resolved = router.resolve(to);
+      return resolved?.meta?.installationTypes || [];
+    } catch (error) {
+      return [];
+    }
   };
 
   const isAllowed = to => {
