@@ -55,11 +55,19 @@ export function useSidebarContext() {
   };
 
   const isAllowed = to => {
-    const permissions = resolvePermissions(to);
-    const featureFlag = resolveFeatureFlag(to);
-    const installationType = resolveInstallationType(to);
+    if (!to) return false;
 
-    return shouldShow(featureFlag, permissions, installationType);
+    try {
+      const permissions = resolvePermissions(to);
+      const featureFlag = resolveFeatureFlag(to);
+      const installationType = resolveInstallationType(to);
+
+      return shouldShow(featureFlag, permissions, installationType);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn('Error checking permissions for route:', to, error);
+      return false;
+    }
   };
 
   return {

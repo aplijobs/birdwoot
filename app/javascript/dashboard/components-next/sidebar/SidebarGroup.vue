@@ -45,7 +45,14 @@ const accessibleItems = computed(() => {
     // If a item has no link, it means it's just a subgroup header
     // So we don't need to check for permissions here, because there's nothing to
     // access here anyway
-    return child.to && isAllowed(child.to);
+    if (!child.to) return false;
+
+    // Validate that the route object has required properties
+    if (!child.to.name || typeof child.to.name !== 'string') {
+      return false;
+    }
+
+    return isAllowed(child.to);
   });
 });
 

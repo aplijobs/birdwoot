@@ -39,9 +39,9 @@ const shouldRenderComponent = computed(() => {
       <component
         :is="component"
         v-if="shouldRenderComponent"
-        :label
-        :icon
-        :active
+        :label="label"
+        :icon="icon"
+        :active="active"
       />
       <template v-else>
         <Icon v-if="icon" :icon="icon" class="size-4 inline-block" />
