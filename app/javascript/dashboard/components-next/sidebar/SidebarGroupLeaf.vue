@@ -17,13 +17,29 @@ const { resolvePermissions, resolveFeatureFlag } = useSidebarContext();
 const shouldRenderComponent = computed(() => {
   return typeof props.component === 'function' || isVNode(props.component);
 });
+
+const permissions = computed(() => {
+  try {
+    return resolvePermissions(props.to);
+  } catch (error) {
+    return [];
+  }
+});
+
+const featureFlag = computed(() => {
+  try {
+    return resolveFeatureFlag(props.to);
+  } catch (error) {
+    return '';
+  }
+});
 </script>
 
 <!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <Policy
-    :permissions="resolvePermissions(to)"
-    :feature-flag="resolveFeatureFlag(to)"
+    :permissions="permissions"
+    :feature-flag="featureFlag"
     as="li"
     class="py-0.5 ltr:pl-3 rtl:pr-3 rtl:mr-3 ltr:ml-3 relative text-n-slate-11 child-item before:bg-n-slate-4 after:bg-transparent after:border-n-slate-4 before:left-0 rtl:before:right-0"
   >
