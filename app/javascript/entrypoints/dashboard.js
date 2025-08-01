@@ -42,6 +42,17 @@ const i18n = createI18n({
 
 sync(store, router);
 
+// Add router error handler
+router.onError(error => {
+  if (error.message && error.message.includes('vue-router')) {
+    // eslint-disable-next-line no-console
+    console.warn('Router error caught:', error.message);
+    return;
+  }
+  // eslint-disable-next-line no-console
+  console.error('Router error:', error);
+});
+
 const app = createApp(App);
 app.use(i18n);
 app.use(store);
@@ -96,6 +107,22 @@ app.component('fluent-icon', FluentIcon);
 
 app.directive('resize', vResizeObserver);
 app.directive('on-clickaway', onClickaway);
+
+// Global error handler for Vue Router errors
+app.config.errorHandler = (error, instance, info) => {
+  // Handle Vue Router resolution errors
+  if (error.message && error.message.includes('vue-router')) {
+    // eslint-disable-next-line no-console
+    console.warn('Vue Router error caught:', error.message);
+    return;
+  }
+
+  // Log other errors but don't crash the app
+  // eslint-disable-next-line no-console
+  console.error('Vue error:', error);
+  // eslint-disable-next-line no-console
+  console.error('Error info:', info);
+};
 
 // load common helpers into js
 commonHelpers();
