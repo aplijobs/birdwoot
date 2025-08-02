@@ -117,11 +117,22 @@ app.config.errorHandler = (error, instance, info) => {
     return;
   }
 
-  // Log other errors but don't crash the app
+  // Handle specific Vue Router resolution errors
+  if (error.stack && error.stack.includes('vue-router.mjs:968')) {
+    // eslint-disable-next-line no-console
+    console.warn('Vue Router resolution error caught:', error.message);
+    return;
+  }
+
+  // Handle any other errors that might crash the app
   // eslint-disable-next-line no-console
   console.error('Vue error:', error);
   // eslint-disable-next-line no-console
   console.error('Error info:', info);
+
+  // Prevent the error from propagating
+  // eslint-disable-next-line consistent-return
+  return false;
 };
 
 // load common helpers into js
