@@ -12,6 +12,28 @@ const routes = [...dashboard.routes];
 export const router = createRouter({ history: createWebHistory(), routes });
 export const routesWithPermissions = buildPermissionsFromRouter(routes);
 
+// Wrap router.resolve to handle errors gracefully
+const originalResolve = router.resolve;
+router.resolve = function (to) {
+  try {
+    return originalResolve.call(this, to);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn('Router resolve error:', error);
+    // Return a safe fallback route
+    return {
+      path: '/',
+      name: undefined,
+      meta: {},
+      matched: [],
+      params: {},
+      query: {},
+      hash: '',
+      fullPath: '/',
+    };
+  }
+};
+
 export const validateAuthenticateRoutePermission = (to, next) => {
   const { isLoggedIn, getCurrentUser: user } = store.getters;
 
@@ -32,14 +54,43 @@ export const initalizeRouter = () => {
   const userAuthentication = store.dispatch('setUser');
 
   router.beforeEach((to, _from, next) => {
-    AnalyticsHelper.page(to.name || '', {
-      path: to.path,
-      name: to.name,
-    });
+    try {
+      AnalyticsHelper.page(to.name || '', {
+        path: to.path,
+        name: to.name,
+      });
 
-    userAuthentication.then(() => {
-      return validateAuthenticateRoutePermission(to, next, store);
-    });
+      return userAuthentication
+        .then(() => {
+          try {
+            return validateAuthenticateRoutePermission(to, next);
+          } catch (error) {
+            // eslint-disable-next-line no-console
+            console.warn('Route validation error:', error);
+            // Fallback to dashboard
+            return next(
+              frontendURL(
+                `accounts/${store.getters.getCurrentUser?.account_id || 1}/dashboard`
+              )
+            );
+          }
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.warn('User authentication error:', error);
+          // Fallback to login
+          return next('/app/login');
+        });
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn('Router beforeEach error:', error);
+      // Fallback to dashboard
+      return next(
+        frontendURL(
+          `accounts/${store.getters.getCurrentUser?.account_id || 1}/dashboard`
+        )
+      );
+    }
   });
 };
 
