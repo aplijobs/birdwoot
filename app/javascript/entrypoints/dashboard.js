@@ -124,6 +124,13 @@ app.config.errorHandler = (error, instance, info) => {
     return;
   }
 
+  // Handle Vue runtime errors (runtime-1)
+  if (error.message && error.message.includes('runtime-1')) {
+    // eslint-disable-next-line no-console
+    console.warn('Vue runtime error caught:', error.message);
+    return;
+  }
+
   // Handle any other errors that might crash the app
   // eslint-disable-next-line no-console
   console.error('Vue error:', error);
@@ -134,6 +141,20 @@ app.config.errorHandler = (error, instance, info) => {
   // eslint-disable-next-line consistent-return
   return false;
 };
+
+// Handle unhandled promise rejections
+window.addEventListener('unhandledrejection', event => {
+  // eslint-disable-next-line no-console
+  console.warn('Unhandled promise rejection caught:', event.reason);
+  event.preventDefault();
+});
+
+// Handle unhandled errors
+window.addEventListener('error', event => {
+  // eslint-disable-next-line no-console
+  console.warn('Unhandled error caught:', event.error);
+  event.preventDefault();
+});
 
 // load common helpers into js
 commonHelpers();
