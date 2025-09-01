@@ -15,7 +15,7 @@ class V2::ReportBuilder
   end
 
   def timeseries
-    return send(params[:metric]) if metric_valid?
+    return metric_methods[params[:metric]].call if metric_valid?
 
     Rails.logger.error "ReportBuilder: Invalid metric - #{params[:metric]}"
     {}
@@ -71,16 +71,22 @@ class V2::ReportBuilder
 
   private
 
+  def metric_methods
+    @metric_methods ||= {
+      'conversations_count' => method(:conversations_count),
+      'incoming_messages_count' => method(:incoming_messages_count),
+      'outgoing_messages_count' => method(:outgoing_messages_count),
+      'avg_first_response_time' => method(:avg_first_response_time),
+      'avg_resolution_time' => method(:avg_resolution_time),
+      'reply_time' => method(:reply_time),
+      'resolutions_count' => method(:resolutions_count),
+      'bot_resolutions_count' => method(:bot_resolutions_count),
+      'bot_handoffs_count' => method(:bot_handoffs_count)
+    }
+  end
+
   def metric_valid?
-    %w[conversations_count
-       incoming_messages_count
-       outgoing_messages_count
-       avg_first_response_time
-       avg_resolution_time reply_time
-       resolutions_count
-       bot_resolutions_count
-       bot_handoffs_count
-       reply_time].include?(params[:metric])
+    metric_methods.key?(params[:metric])
   end
 
   def inbox
