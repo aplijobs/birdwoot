@@ -80,6 +80,8 @@ gem 'pundit'
 # super admin
 gem 'administrate', '>= 0.20.1'
 gem 'administrate-field-active_storage', '>= 1.0.3'
+# Alternative if the above causes issues:
+# gem 'administrate-field-active_storage', git: 'https://github.com/Dreamersoul/administrate-field-active_storage', branch: 'main'
 gem 'administrate-field-belongs_to_search', '>= 0.9.0'
 
 ##--- gems for pubsub service ---##
@@ -186,7 +188,6 @@ gem 'active_record_query_trace'
 gem 'rack-mini-profiler', '>= 3.2.0', require: false
 gem 'bullet'
 gem 'annotate'
-
 
 #gem 'active_record_query_trace'
 ##--- gems for debugging and error reporting ---##

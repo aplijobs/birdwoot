@@ -1,7 +1,7 @@
 FROM chatwoot:development
 
 RUN apk add --no-cache ruby ruby-dev ruby-bundler \
-  nodejs npm curl build-base openssl openssl-dev && \
+  nodejs npm curl build-base openssl openssl-dev yaml-dev && \
   npm install -g pnpm@$PNPM_VERSION
 
 RUN gem uninstall bundler --all --executables || true

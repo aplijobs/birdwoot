@@ -4,6 +4,7 @@ RUN apk add --no-cache \
   build-base \
   postgresql-dev \
   nodejs \
+  npm \
   yarn \
   git \
   bash \
@@ -16,10 +17,13 @@ RUN apk add --no-cache \
   libtool \
   autoconf \
   libstdc++ \
-  python3
+  python3 \
+  yaml-dev
 
 ENV PNPM_HOME="/root/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+
+RUN npm install -g pnpm@10.2.0
 
 RUN chmod +x docker/entrypoints/rails.sh
 
