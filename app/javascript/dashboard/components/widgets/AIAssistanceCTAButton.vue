@@ -52,7 +52,7 @@ const onClick = () => {
   }
 
   .cta-btn-light {
-    background: 
+    background:
       linear-gradient(
         255.98deg,
         rgba(161, 87, 246, 0.2) 15.83%,
@@ -62,7 +62,7 @@ const onClick = () => {
   }
 
   .cta-btn-dark {
-    background: 
+    background:
       linear-gradient(
         255.98deg,
         rgba(161, 87, 246, 0.2) 15.83%,
@@ -72,7 +72,7 @@ const onClick = () => {
   }
 
   .cta-btn-light-hover {
-    background: 
+    background:
       linear-gradient(
         255.98deg,
         rgba(161, 87, 246, 0.2) 15.83%,
@@ -82,7 +82,7 @@ const onClick = () => {
   }
 
   .cta-btn-dark-hover {
-    background: 
+    background:
       linear-gradient(
         255.98deg,
         rgba(161, 87, 246, 0.2) 15.83%,
