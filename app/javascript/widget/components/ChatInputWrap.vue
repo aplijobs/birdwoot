@@ -42,16 +42,18 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
+      shouldShowFilePicker: 'appConfig/getShouldShowFilePicker',
+      shouldShowEmojiPicker: 'appConfig/getShouldShowEmojiPicker',
     }),
     showAttachment() {
-      return this.hasAttachmentsEnabled && this.userInput.length === 0;
+      return (
+        this.shouldShowFilePicker &&
+        this.hasAttachmentsEnabled &&
+        this.userInput.length === 0
+      );
     },
     showSendButton() {
       return this.userInput.length > 0;
-    },
-    inputColor() {
-      return `${this.dm('bg-white', 'dark:bg-slate-600')}
-        ${this.dm('text-black-900', 'dark:text-slate-50')}`;
     },
     emojiIconColor() {
       return this.showEmojiPicker
@@ -140,40 +142,40 @@ export default {
         id="chat-input"
         ref="chatInput"
         v-model="userInput"
+        :rows="1"
         :aria-label="$t('CHAT_PLACEHOLDER')"
         :placeholder="$t('CHAT_PLACEHOLDER')"
-        class="form-input user-message-input is-focused"
-        :class="inputColor"
+        class="user-message-input reset-base"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
       />
-      <div class="button-wrap">
+      <div class="flex items-center ltr:pl-2 rtl:pr-2">
         <ChatAttachmentButton
           v-if="showAttachment"
-          :class="dm('text-black-900', 'dark:text-slate-100')"
+          class="text-n-slate-12" 
           :on-attach="onSendAttachment"
         />
         <button
-          v-if="hasEmojiPickerEnabled"
-          class="icon-button flex justify-center items-center"
-          :aria-label="$t('ARIA_LABEL.EMOJI_PICKER')"
+          v-if="shouldShowEmojiPicker && hasEmojiPickerEnabled"
+          class="flex items-center justify-center min-h-8 min-w-8"
+          :aria-label="$t('EMOJI.ARIA_LABEL')"
           @click="toggleEmojiPicker"
         >
           <FluentIcon icon="emoji" :class="emojiIconColor" />
         </button>
         <EmojiInput
-          v-if="showEmojiPicker"
+          v-if="shouldShowEmojiPicker && showEmojiPicker"
           v-on-clickaway="hideEmojiPicker"
           :on-click="emojiOnClick"
           @keydown.esc="hideEmojiPicker"
-        />
+        /> 
       </div>
     </div>
     <ChatSendButton
       v-if="showSendButton"
-      :on-click="handleButtonClick"
+      @click="handleButtonClick"
       :color="widgetColor"
     />
   </div>
@@ -204,13 +206,7 @@ export default {
 }
 
 .emoji-dialog {
-  right: 0;
-  top: -302px;
-  max-width: 100%;
-
-  &::before {
-    right: $space-one;
-  }
+  @apply max-w-full ltr:right-5 rtl:right-[unset] rtl:left-5 -top-[302px] before:ltr:right-2.5 before:rtl:right-[unset] before:rtl:left-2.5;
 }
 
 .button-wrap {
