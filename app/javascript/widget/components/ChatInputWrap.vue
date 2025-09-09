@@ -154,7 +154,7 @@ export default {
       <div class="flex items-center ltr:pl-2 rtl:pr-2">
         <ChatAttachmentButton
           v-if="showAttachment"
-          class="text-n-slate-12" 
+          class="text-n-slate-12"
           :on-attach="onSendAttachment"
         />
         <button
@@ -170,13 +170,13 @@ export default {
           v-on-clickaway="hideEmojiPicker"
           :on-click="emojiOnClick"
           @keydown.esc="hideEmojiPicker"
-        /> 
+        />
       </div>
     </div>
     <ChatSendButton
       v-if="showSendButton"
-      @click="handleButtonClick"
       :color="widgetColor"
+      @click="handleButtonClick"
     />
   </div>
 </template>
