@@ -1,5 +1,5 @@
 <script>
-import darkModeMixin from '../../widget/mixins/darkModeMixin';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
@@ -20,17 +20,17 @@ export default {
 </script>
 
 <template>
-  <div class="chat-bubble agent" :class="dm('bg-white', 'dark:bg-slate-700')">
+  <div class="chat-bubble agent" :class="$dm('bg-white', 'dark:bg-slate-700')">
     <div
       v-dompurify-html="formattedMessage"
       class="message-content"
-      :class="dm('text-black-900', 'dark:text-slate-50')"
+      :class="$dm('text-black-900', 'dark:text-slate-50')"
     />
   </div>
 </template>
 
 <style scoped lang="scss">
-@import 'widget/assets/scss/variables';
+@import '~widget/assets/scss/variables.scss';
 
 .options-message {
   max-width: 17rem;

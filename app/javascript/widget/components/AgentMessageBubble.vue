@@ -1,14 +1,14 @@
 <script>
-import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
-import ChatCard from 'shared/components/ChatCard.vue';
-import ChatForm from 'shared/components/ChatForm.vue';
-import ChatOptions from 'shared/components/ChatOptions.vue';
-import ChatArticle from './template/Article.vue';
-import EmailInput from './template/EmailInput.vue';
-import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
-import IntegrationCard from './template/IntegrationCard.vue';
-import { mapActions, mapMutations } from 'vuex';
-import darkModeMixin from '../mixins/darkModeMixin';
+import { mapMutations, mapActions } from 'vuex';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import ChatCard from 'shared/components/ChatCard';
+import ChatForm from 'shared/components/ChatForm';
+import ChatOptions from 'shared/components/ChatOptions';
+import ChatArticle from './template/Article';
+import EmailInput from './template/EmailInput';
+import CustomerSatisfaction from 'shared/components/CustomerSatisfaction';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import IntegrationCard from './template/IntegrationCard';
 
 export default {
   name: 'AgentMessageBubble',
@@ -21,7 +21,7 @@ export default {
     CustomerSatisfaction,
     IntegrationCard,
   },
-  mixins: [darkModeMixin],
+  mixins: [messageFormatterMixin, darkModeMixin],
   props: {
     message: { type: String, default: null },
     contentType: { type: String, default: null },
@@ -31,16 +31,6 @@ export default {
       type: Object,
       default: () => {},
     },
-  },
-  setup() {
-    const { formatMessage, getPlainText, truncateMessage, highlightContent } =
-      useMessageFormatter();
-    return {
-      formatMessage,
-      getPlainText,
-      truncateMessage,
-      highlightContent,
-    };
   },
   computed: {
     isTemplate() {
@@ -78,7 +68,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('conversation'),
+    ...mapActions('conversation', []),
     ...mapMutations({
       setOptions: 'conversation/setQuickRepliesOptions',
       setCallback: 'conversation/setQuickRepliesCallback',
@@ -114,12 +104,12 @@ export default {
         !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
       "
       class="chat-bubble agent"
-      :class="dm('bg-white', 'dark:bg-slate-700 has-dark-mode')"
+      :class="$dm('bg-white', 'dark:bg-slate-700 has-dark-mode')"
     >
       <div
         v-dompurify-html="formatMessage(message, false)"
         class="message-content"
-        :class="dm('text-black-900', 'dark:text-slate-50')"
+        :class="$dm('text-black-900', 'dark:text-slate-50')"
       />
       <EmailInput
         v-if="isTemplateEmail"

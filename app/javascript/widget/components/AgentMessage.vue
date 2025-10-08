@@ -1,17 +1,15 @@
 <script>
-import UserMessage from 'widget/components/UserMessage.vue';
-import AgentMessageBubble from 'widget/components/AgentMessageBubble.vue';
-import { messageStamp } from 'shared/helpers/timeHelper';
-import ImageBubble from 'widget/components/ImageBubble.vue';
-import FileBubble from 'widget/components/FileBubble.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import UserMessage from 'widget/components/UserMessage';
+import AgentMessageBubble from 'widget/components/AgentMessageBubble';
+import timeMixin from 'dashboard/mixins/time';
+import ImageBubble from 'widget/components/ImageBubble';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
 import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { emitter } from 'shared/helpers/mitt';
-import darkModeMixin from '../mixins/darkModeMixin';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import FileBubble from 'widget/components/FileBubble';
 
 export default {
   name: 'AgentMessage',
@@ -22,13 +20,9 @@ export default {
     UserMessage,
     FileBubble,
   },
-  mixins: [configMixin, messageMixin, darkModeMixin],
+  mixins: [timeMixin, configMixin, messageMixin, darkModeMixin],
   props: {
     message: {
-      type: Object,
-      default: () => {},
-    },
-    replyTo: {
       type: Object,
       default: () => {},
     },
@@ -36,7 +30,6 @@ export default {
   data() {
     return {
       hasImageError: false,
-      hasVideoError: false,
     };
   },
   computed: {
@@ -52,7 +45,7 @@ export default {
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
-      return messageStamp(createdAt, 'LLL d yyyy, h:mm a');
+      return this.messageStamp(createdAt, 'LLL d yyyy, h:mm a');
     },
     messageType() {
       const { message_type: type = 1 } = this.message;
@@ -74,9 +67,11 @@ export default {
       return this.$t('UNREAD_VIEW.BOT');
     },
     avatarUrl() {
+      // eslint-disable-next-line
+      const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
       const displayImage = this.useInboxAvatarForBot
         ? this.inboxAvatarUrl
-        : '/assets/images/chatwoot_bot.png';
+        : BotImage;
 
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
         return displayImage;
@@ -123,29 +118,18 @@ export default {
         'has-text': this.shouldDisplayAgentMessage,
       };
     },
-    hasReplyTo() {
-      return this.replyTo && (this.replyTo.content || this.replyTo.attachments);
-    },
   },
   watch: {
     message() {
       this.hasImageError = false;
-      this.hasVideoError = false;
     },
   },
   mounted() {
     this.hasImageError = false;
-    this.hasVideoError = false;
   },
   methods: {
     onImageLoadError() {
       this.hasImageError = true;
-    },
-    onVideoLoadError() {
-      this.hasVideoError = true;
-    },
-    toggleReply() {
-      emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
     },
   },
 };
@@ -177,7 +161,7 @@ export default {
         <div
           v-if="hasAttachments"
           class="chat-bubble has-attachment agent"
-          :class="(wrapClass, dm('bg-white', 'dark:bg-slate-700'))"
+          :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
         >
           <div v-for="attachment in message.attachments" :key="attachment.id">
             <ImageBubble
@@ -197,7 +181,7 @@ export default {
           v-if="message.showAvatar || hasRecordedResponse"
           v-dompurify-html="agentName"
           class="agent-name"
-          :class="dm('text-slate-700', 'dark:text-slate-200')"
+          :class="$dm('text-slate-700', 'dark:text-slate-200')"
         />
       </div>
     </div>
