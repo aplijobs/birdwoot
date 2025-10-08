@@ -20,7 +20,7 @@ export default {
 </script>
 
 <template>
-  <div class="chat-bubble agent" :class="$dm('bg-white', 'dark:bg-slate-700')">
+  <div class="chat-bubble agent" :class="dm('bg-white', 'dark:bg-slate-700')">
     <div
       v-dompurify-html="formattedMessage"
       class="message-content"
