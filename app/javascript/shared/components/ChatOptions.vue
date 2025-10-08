@@ -24,7 +24,7 @@ export default {
     <div
       v-dompurify-html="formattedMessage"
       class="message-content"
-      :class="$dm('text-black-900', 'dark:text-slate-50')"
+      :class="dm('text-black-900', 'dark:text-slate-50')"
     />
   </div>
 </template>
