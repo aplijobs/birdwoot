@@ -37,7 +37,7 @@ export default {
 </style>
 
 <style lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables';
 
 .chat-bubble .message-content,
 .chat-bubble.user {
