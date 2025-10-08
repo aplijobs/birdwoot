@@ -1,15 +1,15 @@
 <script>
-import UserMessage from 'widget/components/UserMessage';
-import AgentMessageBubble from 'widget/components/AgentMessageBubble';
+import UserMessage from 'widget/components/UserMessage.vue';
+import AgentMessageBubble from 'widget/components/AgentMessageBubble.vue';
 import timeMixin from 'dashboard/mixins/time';
-import ImageBubble from 'widget/components/ImageBubble';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import ImageBubble from 'widget/components/ImageBubble.vue';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
 import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
-import FileBubble from 'widget/components/FileBubble';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
+import FileBubble from 'widget/components/FileBubble.vue';
 
 export default {
   name: 'AgentMessage',
