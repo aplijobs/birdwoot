@@ -67,8 +67,10 @@ export default {
       return this.$t('UNREAD_VIEW.BOT');
     },
     avatarUrl() {
-      // eslint-disable-next-line
-      const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
+      const BotImage = new URL(
+        'dashboard/assets/images/chatwoot_bot.png',
+        import.meta.url
+      ).href;
       const displayImage = this.useInboxAvatarForBot
         ? this.inboxAvatarUrl
         : BotImage;
@@ -161,7 +163,7 @@ export default {
         <div
           v-if="hasAttachments"
           class="chat-bubble has-attachment agent"
-          :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
+          :class="(wrapClass, dm('bg-white', 'dark:bg-slate-700'))"
         >
           <div v-for="attachment in message.attachments" :key="attachment.id">
             <ImageBubble
