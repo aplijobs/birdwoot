@@ -68,7 +68,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('conversation', []),
+    ...mapActions('conversation'),
     ...mapMutations({
       setOptions: 'conversation/setQuickRepliesOptions',
       setCallback: 'conversation/setQuickRepliesCallback',
@@ -104,12 +104,12 @@ export default {
         !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
       "
       class="chat-bubble agent"
-      :class="$dm('bg-white', 'dark:bg-slate-700 has-dark-mode')"
+      :class="dm('bg-white', 'dark:bg-slate-700 has-dark-mode')"
     >
       <div
         v-dompurify-html="formatMessage(message, false)"
         class="message-content"
-        :class="$dm('text-black-900', 'dark:text-slate-50')"
+        :class="dm('text-black-900', 'dark:text-slate-50')"
       />
       <EmailInput
         v-if="isTemplateEmail"
