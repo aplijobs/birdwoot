@@ -63,11 +63,6 @@ export default {
   },
   mounted() {
     if (this.isOptions && !this.hasResponse) {
-      // eslint-disable-next-line no-console
-      console.log(
-        'Setting up quick replies:',
-        this.messageContentAttributes.items
-      );
       this.setOptions(this.messageContentAttributes.items);
       this.setCallback(this.onOptionSelect);
     }
@@ -79,23 +74,10 @@ export default {
       setCallback: 'conversation/setQuickRepliesCallback',
     }),
     async onOptionSelect(selectedOption) {
-      // eslint-disable-next-line no-console
-      console.log('onOptionSelect called with:', selectedOption);
-      // eslint-disable-next-line no-console
-      console.log('messageId:', this.messageId);
-
-      try {
-        await this.$store.dispatch('message/update', {
-          email: null,
-          submittedValues: [selectedOption],
-          messageId: this.messageId,
-        });
-        // eslint-disable-next-line no-console
-        console.log('Message update successful');
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('Message update failed:', error);
-      }
+      await this.$store.dispatch('message/update', {
+        submittedValues: [selectedOption],
+        messageId: this.messageId,
+      });
 
       this.setOptions([]);
       // Scroll to bottom once the quick reply is clicked
