@@ -79,11 +79,24 @@ export default {
       setCallback: 'conversation/setQuickRepliesCallback',
     }),
     async onOptionSelect(selectedOption) {
-      await this.$store.dispatch('message/update', {
-        email: null,
-        submittedValues: [selectedOption],
-        messageId: this.messageId,
-      });
+      // eslint-disable-next-line no-console
+      console.log('onOptionSelect called with:', selectedOption);
+      // eslint-disable-next-line no-console
+      console.log('messageId:', this.messageId);
+
+      try {
+        await this.$store.dispatch('message/update', {
+          email: null,
+          submittedValues: [selectedOption],
+          messageId: this.messageId,
+        });
+        // eslint-disable-next-line no-console
+        console.log('Message update successful');
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Message update failed:', error);
+      }
+
       this.setOptions([]);
       // Scroll to bottom once the quick reply is clicked
       const container = document.getElementById('conversation-container');
