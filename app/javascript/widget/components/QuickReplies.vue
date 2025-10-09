@@ -67,7 +67,7 @@ export default {
       :key="option.id"
       :action="option"
       :is-selected="isSelected(option)"
-      @click="onClick"
+      @option-select="onClick"
     />
   </div>
 </template>
