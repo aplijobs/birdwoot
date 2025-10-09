@@ -80,6 +80,7 @@ export default {
     }),
     async onOptionSelect(selectedOption) {
       await this.$store.dispatch('message/update', {
+        email: null,
         submittedValues: [selectedOption],
         messageId: this.messageId,
       });
