@@ -63,6 +63,11 @@ export default {
   },
   mounted() {
     if (this.isOptions && !this.hasResponse) {
+      // eslint-disable-next-line no-console
+      console.log(
+        'Setting up quick replies:',
+        this.messageContentAttributes.items
+      );
       this.setOptions(this.messageContentAttributes.items);
       this.setCallback(this.onOptionSelect);
     }

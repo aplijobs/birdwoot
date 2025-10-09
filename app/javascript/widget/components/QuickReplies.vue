@@ -24,6 +24,22 @@ export default {
       return { display: this.isVisible ? 'flex' : 'none' };
     },
   },
+  watch: {
+    options: {
+      handler(newOptions) {
+        // eslint-disable-next-line no-console
+        console.log('QuickReplies options changed:', newOptions);
+      },
+      immediate: true,
+    },
+    isVisible: {
+      handler(newVisible) {
+        // eslint-disable-next-line no-console
+        console.log('QuickReplies visibility changed:', newVisible);
+      },
+      immediate: true,
+    },
+  },
   mounted() {
     window.addEventListener('resize', this.getDimensions);
   },
