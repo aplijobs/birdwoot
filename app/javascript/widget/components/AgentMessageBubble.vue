@@ -65,7 +65,7 @@ export default {
     if (this.isOptions && !this.hasResponse) {
       // eslint-disable-next-line no-console
       console.log(
-        'Setting up quick replies:',
+        'Setting up quick replies options:',
         this.messageContentAttributes.items
       );
       this.setOptions(this.messageContentAttributes.items);
