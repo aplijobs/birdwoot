@@ -133,10 +133,11 @@ class Messages::MessageBuilder
   end
 
   def additional_attributes_from_params
-    source = content_attributes[:source]
-    return {} if source.blank?
+    source_type = content_attributes[:source_type]
+    source_name = content_attributes[:source_name]
+    return {} if source_type.blank? && source_name.blank?
 
-    { additional_attributes: { source: source } }
+    { additional_attributes: { source_type: source_type, source_name: source_name }.compact }
   end
 
   def message_sender
