@@ -133,9 +133,10 @@ class Messages::MessageBuilder
   end
 
   def additional_attributes_from_params
-    return {} if @params[:additional_attributes].blank?
+    source = content_attributes[:source]
+    return {} if source.blank?
 
-    { additional_attributes: @params[:additional_attributes].to_h }
+    { additional_attributes: { source: source } }
   end
 
   def message_sender
