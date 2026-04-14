@@ -57,7 +57,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     }
 
     this.app.$store
-      .dispatch('conversation/addOrUpdateMessage', data)
+      .dispatch('conversation/addOrUpdateMessage', { ...data, isNew: true })
       .then(() => emitter.emit(ON_AGENT_MESSAGE_RECEIVED));
 
     IFrameHelper.sendMessage({
