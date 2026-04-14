@@ -17,6 +17,12 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
+      - name: Validate confirmation
+        run: |
+          if [[ "${{ inputs.confirm }}" != "deploy" ]]; then
+            echo "ERROR: You must type exactly \"deploy\" to confirm. Got: \"${{ inputs.confirm }}\""
+            exit 1
+          fi
       - name: Checkout code
         uses: actions/checkout@v3
 
