@@ -150,7 +150,7 @@ export const actions = {
 
   addOrUpdateMessage: async ({ commit, state }, data) => {
     const { id, content_attributes } = data;
-    const { quickReplies, conversations } = state;
+    const { quickReplies, conversations = {} } = state;
     // Only clear quick replies when a genuinely new message arrives, not on updates
     if (
       !conversations[id] &&
