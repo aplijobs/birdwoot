@@ -45,7 +45,10 @@ class Public::Api::V1::Inboxes::MessagesController < Public::Api::V1::InboxesCon
   end
 
   def message_update_params
-    params.permit(submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }])
+    permitted = params.permit(submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }])
+    sv = permitted[:submitted_values]
+    permitted[:submitted_values] = [sv] if sv.is_a?(ActionController::Parameters) && !sv.key?(:csat_survey_response)
+    permitted
   end
 
   def permitted_params
