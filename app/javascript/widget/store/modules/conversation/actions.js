@@ -150,9 +150,10 @@ export const actions = {
 
   addOrUpdateMessage: async ({ commit, state }, data) => {
     const { id, content_attributes } = data;
-    const { quickReplies } = state;
-    // Only clear quick replies if the new message is not a quick reply message itself
+    const { quickReplies, conversations = {} } = state;
+    // Only clear quick replies when a genuinely new message arrives, not on updates
     if (
+      !conversations[id] &&
       quickReplies.options.length > 0 &&
       data.content_type !== 'input_select'
     ) {
