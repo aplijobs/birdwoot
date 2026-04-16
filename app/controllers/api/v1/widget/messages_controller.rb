@@ -59,10 +59,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def message_update_params
-    permitted = params.permit(message: [{ submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }] }])
-    sv = permitted.dig(:message, :submitted_values)
-    permitted[:message][:submitted_values] = [sv] if sv.is_a?(ActionController::Parameters) && !sv.key?(:csat_survey_response)
-    permitted
+    params.permit(message: [{ submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }] }])
   end
 
   def permitted_params
