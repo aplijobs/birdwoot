@@ -2,13 +2,29 @@ name: Deploy Production
 
 on:
   workflow_dispatch:
-  
-  
+    inputs:
+      reason:
+        description: 'Deployment reason (ticket, release note, etc.)'
+        required: true
+        type: string
+      confirm:
+        description: 'Type "deploy" to confirm production deployment'
+        required: true
+        type: string
+
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
+      - name: Validate confirmation
+        env:
+          CONFIRM: ${{ inputs.confirm }}
+        run: |
+          if [[ "$CONFIRM" != "deploy" ]]; then
+            echo "ERROR: You must type exactly \"deploy\" to confirm. Got: \"$CONFIRM\""
+            exit 1
+          fi
       - name: Checkout code
         uses: actions/checkout@v3
 
