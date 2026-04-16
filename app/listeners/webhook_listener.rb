@@ -125,7 +125,6 @@ class WebhookListener < BaseListener
 
   # Filters events that the API inbox consumer (Nane) either rejects with 400
   # or ignores silently, to avoid noise in logs and unnecessary network traffic.
-  # Based on Nane's contract as of 2026-04-15.
   def api_inbox_webhook_relevant?(payload)
     case payload[:event]
     when 'message_created'
