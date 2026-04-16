@@ -142,6 +142,8 @@ class WebhookListener < BaseListener
       return false
     when 'conversation_updated'
       return false unless changed_attribute?(payload, :custom_attributes)
+    else
+      true
     end
 
     true
