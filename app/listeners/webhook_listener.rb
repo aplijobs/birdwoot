@@ -123,7 +123,42 @@ class WebhookListener < BaseListener
   end
 
   def deliver_webhook_payloads(payload, inbox)
+    return unless nane_relevant?(payload)
+
     deliver_account_webhooks(payload, inbox.account)
     deliver_api_inbox_webhooks(payload, inbox)
+  end
+
+  # Filters events that the consumer (Nane) either rejects with 400
+  # or ignores silently, to avoid noise in logs and unnecessary network traffic.
+  # Based on Nane's contract as of 2026-04-15.
+  def nane_relevant?(payload)
+    case payload[:event]
+    when 'message_created'
+      return false if message_payload_unusable?(payload)
+    when 'message_updated'
+      return false unless payload[:content_type] == 'input_select'
+    when 'conversation_created'
+      return false
+    when 'conversation_updated'
+      return false unless changed_attribute?(payload, :custom_attributes)
+    else
+      true
+    end
+
+    true
+  end
+
+  def message_payload_unusable?(payload)
+    return false if payload[:content].present?
+
+    attachment = payload[:attachments]&.first
+    return true if attachment.blank?
+
+    attachment[:data_url].blank? && attachment[:thumb_url].blank?
+  end
+
+  def changed_attribute?(payload, key)
+    Array(payload[:changed_attributes]).any? { |entry| entry.key?(key) || entry.key?(key.to_s) }
   end
 end
