@@ -138,6 +138,7 @@ class WebhookListener < BaseListener
       return false if message_payload_unusable?(payload)
     when 'message_updated'
       return false unless payload[:content_type] == 'input_select'
+      return false unless input_select_submitted?(payload)
     when 'conversation_created'
       return false
     when 'conversation_updated'
@@ -147,6 +148,11 @@ class WebhookListener < BaseListener
     end
 
     true
+  end
+
+  def input_select_submitted?(payload)
+    submitted_values = payload.dig(:content_attributes, 'submitted_values')
+    submitted_values.is_a?(Array) && submitted_values.any? { |sv| sv['value'].present? }
   end
 
   def message_payload_unusable?(payload)
