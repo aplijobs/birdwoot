@@ -88,22 +88,20 @@ describe WebhookListener do
     end
 
     context 'when webhook is configured' do
-      it 'triggers webhook' do
+      it 'does not trigger webhook for conversation_created' do
         webhook = create(:webhook, inbox: inbox, account: account)
-        expect(WebhookJob).to receive(:perform_later).with(webhook.url, conversation.webhook_data.merge(event: 'conversation_created')).once
+        expect(WebhookJob).not_to receive(:perform_later)
         listener.conversation_created(conversation_created_event)
       end
     end
 
     context 'when inbox is an API Channel' do
-      it 'triggers webhook if webhook_url is present' do
+      it 'does not trigger webhook for conversation_created' do
         channel_api = create(:channel_api, account: account)
         api_inbox = channel_api.inbox
         api_conversation = create(:conversation, account: account, inbox: api_inbox, assignee: user)
         api_event = Events::Base.new(event_name, Time.zone.now, conversation: api_conversation)
-        expect(WebhookJob).to receive(:perform_later).with(channel_api.webhook_url,
-                                                           api_conversation.webhook_data.merge(event: 'conversation_created'),
-                                                           :api_inbox_webhook).once
+        expect(WebhookJob).not_to receive(:perform_later)
         listener.conversation_created(api_event)
       end
 

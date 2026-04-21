@@ -52,6 +52,13 @@ export default {
     allMessagesLoaded() {
       this.previousScrollHeight = 0;
     },
+    quickRepliesOptions(newVal) {
+      if (newVal.length > 0) {
+        this.$nextTick(() => {
+          this.scrollToBottom();
+        });
+      }
+    },
   },
   mounted() {
     this.$el.addEventListener('scroll', this.handleScroll);
