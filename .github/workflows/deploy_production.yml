@@ -1,24 +1,37 @@
 name: Deploy Production
 
 on:
-  push:
-    branches: 
-      - trunk
   workflow_dispatch:
-  
-  
+    inputs:
+      reason:
+        description: 'Deployment reason (ticket, release note, etc.)'
+        required: true
+        type: string
+      confirm:
+        description: 'Type "deploy" to confirm production deployment'
+        required: true
+        type: string
+
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
+      - name: Validate confirmation
+        env:
+          CONFIRM: ${{ inputs.confirm }}
+        run: |
+          if [[ "$CONFIRM" != "deploy" ]]; then
+            echo "ERROR: You must type exactly \"deploy\" to confirm. Got: \"$CONFIRM\""
+            exit 1
+          fi
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Build and publish Docker image into AWS ECR for Birdwoot
         uses: ./.github/actions/deployment/push-image-ecr
         with:
-          BRANCH: trunk
+          BRANCH: main
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PRODUCTION }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PRODUCTION }}
           ECR_REGISTRY: 663605677942.dkr.ecr.us-east-1.amazonaws.com
@@ -29,7 +42,7 @@ jobs:
       - name: Build and publish Docker image into AWS ECR for Sidekiq
         uses: ./.github/actions/deployment/push-image-ecr
         with:
-          BRANCH: trunk
+          BRANCH: main
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PRODUCTION }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PRODUCTION }}
           ECR_REGISTRY: 663605677942.dkr.ecr.us-east-1.amazonaws.com
