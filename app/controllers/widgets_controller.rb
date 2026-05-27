@@ -57,8 +57,6 @@ class WidgetsController < ActionController::Base
   end
 
   def build_contact
-    return if @contact.present?
-
     @contact_inbox, @token = build_contact_inbox_with_token(@web_widget, additional_attributes)
     @contact = @contact_inbox.contact
   end
