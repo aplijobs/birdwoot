@@ -18,7 +18,9 @@ export const buildPopoutURL = ({
   locale,
 }) => {
   const popoutUrl = new URL('/widget', origin);
-  popoutUrl.searchParams.append('cw_conversation', conversationCookie);
+  if (conversationCookie) {
+    popoutUrl.searchParams.append('cw_conversation', conversationCookie);
+  }
   popoutUrl.searchParams.append('website_token', websiteToken);
   popoutUrl.searchParams.append('locale', locale);
 

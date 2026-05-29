@@ -16,6 +16,7 @@ import {
   restoreWidgetInDOM,
 } from '../sdk/DOMHelpers';
 import { setCookieWithDomain } from '../sdk/cookieHelpers';
+import { clearConversationAuthToken } from '../sdk/conversationAuthStorage';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 const runSDK = ({ baseUrl, websiteToken, referral }) => {
   if (window.$chatwoot) {
@@ -199,7 +200,7 @@ const runSDK = ({ baseUrl, websiteToken, referral }) => {
         IFrameHelper.events.toggleBubble();
       }
 
-      Cookies.remove('cw_conversation');
+      clearConversationAuthToken(window.$chatwoot.websiteToken);
       Cookies.remove(getUserCookieName());
 
       const iframe = IFrameHelper.getAppFrame();

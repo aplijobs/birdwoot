@@ -37,12 +37,14 @@ import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
 import { openFullScreenWindow } from '../widget/helpers/fullscreenHelper';
 import addHours from 'date-fns/addHours';
+import {
+  clearConversationAuthToken,
+  getConversationAuthToken,
+  setConversationAuthToken,
+} from './conversationAuthStorage';
 
-const updateAuthCookie = (cookieContent, websiteToken) => {
-  Cookies.set(`cw_conversation_${websiteToken}`, cookieContent, {
-    expires: 365,
-    sameSite: 'Lax',
-  });
+const persistConversationAuthToken = (token, websiteToken) => {
+  setConversationAuthToken(websiteToken, window.$chatwoot.referral, token);
 };
 
 const updateCampaignReadStatus = baseDomain => {
@@ -68,10 +70,10 @@ export const IFrameHelper = {
 
     loadCSS();
     const iframe = document.createElement('iframe');
-    const cwCookie = Cookies.get(`cw_conversation_${websiteToken}`);
+    const cwToken = getConversationAuthToken(websiteToken, referral);
     let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken, referral });
-    if (cwCookie) {
-      widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
+    if (cwToken) {
+      widgetUrl = `${widgetUrl}&cw_conversation=${cwToken}`;
     }
     iframe.src = widgetUrl;
     iframe.allow =
@@ -161,7 +163,10 @@ export const IFrameHelper = {
 
   events: {
     loaded: message => {
-      updateAuthCookie(message.config.authToken, window.$chatwoot.websiteToken);
+      persistConversationAuthToken(
+        message.config.authToken,
+        window.$chatwoot.websiteToken
+      );
       window.$chatwoot.hasLoaded = true;
       const campaignsSnoozedTill = Cookies.get('cw_snooze_campaigns_till');
       IFrameHelper.sendMessage('config-set', {
@@ -208,7 +213,7 @@ export const IFrameHelper = {
     },
 
     setAuthCookie({ data: { widgetAuthToken } }) {
-      updateAuthCookie(widgetAuthToken, window.$chatwoot.websiteToken);
+      persistConversationAuthToken(widgetAuthToken, window.$chatwoot.websiteToken);
     },
 
     setCampaignReadOn() {
@@ -234,15 +239,27 @@ export const IFrameHelper = {
     },
 
     popoutChatWindow: ({ baseUrl, websiteToken, locale }) => {
-      const cwCookie = Cookies.get(`cw_conversation_${websiteToken}`);
+      const cwToken = getConversationAuthToken(
+        websiteToken,
+        window.$chatwoot.referral
+      );
       window.$chatwoot.toggle('close');
-      popoutChatWindow(baseUrl, websiteToken, locale, cwCookie);
+      popoutChatWindow(baseUrl, websiteToken, locale, cwToken);
     },
 
-    openFullScreenWindow: ({ baseUrl, websiteToken, locale, referral }) => {
-      const cwCookie = Cookies.get(`cw_conversation_${websiteToken}`);
+    openFullScreenWindow: ({ baseUrl, websiteToken, locale }) => {
+      const cwToken = getConversationAuthToken(
+        websiteToken,
+        window.$chatwoot.referral
+      );
       window.$chatwoot.toggle('close');
-      openFullScreenWindow(baseUrl, websiteToken, locale, referral, cwCookie);
+      openFullScreenWindow(
+        baseUrl,
+        websiteToken,
+        locale,
+        window.$chatwoot.referral,
+        cwToken
+      );
     },
 
     closeWindow: () => {

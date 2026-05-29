@@ -15,14 +15,19 @@ export const openFullScreenWindow = (
   conversationCookie
 ) => {
   try {
+    const searchParams = [
+      { key: 'website_token', value: websiteToken },
+      { key: 'locale', value: locale },
+    ];
+    if (conversationCookie) {
+      searchParams.unshift({ key: 'cw_conversation', value: conversationCookie });
+    }
+    if (referral) {
+      searchParams.push({ key: 'referral', value: referral });
+    }
     const windowUrl = buildURL({
       origin,
-      searchParams: [
-        { key: 'cw_conversation', value: conversationCookie },
-        { key: 'website_token', value: websiteToken },
-        { key: 'locale', value: locale },
-        { key: 'referral', value: referral },
-      ],
+      searchParams,
     });
     const newWindow = window.open(windowUrl, '_self');
     newWindow.focus();
