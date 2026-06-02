@@ -18,10 +18,35 @@ import {
 import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { clearConversationAuthToken } from '../sdk/conversationAuthStorage';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
-const runSDK = ({ baseUrl, websiteToken, referral }) => {
+
+const trimmedReferralOrUndefined = value => {
+  if (value == null || value === '') return undefined;
+  const trimmed = String(value).trim();
+  return trimmed || undefined;
+};
+
+/**
+ * URL `?referral=` first, then `run({ referral })`, then `window.chatwootSettings.referral`.
+ * Non-empty after trim; session vs cookie follows this resolved value.
+ */
+const resolveReferral = referralFromRun => {
+  const fromUrl = trimmedReferralOrUndefined(
+    new URLSearchParams(window.location.search).get('referral')
+  );
+  if (fromUrl) return fromUrl;
+
+  const fromRun = trimmedReferralOrUndefined(referralFromRun);
+  if (fromRun) return fromRun;
+
+  return trimmedReferralOrUndefined(window.chatwootSettings?.referral);
+};
+
+const runSDK = ({ baseUrl, websiteToken, referral: referralFromRun }) => {
   if (window.$chatwoot) {
     return;
   }
+
+  const referral = resolveReferral(referralFromRun);
 
   // if this is a Rails Turbo app
   document.addEventListener('turbo:before-render', event => {

@@ -2,8 +2,13 @@ import Cookies from 'js-cookie';
 
 const storageKey = websiteToken => `cw_conversation_${websiteToken}`;
 
-/** When referral is present on the widget URL, persist auth per tab (sessionStorage). */
-export const useSessionStorageForConversation = referral => Boolean(referral);
+/**
+ * Session storage when the SDK resolved a non-empty referral (URL, `run({ referral })`, or `chatwootSettings.referral`).
+ */
+export const useSessionStorageForConversation = referral => {
+  if (referral == null || referral === '') return false;
+  return Boolean(String(referral).trim());
+};
 
 export const getConversationAuthToken = (websiteToken, referral) => {
   const key = storageKey(websiteToken);
