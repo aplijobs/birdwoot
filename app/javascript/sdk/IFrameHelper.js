@@ -44,7 +44,7 @@ import {
 } from './conversationAuthStorage';
 
 const persistConversationAuthToken = (token, websiteToken) => {
-  setConversationAuthToken(websiteToken, window.$chatwoot.referral, token);
+  setConversationAuthToken(websiteToken, token);
 };
 
 const updateCampaignReadStatus = baseDomain => {
@@ -70,7 +70,7 @@ export const IFrameHelper = {
 
     loadCSS();
     const iframe = document.createElement('iframe');
-    const cwToken = getConversationAuthToken(websiteToken, referral);
+    const cwToken = getConversationAuthToken(websiteToken);
     let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken, referral });
     if (cwToken) {
       widgetUrl = `${widgetUrl}&cw_conversation=${cwToken}`;
@@ -239,19 +239,13 @@ export const IFrameHelper = {
     },
 
     popoutChatWindow: ({ baseUrl, websiteToken, locale }) => {
-      const cwToken = getConversationAuthToken(
-        websiteToken,
-        window.$chatwoot.referral
-      );
+      const cwToken = getConversationAuthToken(websiteToken);
       window.$chatwoot.toggle('close');
       popoutChatWindow(baseUrl, websiteToken, locale, cwToken);
     },
 
     openFullScreenWindow: ({ baseUrl, websiteToken, locale }) => {
-      const cwToken = getConversationAuthToken(
-        websiteToken,
-        window.$chatwoot.referral
-      );
+      const cwToken = getConversationAuthToken(websiteToken);
       window.$chatwoot.toggle('close');
       openFullScreenWindow(
         baseUrl,
