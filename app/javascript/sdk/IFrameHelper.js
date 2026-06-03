@@ -43,6 +43,12 @@ import {
   setConversationAuthToken,
 } from './conversationAuthStorage';
 
+/**
+ * Set to `true` only while checking that staging serves this sdk.js build:
+ * launcher bubble becomes slightly larger with a pink ring. Must be `false` before production merge.
+ */
+const SDK_STAGING_VISUAL_PROBE = true;
+
 const persistConversationAuthToken = (token, websiteToken) => {
   setConversationAuthToken(websiteToken, token);
 };
@@ -347,6 +353,14 @@ export const IFrameHelper = {
 
     chatIcon.style.background = widgetColor;
     closeBubble.style.background = widgetColor;
+
+    if (SDK_STAGING_VISUAL_PROBE) {
+      [chatIcon, closeBubble].forEach(el => {
+        el.style.transformOrigin = 'center center';
+        el.style.transform = 'scale(3.5)';
+        el.style.boxShadow = '0 0 0 10px #db2777';
+      });
+    }
 
     bubbleHolder.appendChild(chatIcon);
     bubbleHolder.appendChild(closeBubble);
