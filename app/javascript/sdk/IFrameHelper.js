@@ -355,10 +355,15 @@ export const IFrameHelper = {
     closeBubble.style.background = widgetColor;
 
     if (SDK_STAGING_VISUAL_PROBE) {
+      const label = document.createElement('div');
+      label.textContent = '✅ STG BUILD OK';
+      label.style.cssText =
+        'position:fixed;bottom:90px;right:16px;background:#db2777;color:#fff;' +
+        'font-size:12px;font-weight:bold;padding:4px 10px;border-radius:20px;' +
+        'z-index:99999;pointer-events:none;font-family:sans-serif;';
+      document.body.appendChild(label);
       [chatIcon, closeBubble].forEach(el => {
-        el.style.transformOrigin = 'center center';
-        el.style.transform = 'scale(3.5)';
-        el.style.boxShadow = '0 0 0 10px #db2777';
+        el.style.boxShadow = '0 0 0 6px #db2777';
       });
     }
 
