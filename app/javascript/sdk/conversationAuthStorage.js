@@ -11,9 +11,7 @@ export const resolveReferralForSDK = explicitReferral => {
     explicitReferral == null ? '' : String(explicitReferral).trim();
   if (explicit) return explicit;
   try {
-    const fromUrl = new URLSearchParams(window.location.search).get(
-      'referral'
-    );
+    const fromUrl = new URLSearchParams(window.location.search).get('referral');
     return fromUrl && String(fromUrl).trim() ? String(fromUrl).trim() : '';
   } catch {
     return '';
