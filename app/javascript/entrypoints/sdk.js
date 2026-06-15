@@ -1,6 +1,10 @@
 import Cookies from 'js-cookie';
 import { IFrameHelper } from '../sdk/IFrameHelper';
 import {
+  resolveReferralForSDK,
+  removeConversationAuthToken,
+} from '../sdk/conversationAuthStorage';
+import {
   getBubbleView,
   getDarkMode,
   getWidgetStyle,
@@ -54,8 +58,12 @@ const runSDK = ({ baseUrl, websiteToken, referral }) => {
     locale = window.navigator.language.replace('-', '_');
   }
 
+  const resolvedReferral = resolveReferralForSDK(referral);
+  const useSessionStorageForConversation = resolvedReferral.length > 0;
+
   window.$chatwoot = {
-    referral: referral,
+    referral: resolvedReferral || undefined,
+    useSessionStorageForConversation,
     baseUrl,
     baseDomain,
     hasLoaded: false,
@@ -107,7 +115,7 @@ const runSDK = ({ baseUrl, websiteToken, referral }) => {
         baseUrl: window.$chatwoot.baseUrl,
         websiteToken: window.$chatwoot.websiteToken,
         locale,
-        referral,
+        referral: window.$chatwoot.referral,
       });
     },
 
@@ -199,7 +207,10 @@ const runSDK = ({ baseUrl, websiteToken, referral }) => {
         IFrameHelper.events.toggleBubble();
       }
 
-      Cookies.remove('cw_conversation');
+      removeConversationAuthToken(
+        window.$chatwoot.websiteToken,
+        window.$chatwoot.useSessionStorageForConversation
+      );
       Cookies.remove(getUserCookieName());
 
       const iframe = IFrameHelper.getAppFrame();
@@ -216,7 +227,7 @@ const runSDK = ({ baseUrl, websiteToken, referral }) => {
   IFrameHelper.createFrame({
     baseUrl,
     websiteToken,
-    referral,
+    referral: resolvedReferral || undefined,
   });
 };
 
