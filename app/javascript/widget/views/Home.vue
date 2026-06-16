@@ -21,7 +21,7 @@ export default {
   methods: {
     startConversation() {
       const ref = new URLSearchParams(window.location.search).get('referral');
-      if (ref) {
+      if (ref && !this.conversationSize) {
         this.$store.dispatch('conversation/createConversation', {});
       }
       if (this.preChatFormEnabled && !this.conversationSize) {
