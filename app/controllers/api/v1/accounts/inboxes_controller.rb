@@ -1,8 +1,12 @@
 class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   include Api::V1::InboxesHelper
+
+  CUSTOMER_ID_REQUIRED_CHANNELS = %w[web_widget api].freeze
+
   before_action :fetch_inbox, except: [:index, :create]
   before_action :fetch_agent_bot, only: [:set_agent_bot]
   before_action :validate_limit, only: [:create]
+  before_action :validate_customer_id, only: [:create]
   # we are already handling the authorization in fetch inbox
   before_action :check_authorization, except: [:show]
 
@@ -78,6 +82,14 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def fetch_agent_bot
     @agent_bot = AgentBot.find(params[:agent_bot]) if params[:agent_bot]
+  end
+
+  def validate_customer_id
+    return unless CUSTOMER_ID_REQUIRED_CHANNELS.include?(permitted_params.dig(:channel, :type))
+    return if permitted_params[:customer_id].present?
+
+    render json: { message: I18n.t('messages.inbox_customer_id_required'), attributes: ['customer_id'] },
+           status: :unprocessable_entity
   end
 
   def create_channel
