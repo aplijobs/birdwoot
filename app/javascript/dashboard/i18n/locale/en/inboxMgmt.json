@@ -424,7 +424,8 @@
       "CUSTOMER_ID": {
         "LABEL": "Customer ID",
         "PLACEHOLDER": "Enter customer ID",
-        "HELP_TEXT": "This ID will be included in webhook payloads for this inbox"
+        "HELP_TEXT": "This ID will be included in webhook payloads for this inbox",
+        "ERROR": "Customer ID is required"
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
