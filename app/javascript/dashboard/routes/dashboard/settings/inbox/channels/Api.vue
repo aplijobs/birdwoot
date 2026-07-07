@@ -109,9 +109,6 @@ export default {
             $t('INBOX_MGMT.EDIT.CUSTOMER_ID.ERROR')
           }}</span>
         </label>
-        <p class="help-text">
-          {{ $t('INBOX_MGMT.EDIT.CUSTOMER_ID.HELP_TEXT') }}
-        </p>
       </div>
 
       <div class="flex-shrink-0 flex-grow-0">

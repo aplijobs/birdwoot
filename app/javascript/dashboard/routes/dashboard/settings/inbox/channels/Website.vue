@@ -115,9 +115,6 @@ export default {
             :placeholder="$t('INBOX_MGMT.EDIT.CUSTOMER_ID.PLACEHOLDER')"
           />
         </label>
-        <p class="help-text">
-          {{ $t('INBOX_MGMT.EDIT.CUSTOMER_ID.HELP_TEXT') }}
-        </p>
       </div>
       <div class="w-full">
         <label>
