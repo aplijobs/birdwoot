@@ -363,7 +363,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let(:valid_params) { { name: 'test', channel: { type: 'web_widget', website_url: 'test.com' } } }
+      let(:valid_params) { { name: 'test', customer_id: 'cust-123', channel: { type: 'web_widget', website_url: 'test.com' } } }
 
       it 'will not create inbox for agent' do
         agent = create(:user, account: account, role: :agent)
@@ -386,6 +386,31 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.body).to include('test.com')
       end
 
+      it 'does not create a webwidget inbox without customer_id' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/inboxes",
+               headers: admin.create_new_auth_token,
+               params: { name: 'test', channel: { type: 'web_widget', website_url: 'test.com' } },
+               as: :json
+        end.to not_change(Inbox, :count).and(not_change(Channel::WebWidget, :count))
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq('Customer ID is required to create this inbox.')
+        expect(response.parsed_body['attributes']).to eq(['customer_id'])
+      end
+
+      it 'does not create an api inbox when customer_id is only whitespace' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/inboxes",
+               headers: admin.create_new_auth_token,
+               params: { name: 'API Inbox', customer_id: '   ', channel: { type: 'api', webhook_url: 'http://test.com' } },
+               as: :json
+        end.to not_change(Inbox, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq('Customer ID is required to create this inbox.')
+      end
+
       it 'creates a email inbox when administrator' do
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
@@ -396,10 +421,21 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.body).to include('test@test.com')
       end
 
+      it 'creates an inbox for a channel that does not require customer_id' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/inboxes",
+               headers: admin.create_new_auth_token,
+               params: { name: 'test', channel: { type: 'email', email: 'no-customer-id@test.com' } },
+               as: :json
+        end.to change(Inbox, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+      end
+
       it 'creates an api inbox when administrator' do
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
-             params: { name: 'API Inbox', channel: { type: 'api', webhook_url: 'http://test.com' } },
+             params: { name: 'API Inbox', customer_id: 'cust-123', channel: { type: 'api', webhook_url: 'http://test.com' } },
              as: :json
 
         expect(response).to have_http_status(:success)

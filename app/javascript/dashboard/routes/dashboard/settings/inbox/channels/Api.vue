@@ -22,6 +22,7 @@ export default {
     return {
       channelName: '',
       webhookUrl: '',
+      customerId: '',
     };
   },
   computed: {
@@ -32,6 +33,7 @@ export default {
   validations: {
     channelName: { required },
     webhookUrl: { shouldBeWebhookUrl },
+    customerId: { required },
   },
   methods: {
     async createChannel() {
@@ -43,6 +45,7 @@ export default {
       try {
         const apiChannel = await this.$store.dispatch('inboxes/createChannel', {
           name: this.channelName,
+          customer_id: this.customerId,
           channel: {
             type: 'api',
             webhook_url: this.webhookUrl,
@@ -89,6 +92,21 @@ export default {
           />
           <span v-if="v$.channelName.$error" class="message">{{
             $t('INBOX_MGMT.ADD.API_CHANNEL.CHANNEL_NAME.ERROR')
+          }}</span>
+        </label>
+      </div>
+
+      <div class="flex-shrink-0 flex-grow-0">
+        <label :class="{ error: v$.customerId.$error }">
+          {{ $t('INBOX_MGMT.EDIT.CUSTOMER_ID.LABEL') }}
+          <input
+            v-model="customerId"
+            type="text"
+            :placeholder="$t('INBOX_MGMT.EDIT.CUSTOMER_ID.PLACEHOLDER')"
+            @blur="v$.customerId.$touch"
+          />
+          <span v-if="v$.customerId.$error" class="message">{{
+            $t('INBOX_MGMT.EDIT.CUSTOMER_ID.ERROR')
           }}</span>
         </label>
       </div>

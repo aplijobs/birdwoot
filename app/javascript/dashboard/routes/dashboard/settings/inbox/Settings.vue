@@ -449,7 +449,6 @@ export default {
             class="pb-4"
             :label="$t('INBOX_MGMT.EDIT.CUSTOMER_ID.LABEL')"
             :placeholder="$t('INBOX_MGMT.EDIT.CUSTOMER_ID.PLACEHOLDER')"
-            :help-text="$t('INBOX_MGMT.EDIT.CUSTOMER_ID.HELP_TEXT')"
           />
           <woot-input
             v-if="isAPIInbox"
