@@ -18,6 +18,7 @@ export default {
   data() {
     return {
       inboxName: '',
+      customerId: '',
       channelWebsiteUrl: '',
       channelWidgetColor: '#009CE0',
       channelWelcomeTitle: '',
@@ -48,6 +49,7 @@ export default {
           'inboxes/createWebsiteChannel',
           {
             name: this.inboxName,
+            customer_id: this.customerId,
             greeting_enabled: this.greetingEnabled,
             greeting_message: this.greetingMessage,
             channel: {
@@ -101,6 +103,16 @@ export default {
             v-model="inboxName"
             type="text"
             :placeholder="$t('INBOX_MGMT.ADD.WEBSITE_NAME.PLACEHOLDER')"
+          />
+        </label>
+      </div>
+      <div class="w-full">
+        <label>
+          {{ $t('INBOX_MGMT.EDIT.CUSTOMER_ID.LABEL') }}
+          <input
+            v-model="customerId"
+            type="text"
+            :placeholder="$t('INBOX_MGMT.EDIT.CUSTOMER_ID.PLACEHOLDER')"
           />
         </label>
       </div>
@@ -198,7 +210,7 @@ export default {
           <NextButton
             type="submit"
             :is-loading="uiFlags.isCreating"
-            :disabled="!channelWebsiteUrl || !inboxName"
+            :disabled="!channelWebsiteUrl || !inboxName || !customerId.trim()"
             solid
             blue
             :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SUBMIT_BUTTON')"
